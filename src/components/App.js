@@ -1,33 +1,33 @@
-import React from 'react';
+import React from "react";
 
 // React Router
-import { Router, Switch, Route } from 'react-router-dom';
-import history from '../history';
+import { Router, Switch, Route } from "react-router-dom";
+import history from "../history";
 
 // Material UI
-import CssBaseline from '@material-ui/core/CssBaseline';
-import { createMuiTheme } from '@material-ui/core/styles';
-import { ThemeProvider } from '@material-ui/styles';
-import blue from '@material-ui/core/colors/blue';
+import CssBaseline from "@material-ui/core/CssBaseline";
+import { createMuiTheme } from "@material-ui/core/styles";
+import { ThemeProvider } from "@material-ui/styles";
+import blue from "@material-ui/core/colors/blue";
 
 // Routes
-import Home from './routes/Home';
-import Filters from './routes/Filters';
-import Likes from './routes/Likes';
-import Lists from './routes/Lists';
-import Mentions from './routes/Mentions';
-import Messages from './routes/Messages';
-import Profile from './routes/Profile';
-import Search from './routes/Search';
+import Home from "./routes/Home";
+import Filters from "./routes/Filters";
+import Likes from "./routes/Likes";
+import Lists from "./routes/Lists";
+import Mentions from "./routes/Mentions";
+import Messages from "./routes/Messages";
+import Profile from "./routes/Profile";
+import Search from "./routes/Search";
 
 // Navigation
-import FooterNavigation from './FooterNavigation';
+import FooterNavigation from "./FooterNavigation";
 
 const theme = createMuiTheme({
   palette: {
-    type: 'dark',
+    type: "dark",
     primary: blue
-  },
+  }
 });
 
 const App = () => {
@@ -53,6 +53,6 @@ const App = () => {
       </ThemeProvider>
     </React.Fragment>
   );
-}
+};
 
 export default App;
