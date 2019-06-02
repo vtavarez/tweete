@@ -1,9 +1,9 @@
 import React from 'react';
 
-const Feed = () => {
+const Home = () => {
   return (
     <div>Feed</div>
   );
 }
 
-export default Feed;
+export default Home;
