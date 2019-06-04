@@ -1,4 +1,5 @@
 import React from "react";
+import '../css/index.css';
 
 // React Router
 import { Router, Switch, Route } from "react-router-dom";
@@ -8,7 +9,7 @@ import history from "../history";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { createMuiTheme } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
-import blue from "@material-ui/core/colors/blue";
+import lightBlue from "@material-ui/core/colors/lightBlue";
 
 // Routes
 import Home from "./routes/Home";
@@ -21,37 +22,41 @@ import Profile from "./routes/Profile";
 import Search from "./routes/Search";
 
 // Navigation
+import HeaderNavigation from "./HeaderNavigation";
 import FooterNavigation from "./FooterNavigation";
 
 const theme = createMuiTheme({
   palette: {
     type: "dark",
-    primary: blue
+    primary: {
+      main: lightBlue[200]
+    }
   }
 });
 
 const App = () => {
   return (
-    <React.Fragment>
+    <div className="app--container">
       <CssBaseline />
-      <ThemeProvider theme={theme}>
-        <Router history={history}>
-          <React.Fragment>
-            <Switch>
-              <Route path="/" exact component={Home} />
-              <Route path="/Filters" exact component={Filters} />
-              <Route path="/Likes" exact component={Likes} />
-              <Route path="/Lists" exact component={Lists} />
-              <Route path="/Mentions" exact component={Mentions} />
-              <Route path="/Messages" exact component={Messages} />
-              <Route path="/Profile" exact component={Profile} />
-              <Route path="/Search" exact component={Search} />
-            </Switch>
-          </React.Fragment>
-          <FooterNavigation />
-        </Router>
-      </ThemeProvider>
-    </React.Fragment>
+        <ThemeProvider theme={theme}>
+          <Router history={history}>
+            <HeaderNavigation />
+            <React.Fragment>
+              <Switch>
+                <Route path="/" exact component={Home} />
+                <Route path="/Filters" exact component={Filters} />
+                <Route path="/Likes" exact component={Likes} />
+                <Route path="/Lists" exact component={Lists} />
+                <Route path="/Mentions" exact component={Mentions} />
+                <Route path="/Messages" exact component={Messages} />
+                <Route path="/Profile" exact component={Profile} />
+                <Route path="/Search" exact component={Search} />
+              </Switch>
+            </React.Fragment>
+            <FooterNavigation />
+          </Router>
+        </ThemeProvider>
+    </div>
   );
 };
 
