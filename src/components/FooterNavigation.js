@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import history from '../history';
+import React from 'react';
+import { connect } from 'react-redux';
+import { changeRoute } from '../actions';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import HomeIcon from '@material-ui/icons/HomeOutlined';
@@ -9,34 +10,33 @@ import SearchIcon from '@material-ui/icons/SearchOutlined';
 import ProfileIcon from '@material-ui/icons/AccountCircleOutlined';
 
 
-const FooterNavigation = () => {
-  const [value, setValue] = useState('home');
+const FooterNavigation = props => {
 
   const handleChange = (event, newValue) => {
     switch(newValue){
       case 'home':
-        history.push('/');
+        props.changeRoute('/', newValue);
       break;
       case 'mentions':
-        history.push('/Mentions');
+         props.changeRoute('/Mentions', newValue);
       break;
       case 'messages':
-        history.push('/Messages');
+         props.changeRoute('/Messages', newValue);
       break;
       case 'search':
-        history.push('/Search');
+         props.changeRoute('/Search', newValue);
       break;
       case 'profile':
-        history.push('/Profile');
+         props.changeRoute('/Profile', newValue);
       break;
       default:
     }
-
-    return setValue(newValue);
   }
 
+  console.log(props.route);
+
   return (
-    <BottomNavigation value={value} onChange={handleChange}>
+    <BottomNavigation value={props.route} onChange={handleChange}>
       <BottomNavigationAction label="Home" value="home" icon={<HomeIcon/>} />
       <BottomNavigationAction label="Mentions" value="mentions" icon={<MentionsIcon/>} />
       <BottomNavigationAction label="Messages" value="messages" icon={<MessagesIcon/>} />
@@ -46,4 +46,10 @@ const FooterNavigation = () => {
   );
 }
 
-export default FooterNavigation;
+const mapStateToProps = (state) => {
+  return {
+    route: state.route
+  }
+}
+
+export default connect(mapStateToProps, { changeRoute })(FooterNavigation);

@@ -37,10 +37,15 @@ const theme = createMuiTheme({
 const App = () => {
   return (
     <div className="app--container">
+
       <CssBaseline />
+
         <ThemeProvider theme={theme}>
+
           <Router history={history}>
+
             <HeaderNavigation />
+
             <React.Fragment>
               <Switch>
                 <Route path="/" exact component={Home} />
@@ -53,9 +58,13 @@ const App = () => {
                 <Route path="/Search" exact component={Search} />
               </Switch>
             </React.Fragment>
+
             <FooterNavigation />
+
           </Router>
+
         </ThemeProvider>
+        
     </div>
   );
 };

@@ -1,0 +1,5 @@
+export const ROUTE_HOME = 'ROUTE_HOME';
+export const ROUTE_MENTIONS = 'ROUTE_MENTIONS';
+export const ROUTE_MESSAGES = 'ROUTE_MESSAGES';
+export const ROUTE_SEARCH = 'ROUTE_SEARCH';
+export const ROUTE_PROFILE = 'ROUTE_PROFILE';
