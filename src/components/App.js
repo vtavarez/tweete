@@ -1,5 +1,5 @@
 import React from "react";
-import '../css/index.css';
+import "../css/index.css";
 
 // React Router
 import { Router, Switch, Route } from "react-router-dom";
@@ -37,34 +37,28 @@ const theme = createMuiTheme({
 const App = () => {
   return (
     <div className="app--container">
-
       <CssBaseline />
 
-        <ThemeProvider theme={theme}>
+      <ThemeProvider theme={theme}>
+        <Router history={history}>
+          <HeaderNavigation />
 
-          <Router history={history}>
+          <React.Fragment>
+            <Switch>
+              <Route path="/" exact component={Home} />
+              <Route path="/Filters" exact component={Filters} />
+              <Route path="/Likes" exact component={Likes} />
+              <Route path="/Lists" exact component={Lists} />
+              <Route path="/Mentions" exact component={Mentions} />
+              <Route path="/Messages" exact component={Messages} />
+              <Route path="/Profile" exact component={Profile} />
+              <Route path="/Search" exact component={Search} />
+            </Switch>
+          </React.Fragment>
 
-            <HeaderNavigation />
-
-            <React.Fragment>
-              <Switch>
-                <Route path="/" exact component={Home} />
-                <Route path="/Filters" exact component={Filters} />
-                <Route path="/Likes" exact component={Likes} />
-                <Route path="/Lists" exact component={Lists} />
-                <Route path="/Mentions" exact component={Mentions} />
-                <Route path="/Messages" exact component={Messages} />
-                <Route path="/Profile" exact component={Profile} />
-                <Route path="/Search" exact component={Search} />
-              </Switch>
-            </React.Fragment>
-
-            <FooterNavigation />
-
-          </Router>
-
-        </ThemeProvider>
-        
+          <FooterNavigation />
+        </Router>
+      </ThemeProvider>
     </div>
   );
 };
