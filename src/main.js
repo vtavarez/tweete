@@ -10,7 +10,7 @@ function createWindow(){
     width: 600,
     height: 600,
     minWidth: 600,
-    maxWidth: 760,
+    maxWidth: 600,
     webPreferences: {
       nodeIntegration: true
     }
@@ -22,6 +22,8 @@ function createWindow(){
       protocol: 'file:',
       slashes: true
     });
+
+  mainWindow.setMenuBarVisibility(false);
 
   mainWindow.loadURL(startUrl);
 };
