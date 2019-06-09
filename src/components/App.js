@@ -26,6 +26,11 @@ import HeaderNavigation from "./HeaderNavigation";
 import FooterNavigation from "./FooterNavigation";
 
 const theme = createMuiTheme({
+  props: {
+    MuiButtonBase: {
+      disableRipple: true
+    }
+  },
   palette: {
     type: "dark",
     primary: {
@@ -52,7 +57,7 @@ const App = () => {
               <Route path="/Mentions" exact component={Mentions} />
               <Route path="/Messages" exact component={Messages} />
               <Route path="/Profile" exact component={Profile} />
-              <Route path="/Search" exact component={Search} />
+              <Route path="/Search" exact component={Search} />9
             </Switch>
           </React.Fragment>
 

@@ -3,7 +3,10 @@ import {
   ROUTE_MENTIONS,
   ROUTE_MESSAGES,
   ROUTE_SEARCH,
-  ROUTE_PROFILE
+  ROUTE_PROFILE,
+  ROUTE_LIKES,
+  ROUTE_FILTERS,
+  ROUTE_LISTS
 } from "./types";
 import history from "../history";
 
@@ -21,6 +24,12 @@ export const changeRoute = (path, route) => {
       return { type: ROUTE_SEARCH, payload: route };
     case "profile":
       return { type: ROUTE_PROFILE, payload: route };
+    case "likes":
+      return { type: ROUTE_LIKES, payload: route };
+    case "filters":
+      return { type: ROUTE_FILTERS, payload: route };
+    case "lists":
+      return { type: ROUTE_LISTS, payload: route };
     default:
   }
 };

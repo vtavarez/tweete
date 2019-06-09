@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 
 const HeaderNavigation = props => {
-  return <div style={{ textTransform: 'capitalize', height: '200px' }}>Header {props.route}</div>;
+  return <div style={{ textTransform: 'capitalize', height: '200px' }}> Header {props.route} </div>;
 };
 
 const mapStateToProps = state => {

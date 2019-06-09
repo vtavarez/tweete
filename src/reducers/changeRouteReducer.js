@@ -1,9 +1,18 @@
-import { ROUTE_HOME, ROUTE_MENTIONS, ROUTE_MESSAGES, ROUTE_SEARCH, ROUTE_PROFILE } from '../actions/types';
+import {
+  ROUTE_HOME,
+  ROUTE_MENTIONS,
+  ROUTE_MESSAGES,
+  ROUTE_SEARCH,
+  ROUTE_PROFILE,
+  ROUTE_LIKES,
+  ROUTE_FILTERS,
+  ROUTE_LISTS
+} from "../actions/types";
 
-const changeRouteReducer = (state = 'home', action) => {
- switch(action.type){
+const changeRouteReducer = (state = "home", action) => {
+  switch (action.type) {
     case ROUTE_HOME:
-     return action.payload;
+      return action.payload;
     case ROUTE_MENTIONS:
       return action.payload;
     case ROUTE_MESSAGES:
@@ -12,9 +21,15 @@ const changeRouteReducer = (state = 'home', action) => {
       return action.payload;
     case ROUTE_PROFILE:
       return action.payload;
+    case ROUTE_LIKES:
+      return action.payload;
+    case ROUTE_FILTERS:
+      return action.payload;
+    case ROUTE_LISTS:
+      return action.payload;
     default:
       return state;
-  };
+  }
 };
 
 export default changeRouteReducer;
