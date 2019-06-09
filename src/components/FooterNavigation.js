@@ -1,6 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { changeRoute } from "../actions";
+import { 
+  routeHome, 
+  routeMentions, 
+  routeMessages, 
+  routeSearch,
+  routeProfile,
+  routeLikes,
+  routeFilters,
+  routeLists 
+} from "../actions";
+
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import BottomNavigation from "@material-ui/core/BottomNavigation";
@@ -40,16 +50,19 @@ const VertMenuOption = withStyles(theme => ({
 
 const FooterNavigation = props => {
 
-  const [homeBadgeVisibility, setHomeBadgeVisibility] = useState(false);
-  const [mentionsBadgeVisibility, setMentionsBadgeVisibility] = useState(false);
+  const [homeBadgeInvisible, setHomeBadgeInvisible] = useState(false);
+  const [mentionsBadgeInvisible, setMentionsBadgeInvisible] = useState(false);
+  const [messagesBadgeInvisible, setMessagesBadgeInvisible] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
-  const [menuState, setMenuState] = useState({
-    filters: false,
-    likes: false,
-    lists: false
-  });
+  const [menuState, setMenuState] = useState({ filters: false, likes: false, lists: false });
   const open = Boolean(anchorEl);
   const classes = useStyles();
+
+  useEffect(() => {
+    if(props.route === 'home'){
+      setHomeBadgeInvisible(true);
+    }
+  },[props.route]);
 
   const handleRoute = (event, route) => {
 
@@ -59,32 +72,33 @@ const FooterNavigation = props => {
 
     switch (route) {
       case "home":
-        props.changeRoute("/", route);
-        setHomeBadgeVisibility(true);
+        props.routeHome("/", route);
+        setHomeBadgeInvisible(true);
         break;
       case "mentions":
-        props.changeRoute("/Mentions", route);
-        setMentionsBadgeVisibility(true);
+        props.routeMentions("/Mentions", route);
+        setMentionsBadgeInvisible(true);
         break;
       case "messages":
-        props.changeRoute("/Messages", route);
+        props.routeMessages("/Messages", route);
+        setMessagesBadgeInvisible(true);
         break;
       case "search":
-        props.changeRoute("/Search", route);
+        props.routeSearch("/Search", route);
         break;
       case "profile":
-        props.changeRoute("/Profile", route);
+        props.routeProfile("/Profile", route);
         break;
       case "likes":
-        props.changeRoute("/Likes", route);
+        props.routeLikes("/Likes", route);
         setMenuState({ filters: false, likes: true, lists: false});
         break;
       case "filters":
-        props.changeRoute("/Filters", route);
+        props.routeFilters("/Filters", route);
         setMenuState({ filters: true, likes: false, lists: false});
         break;
       case "lists":
-        props.changeRoute("/Lists", route);
+        props.routeLists("/Lists", route);
         setMenuState({ filters: false, likes: false, lists: true });
         break;
       default:
@@ -113,7 +127,7 @@ const FooterNavigation = props => {
             <Badge 
               color="secondary" 
               variant="dot" 
-              invisible={homeBadgeVisibility}
+              invisible={homeBadgeInvisible}
             >
               <HomeIcon />
 
@@ -128,7 +142,7 @@ const FooterNavigation = props => {
             <Badge
               color="secondary"
               badgeContent={4}
-              invisible={mentionsBadgeVisibility}
+              invisible={mentionsBadgeInvisible}
             >
               <MentionsIcon />
 
@@ -143,7 +157,7 @@ const FooterNavigation = props => {
             <Badge
               color="secondary"
               badgeContent={4}
-              invisible={true}
+              invisible={messagesBadgeInvisible}
             >
               <MessagesIcon />
 
@@ -228,5 +242,14 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { changeRoute }
+  { 
+    routeHome, 
+    routeMentions, 
+    routeMessages, 
+    routeSearch,
+    routeProfile,
+    routeLikes,
+    routeFilters,
+    routeLists
+  }
 )(FooterNavigation);

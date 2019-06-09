@@ -10,26 +10,54 @@ import {
 } from "./types";
 import history from "../history";
 
-export const changeRoute = (path, route) => {
-  history.push(path);
 
-  switch (route) {
-    case "home":
-      return { type: ROUTE_HOME, payload: route };
-    case "mentions":
-      return { type: ROUTE_MENTIONS, payload: route };
-    case "messages":
-      return { type: ROUTE_MESSAGES, payload: route };
-    case "search":
-      return { type: ROUTE_SEARCH, payload: route };
-    case "profile":
-      return { type: ROUTE_PROFILE, payload: route };
-    case "likes":
-      return { type: ROUTE_LIKES, payload: route };
-    case "filters":
-      return { type: ROUTE_FILTERS, payload: route };
-    case "lists":
-      return { type: ROUTE_LISTS, payload: route };
-    default:
-  }
+const _route = path => history.push(path);
+
+export const routeHome = (path, route) => dispatch => {
+
+  dispatch({ type: ROUTE_HOME, payload: route });
+  _route(path);
 };
+
+export const routeMentions = (path, route) => dispatch => {
+
+  dispatch({ type: ROUTE_MENTIONS, payload: route });
+  _route(path);
+};
+
+export const routeMessages = (path, route) => dispatch => {
+
+  dispatch({ type: ROUTE_MESSAGES, payload: route });
+  _route(path);
+};
+
+export const routeSearch = (path, route) => dispatch => {
+
+  dispatch({ type: ROUTE_SEARCH, payload: route });
+  _route(path);
+};
+
+export const routeProfile = (path, route) => dispatch => {
+
+  dispatch({ type: ROUTE_PROFILE, payload: route });
+  _route(path);
+};
+
+export const routeLikes = (path, route) => dispatch => {
+
+  dispatch({ type: ROUTE_LIKES, payload: route });
+  _route(path);
+};
+
+export const routeFilters = (path, route) => dispatch => {
+
+  dispatch({ type: ROUTE_FILTERS, payload: route });
+  _route(path);
+};
+
+export const routeLists = (path, route) => dispatch => {
+
+  dispatch({ type: ROUTE_LISTS, payload: route });
+  _route(path);
+};
+
