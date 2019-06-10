@@ -1,6 +1,8 @@
 import { combineReducers } from "redux";
-import changeRouteReducer from "./changeRouteReducer";
+import routesReducer from "./changeRouteReducer";
+import tweetsReducer from './tweetsReducer';
 
 export default combineReducers({
-  route: changeRouteReducer
+  route: routesReducer,
+  tweets: tweetsReducer
 });

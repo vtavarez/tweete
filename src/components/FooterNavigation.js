@@ -1,14 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { 
-  routeHome, 
-  routeMentions, 
-  routeMessages, 
-  routeSearch,
-  routeProfile,
-  routeLikes,
-  routeFilters,
-  routeLists 
+import {
+  changeRoute
 } from "../actions";
 
 import { makeStyles, withStyles } from "@material-ui/core/styles";
@@ -32,7 +25,7 @@ import IconButton from "@material-ui/core/IconButton";
 
 const useStyles = makeStyles(theme => ({
   root: {
-     borderRadius: 0,
+    borderRadius: 0,
     '&:hover': {
       backgroundColor: 'transparent',
       color: theme.palette.primary.main
@@ -59,46 +52,46 @@ const FooterNavigation = props => {
   const classes = useStyles();
 
   useEffect(() => {
-    if(props.route === 'home'){
+    if (props.route === 'home') {
       setHomeBadgeInvisible(true);
     }
-  },[props.route]);
+  }, [props.route]);
 
   const handleRoute = (event, route) => {
 
-    if(route !== 'likes' || route !== 'filters' || route !== 'lists'){
+    if (route !== 'likes' || route !== 'filters' || route !== 'lists') {
       setMenuState({ filters: false, likes: false, lists: false });
     }
 
     switch (route) {
       case "home":
-        props.routeHome("/", route);
+        props.changeRoute("/", route);
         setHomeBadgeInvisible(true);
         break;
       case "mentions":
-        props.routeMentions("/Mentions", route);
+        props.changeRoute("/Mentions", route);
         setMentionsBadgeInvisible(true);
         break;
       case "messages":
-        props.routeMessages("/Messages", route);
+        props.changeRoute("/Messages", route);
         setMessagesBadgeInvisible(true);
         break;
       case "search":
-        props.routeSearch("/Search", route);
+        props.changeRoute("/Search", route);
         break;
       case "profile":
-        props.routeProfile("/Profile", route);
+        props.changeRoute("/Profile", route);
         break;
       case "likes":
-        props.routeLikes("/Likes", route);
-        setMenuState({ filters: false, likes: true, lists: false});
+        props.changeRoute("/Likes", route);
+        setMenuState({ filters: false, likes: true, lists: false });
         break;
       case "filters":
-        props.routeFilters("/Filters", route);
-        setMenuState({ filters: true, likes: false, lists: false});
+        props.changeRoute("/Filters", route);
+        setMenuState({ filters: true, likes: false, lists: false });
         break;
       case "lists":
-        props.routeLists("/Lists", route);
+        props.changeRoute("/Lists", route);
         setMenuState({ filters: false, likes: false, lists: true });
         break;
       default:
@@ -241,15 +234,7 @@ const mapStateToProps = state => {
 };
 
 export default connect(
-  mapStateToProps,
-  { 
-    routeHome, 
-    routeMentions, 
-    routeMessages, 
-    routeSearch,
-    routeProfile,
-    routeLikes,
-    routeFilters,
-    routeLists
+  mapStateToProps, {
+    changeRoute
   }
 )(FooterNavigation);

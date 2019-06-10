@@ -9,7 +9,7 @@ import {
   ROUTE_LISTS
 } from "../actions/types";
 
-const changeRouteReducer = (state = "home", action) => {
+export default (state = "home", action) => {
   switch (action.type) {
     case ROUTE_HOME:
       return action.payload;
@@ -31,5 +31,3 @@ const changeRouteReducer = (state = "home", action) => {
       return state;
   }
 };
-
-export default changeRouteReducer;

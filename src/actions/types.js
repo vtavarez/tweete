@@ -6,3 +6,4 @@ export const ROUTE_PROFILE = 'ROUTE_PROFILE';
 export const ROUTE_LIKES = 'ROUTE_LIKES';
 export const ROUTE_LISTS = 'ROUTE_LISTS';
 export const ROUTE_FILTERS = 'ROUTE_FILTERS';
+export const FETCHED_TWEETS = 'FETCHED_TWEETS';
