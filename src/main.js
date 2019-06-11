@@ -1,22 +1,22 @@
-const {app, BrowserWindow} = require('electron');
+const { app, BrowserWindow } = require('electron');
 const path = require('path');
 const url = require('url');
 
 let mainWindow;
 
-function createWindow(){
+function createWindow() {
 
   mainWindow = new BrowserWindow({
-    width: 600,
+    width: 500,
     height: 600,
-    minWidth: 600,
-    maxWidth: 600,
+    minWidth: 500,
+    maxWidth: 500,
     webPreferences: {
       nodeIntegration: true
     }
   });
 
- const startUrl = process.env.DEV_URL ||
+  const startUrl = process.env.DEV_URL ||
     url.format({
       pathname: path.join(__dirname, '/../build/index.html'),
       protocol: 'file:',
@@ -30,10 +30,10 @@ function createWindow(){
 
 app.on('ready', createWindow);
 
-app.on('window-all-closed', function () {
+app.on('window-all-closed', function() {
   if (process.platform !== 'darwin') app.quit()
 });
 
-app.on('activate', function () {
+app.on('activate', function() {
   if (mainWindow === null) createWindow()
 });

@@ -7,7 +7,7 @@ import IconButton from "@material-ui/core/IconButton";
 
 const useStyles = makeStyles(theme => ({
   tweetButton: {
-    margin: '15px 0px 10px 66px',
+    marginLeft: '48px',
     '&:hover': {
       backgroundColor: 'transparent',
     }
@@ -28,13 +28,13 @@ const ComposeTweetButton = props => {
        className={classes.tweetButton}
       >
         <Icon path={mdiTooltipPlusOutline}
-          size={1.3}
+          size={1.2}
           horizontal
           vertical
           rotate={180}
           className={classes.tweetIcon}
         />
-      </IconButton>
+    </IconButton>
   );
 };
 
