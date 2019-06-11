@@ -4,9 +4,10 @@ import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
+import ComposeTweetButton from './ComposeTweetButton';
 
 const useStyles = makeStyles(theme => ({
-  root: {
+  title: {
     textAlign: 'center',
     textTransform: 'capitalize',
     color: theme.palette.grey[300],
@@ -14,6 +15,8 @@ const useStyles = makeStyles(theme => ({
   },
   avatar: {
     margin: '10px 0px 10px 36px',
+    width: 34,
+    height: 34
   }
 }));
 
@@ -21,16 +24,17 @@ const HeaderNavigation = props => {
   const classes = useStyles();
 
   return (
-    <Grid container alignItems="center" spacing={2}>
+    <Grid container alignItems="center">
       <Grid item xs={3}>
         <Avatar alt="user avatar" src={null} className={classes.avatar} />
       </Grid>
-      <Grid item xs={6}>
-        <Typography variant="subtitle1" className={classes.root}>
+      <Grid item  xs={6}>
+        <Typography variant="subtitle1" className={classes.title}>
           { props.route }
         </Typography>
       </Grid>
-      <Grid item xs={3}>
+      <Grid item  xs={3}>
+        <ComposeTweetButton />
       </Grid>
     </Grid>
   );

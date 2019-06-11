@@ -26,6 +26,7 @@ import IconButton from "@material-ui/core/IconButton";
 const useStyles = makeStyles(theme => ({
   root: {
     borderRadius: 0,
+    color: theme.palette.grey[400],
     '&:hover': {
       backgroundColor: 'transparent',
       color: theme.palette.primary.main
