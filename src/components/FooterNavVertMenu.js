@@ -9,7 +9,6 @@ import ListIcon from "@material-ui/icons/List";
 import IconButton from "@material-ui/core/IconButton";
 
 
-
 const useStyles = makeStyles(theme => ({
   root: {
     borderRadius: 0,
@@ -29,15 +28,14 @@ const VertMenuOption = withStyles(theme => ({
 }))(MenuItem);
 
 
-
 const FooterNavVertMenu = props => {
 
   const routesState = { filters: false, likes: false, lists: false };
   const [selectedRoute, setSelectedRoute] = useState(routesState);
+  const { filters, likes, lists } = selectedRoute;
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
-  const { filters, likes, lists } = selectedRoute;
 
   useEffect(() => {
 
@@ -47,10 +45,12 @@ const FooterNavVertMenu = props => {
 
   },[props.selectedRoute, routesState]);
 
+  
   const handleMenu = (e, route) => {
      props.selectRoute(e, route); 
      setAnchorEl(null);
   };
+
 
   return (
 
@@ -64,7 +64,7 @@ const FooterNavVertMenu = props => {
 
       </IconButton>
 
-      <Menu 
+      <Menu
         anchorEl={anchorEl} 
         keepMounted 
         open={open} 
@@ -75,13 +75,15 @@ const FooterNavVertMenu = props => {
           }
         }}
         anchorReference="anchorPosition"
-        anchorPosition={{ top: 60, left: 545 }}
+        anchorPosition={{ top: 0, left: 465 }}
+        onClose={(e,r) => r === "backdropClick" ? setAnchorEl(null) : null}
       >
 
         <VertMenuOption 
           onClick={e => handleMenu(e, 'filters')}
           className={classes.root}
           selected={filters}
+          disableGutters
         >
           <FilterIcon />
 
@@ -91,6 +93,7 @@ const FooterNavVertMenu = props => {
           onClick={e => handleMenu(e, 'likes')}
           className={classes.root} 
           selected={likes}
+          disableGutters
         >
           <FavoriteIcon />
 
@@ -100,6 +103,7 @@ const FooterNavVertMenu = props => {
           onClick={e => handleMenu(e, 'lists')}
           className={classes.root} 
           selected={lists}
+          disableGutters
         >
           <ListIcon />
 

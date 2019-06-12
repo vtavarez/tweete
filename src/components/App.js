@@ -39,7 +39,7 @@ const theme = createMuiTheme({
   }
 });
 
-const App = () => {
+const App = () => { 
   return (
     <div className="app--container">
       <CssBaseline />
@@ -61,7 +61,7 @@ const App = () => {
             </Switch>
           </React.Fragment>
 
-          <FooterNavigation />
+          <FooterNavigation/>
         </Router>
       </ThemeProvider>
     </div>
