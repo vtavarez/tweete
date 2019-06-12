@@ -1,8 +1,9 @@
 import React from 'react';
+import Tweet from '../Tweet';
 
 const Home = () => {
   return (
-    <div>Home</div>
+    <Tweet/>
   );
 }
 

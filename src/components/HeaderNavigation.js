@@ -42,7 +42,7 @@ const HeaderNavigation = props => {
     </Grid>
   );
 
-}
+};
 
 const mapStateToProps = state => {
   return {
