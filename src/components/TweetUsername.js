@@ -8,7 +8,7 @@ const useStyles = makeStyles(theme => ({
     padding: '5px 0px'
   },
   name: {
-    color: theme.palette.grey[300]
+    color: theme.palette.primary.main
   },
   handle : {
     marginLeft: 5,
@@ -31,7 +31,7 @@ const TweetUsername = props => {
    <Typography variant="subtitle3" className={classes.name}>
         {name}
       <span className={classes.handle}>
-        {'@' + handle}
+        {`@${handle}`}
       </span>
    </Typography>
   );
