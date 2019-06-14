@@ -9,7 +9,7 @@ import TweetBody from "./TweetBody";
 const useStyles = makeStyles(theme => ({
   grid: {
     borderBottom: "1px solid #424242",
-    padding: "5px 0px"
+    padding: "5px 10px"
   },
   name: {
     color: theme.palette.grey[300]
@@ -21,9 +21,9 @@ const useStyles = makeStyles(theme => ({
     fontSize: 12
   },
   avatar: {
-    margin: "0px 0px 0px 32px",
-    width: 34,
-    height: 34
+    margin: "0px 0px 0px 17px",
+    width: 44,
+    height: 44
   }
 }));
 
