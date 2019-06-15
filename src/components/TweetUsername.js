@@ -1,13 +1,13 @@
-import React from 'react';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+import React from "react";
+import Typography from "@material-ui/core/Typography";
+import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(theme => ({
   name: {
-    color: '#FFF',
+    color: "#FFF",
     fontWeight: 600
   },
-  handle : {
+  handle: {
     marginLeft: 5,
     color: theme.palette.grey[600],
     fontWeight: 300,
@@ -20,12 +20,10 @@ const TweetUsername = props => {
   const { name, handle } = props;
 
   return (
-   <Typography variant="subtitle3" className={classes.name}>
-        {name}
-      <span className={classes.handle}>
-        {`@${handle}`}
-      </span>
-   </Typography>
+    <Typography variant="subtitle3" className={classes.name}>
+      {name}
+      <span className={classes.handle}>{`@${handle}`}</span>
+    </Typography>
   );
 };
 

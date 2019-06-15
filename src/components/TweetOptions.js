@@ -1,8 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
-import Grid from '@material-ui/core/Grid';
-import IconButton from '@material-ui/core/IconButton';
+import Grid from "@material-ui/core/Grid";
+import IconButton from "@material-ui/core/IconButton";
 import LikeIcon from "@material-ui/icons/FavoriteBorder";
 import ReplyIcon from "@material-ui/icons/Reply";
 import UserIcon from "@material-ui/icons/PersonOutlined";
