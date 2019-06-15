@@ -5,6 +5,7 @@ import Grid from "@material-ui/core/Grid";
 import Avatar from "@material-ui/core/Avatar";
 import TweetUsername from "./TweetUsername";
 import TweetBody from "./TweetBody";
+import TweetOptions from "./TweetOptions";
 
 const useStyles = makeStyles(theme => ({
   grid: {
@@ -40,6 +41,9 @@ const Tweet = props => {
         <Grid container>
           <TweetUsername name={"Username"} handle={"username"} />
           <TweetBody />
+        </Grid>
+        <Grid container>
+          <TweetOptions />
         </Grid>
       </Grid>
     </Grid>

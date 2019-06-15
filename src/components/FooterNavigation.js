@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import {
   changeRoute
 } from "../actions";
+import { makeStyles } from "@material-ui/core/styles";
 import BottomNavigation from "@material-ui/core/BottomNavigation";
 import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
 import Badge from "@material-ui/core/Badge";
@@ -13,8 +14,20 @@ import SearchIcon from "@material-ui/icons/Search";
 import ProfileIcon from "@material-ui/icons/AccountCircle";
 import FooterNavVertMenu from "./FooterNavVertMenu";
 
+
+const useStyles = makeStyles({
+  nav: {
+    position:'fixed',
+    bottom: 0,
+    width: '100%',
+    maxWidth: 500
+  }
+});
+
+
 const FooterNavigation = props => {
 
+  const classes = useStyles();
   const [homeBadgeInvisible, setHomeBadgeInvisible] = useState(false);
   const [mentionsBadgeInvisible, setMentionsBadgeInvisible] = useState(false);
   const [messagesBadgeInvisible, setMessagesBadgeInvisible] = useState(false);
@@ -59,7 +72,7 @@ const FooterNavigation = props => {
   };
 
   return (
-    <BottomNavigation value={props.route} onChange={handleRoute}>
+    <BottomNavigation className={classes.nav} value={props.route} onChange={handleRoute}>
 
       <BottomNavigationAction
         label="Home"

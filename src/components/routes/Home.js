@@ -3,7 +3,17 @@ import Tweet from '../Tweet';
 
 const Home = () => {
   return (
-    <Tweet/>
+    <div>
+      <Tweet/>
+      <Tweet/>
+      <Tweet/>
+      <Tweet/>
+      <Tweet/>
+      <Tweet/>
+      <Tweet/>
+      <Tweet/>
+      <Tweet/>
+    </div>
   );
 }
 

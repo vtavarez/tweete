@@ -2,6 +2,14 @@ body {
   background-color: #2e2c29 !important;
 }
 
+body::-webkit-scrollbar {
+    display: none;
+}
+ 
+body::-webkit-scrollbar-track {
+   display: none;
+}
+
 .app--container {
   max-width: 500px;
 }
