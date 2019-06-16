@@ -1,10 +1,17 @@
 const { app, BrowserWindow } = require('electron');
 const path = require('path');
-const url = require('url');
+const endpoint = require('url');
 
 let mainWindow;
 
-function createWindow() {
+function createMainWindow() {
+
+  const url =  process.env.DEV_URL ||
+    endpoint.format({
+      pathname: path.join(__dirname, "/../build/index.html"),
+      protocol: "file:",
+      slashes: true
+    });
 
   mainWindow = new BrowserWindow({
     width: 500,
@@ -17,24 +24,21 @@ function createWindow() {
     }
   });
 
-  const startUrl = process.env.DEV_URL ||
-    url.format({
-      pathname: path.join(__dirname, '/../build/index.html'),
-      protocol: 'file:',
-      slashes: true
-    });
-
   mainWindow.setMenuBarVisibility(false);
 
-  mainWindow.loadURL(startUrl);
+  mainWindow.loadURL(url);
+
+
 };
 
-app.on('ready', createWindow);
+
+app.on('ready', createMainWindow);
 
 app.on('window-all-closed', function() {
   if (process.platform !== 'darwin') app.quit()
 });
 
 app.on('activate', function() {
-  if (mainWindow === null) createWindow()
+  if (mainWindow === null) createMainWindow()
 });
+

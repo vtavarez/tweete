@@ -3,7 +3,7 @@ import "../css/index.css";
 
 // React Router
 import { Router, Switch, Route } from "react-router-dom";
-import history from "../history";
+import history from "../routerHistory";
 
 // Material UI
 import CssBaseline from "@material-ui/core/CssBaseline";

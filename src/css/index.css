@@ -1,15 +1,15 @@
-body {
+.app--container {
+  max-width: 500px;
+  height: calc(100vh - 54px);
+  overflow: scroll;
   background-color: #2e2c29 !important;
 }
 
-body::-webkit-scrollbar {
+.app--container::-webkit-scrollbar {
     display: none;
 }
  
-body::-webkit-scrollbar-track {
+.app--container::-webkit-scrollbar-track {
    display: none;
 }
 
-.app--container {
-  max-width: 500px;
-}

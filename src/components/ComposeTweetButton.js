@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
-import { mdiTooltipPlusOutline } from "@mdi/js";
+import { mdiMessagePlus } from "@mdi/js";
 import Icon from "@mdi/react";
 import IconButton from "@material-ui/core/IconButton";
 
@@ -26,7 +26,7 @@ const ComposeTweetButton = props => {
   return (
     <IconButton className={classes.tweetButton}>
       <Icon
-        path={mdiTooltipPlusOutline}
+        path={mdiMessagePlus}
         size={1.2}
         horizontal
         vertical

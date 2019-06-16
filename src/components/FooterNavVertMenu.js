@@ -3,10 +3,11 @@ import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
-import FilterIcon from "@material-ui/icons/FilterList";
-import FavoriteIcon from "@material-ui/icons/Favorite";
+import MuteFiltersIcon from "@material-ui/icons/SpeakerNotesOff";
+import LikesIcon from "@material-ui/icons/Favorite";
 import ListIcon from "@material-ui/icons/List";
 import IconButton from "@material-ui/core/IconButton";
+import Box from "@material-ui/core/Box";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -16,6 +17,16 @@ const useStyles = makeStyles(theme => ({
       backgroundColor: "transparent",
       color: theme.palette.primary.main
     }
+  },
+  icon: {
+    transform: 'translate(5px, 5px)'
+  },
+  iconBox: {
+    position: "relative",
+    backgroundColor: "#424242",
+    width: 34,
+    height: 34,
+    borderRadius: "100%"
   }
 }));
 
@@ -26,6 +37,7 @@ const VertMenuOption = withStyles(theme => ({
   }
 }))(MenuItem);
 
+
 const FooterNavVertMenu = props => {
 
   const routesState = { filters: false, likes: false, lists: false };
@@ -34,6 +46,8 @@ const FooterNavVertMenu = props => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+  const yPos = window.innerHeight - 220;
+  const xPos = 455;
 
 
   useEffect(() => {
@@ -52,6 +66,9 @@ const FooterNavVertMenu = props => {
   return (
     <React.Fragment>
       <IconButton
+        aria-label="More"
+        aria-controls="vert-menu"
+        aria-haspopup="true"
         onClick={e => setAnchorEl(e.currentTarget)}
         className={classes.root}
       >
@@ -59,6 +76,7 @@ const FooterNavVertMenu = props => {
       </IconButton>
 
       <Menu
+        id="vert-menu"
         anchorEl={anchorEl}
         keepMounted
         open={open}
@@ -69,8 +87,9 @@ const FooterNavVertMenu = props => {
           }
         }}
         anchorReference="anchorPosition"
-        anchorPosition={{ top: 50, left: 465 }}
-        onClose={(e, r) => (r === "backdropClick" ? setAnchorEl(null) : null)}
+        anchorPosition={{ top: yPos, left: xPos}}
+        marginThreshold={0}
+        onBackdropClick={() => setAnchorEl(null)}
       >
         <VertMenuOption
           onClick={e => handleMenu(e, "filters")}
@@ -78,7 +97,9 @@ const FooterNavVertMenu = props => {
           selected={filters}
           disableGutters
         >
-          <FilterIcon />
+          <Box className={classes.iconBox}>
+            <MuteFiltersIcon className={classes.icon} />
+          </Box>
         </VertMenuOption>
 
         <VertMenuOption
@@ -87,7 +108,9 @@ const FooterNavVertMenu = props => {
           selected={likes}
           disableGutters
         >
-          <FavoriteIcon />
+          <Box className={classes.iconBox}>
+            <LikesIcon className={classes.icon} />
+          </Box>
         </VertMenuOption>
 
         <VertMenuOption
@@ -96,7 +119,9 @@ const FooterNavVertMenu = props => {
           selected={lists}
           disableGutters
         >
-          <ListIcon />
+          <Box className={classes.iconBox}>
+            <ListIcon className={classes.icon} />
+          </Box>
         </VertMenuOption>
       </Menu>
     </React.Fragment>

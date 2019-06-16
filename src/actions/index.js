@@ -9,7 +9,7 @@ import {
   ROUTE_LISTS,
   FETCHED_TWEETS
 } from "./types";
-import history from "../history";
+import history from "../routerHistory";
 
 const _route = path => history.push(path);
 
@@ -36,6 +36,8 @@ export const changeRoute = (path, route) => {
   }
 };
 
+
+// eslint-disable-next-line
 const fetchTweets = () => dispatch => {
   dispatch({ type: FETCHED_TWEETS, payload: null });
 };

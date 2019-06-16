@@ -20,7 +20,7 @@ const TweetUsername = props => {
   const { name, handle } = props;
 
   return (
-    <Typography variant="subtitle3" className={classes.name}>
+    <Typography variant="subtitle2" className={classes.name}>
       {name}
       <span className={classes.handle}>{`@${handle}`}</span>
     </Typography>
