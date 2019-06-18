@@ -12,7 +12,7 @@ import Icon from "@mdi/react";
 
 const useStyles = makeStyles(theme => ({
   fill: {
-    fill: theme.palette.grey[50]
+    fill: theme.palette.grey[50] 
   },
   selected: {
     fill: theme.palette.primary.main
