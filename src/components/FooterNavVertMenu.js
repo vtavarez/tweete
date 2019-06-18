@@ -12,10 +12,10 @@ import Box from "@material-ui/core/Box";
 const useStyles = makeStyles(theme => ({
   root: {
     borderRadius: 0,
-    color: theme.palette.grey[400],
+    color: theme.palette.text.secondary,
     "&:hover": {
       backgroundColor: "transparent",
-      color: theme.palette.primary.main
+      color: theme.palette.text.primary
     }
   },
   icon: {
@@ -23,7 +23,7 @@ const useStyles = makeStyles(theme => ({
   },
   iconBox: {
     position: "relative",
-    backgroundColor: "#424242",
+    backgroundColor: theme.palette.background.paper,
     width: 34,
     height: 34,
     borderRadius: "100%"

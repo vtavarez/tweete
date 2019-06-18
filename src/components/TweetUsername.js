@@ -4,12 +4,12 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(theme => ({
   name: {
-    color: "#FFF",
+    color: theme.palette.text.primary,
     fontWeight: 600
   },
   handle: {
     marginLeft: 5,
-    color: theme.palette.grey[600],
+    color: theme.palette.grey[500],
     fontWeight: 300,
     fontSize: 12
   }

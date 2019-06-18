@@ -10,6 +10,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import { createMuiTheme } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
 import lightBlue from "@material-ui/core/colors/lightBlue";
+import grey from "@material-ui/core/colors/grey";
 
 // Routes
 import Home from "./routes/Home";
@@ -34,7 +35,11 @@ const theme = createMuiTheme({
   palette: {
     type: "dark",
     primary: {
-      main: lightBlue[200]
+      main: lightBlue[500]
+    },
+    text: {
+      primary: lightBlue[500],
+      secondary: grey[50]
     }
   }
 });

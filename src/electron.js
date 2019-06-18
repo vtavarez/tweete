@@ -28,7 +28,6 @@ function createMainWindow() {
 
   mainWindow.loadURL(url);
 
-
 };
 
 

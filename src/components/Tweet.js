@@ -12,15 +12,6 @@ const useStyles = makeStyles(theme => ({
     borderBottom: "1px solid #424242",
     padding: "5px 10px"
   },
-  name: {
-    color: theme.palette.grey[300]
-  },
-  handle: {
-    marginLeft: 5,
-    color: theme.palette.grey[600],
-    fontWeight: 300,
-    fontSize: 12
-  },
   avatar: {
     margin: "0px 0px 0px 17px",
     width: 44,
@@ -38,13 +29,9 @@ const Tweet = props => {
       </Grid>
 
       <Grid item xs={10}>
-        <Grid container>
-          <TweetUsername name={"Username"} handle={"username"} />
-          <TweetBody />
-        </Grid>
-        <Grid container>
-          <TweetOptions />
-        </Grid>
+        <TweetUsername name={"Username"} handle={"username"} />
+        <TweetBody />
+        <TweetOptions {...props} />
       </Grid>
     </Grid>
   );
