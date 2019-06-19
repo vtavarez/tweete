@@ -1,3 +1,7 @@
+body {
+   background-color: #2e2c29 !important;
+}
+
 .app--container {
   max-width: 500px;
   height: calc(100vh - 54px);

@@ -39,7 +39,8 @@ const theme = createMuiTheme({
     },
     text: {
       primary: lightBlue[500],
-      secondary: grey[50]
+      secondary: grey[50],
+      disabled: grey[200]
     }
   }
 });

@@ -6,13 +6,12 @@ import IconButton from "@material-ui/core/IconButton";
 import LikeIconOutline from "@material-ui/icons/FavoriteBorder";
 import LikeIconFilled from "@material-ui/icons/Favorite";
 import ReplyIcon from "@material-ui/icons/Reply";
-import UserIcon from "@material-ui/icons/PersonOutlined";
-import { mdiTwitterRetweet } from "@mdi/js";
-import Icon from "@mdi/react";
+import TweetOptionsUserMenu from './TweetOptionsUserMenu';
+import TweetOptionsRetweetMenu from './TweetOptionsRetweetMenu';
 
 const useStyles = makeStyles(theme => ({
   fill: {
-    fill: theme.palette.grey[50] 
+    fill: theme.palette.grey[50]
   },
   selected: {
     fill: theme.palette.primary.main
@@ -24,11 +23,12 @@ const TweetOptions = props => {
   const [tweetLiked, setTweetLiked] = useState(false);
 
   const likeTweet = e => {
+    let likeTweet = tweetLiked ? false:true;
     localStorage.setItem(
       JSON.stringify(props.id),
-      JSON.stringify(true)
+      JSON.stringify(likeTweet)
     );
-    setTweetLiked(true);
+    setTweetLiked(likeTweet);
   };
 
   useEffect(() => {
@@ -57,21 +57,10 @@ const TweetOptions = props => {
         </IconButton>
       </Grid>
       <Grid item xs={3}>
-        <IconButton aria-label="Retweet">
-          <Icon
-            path={mdiTwitterRetweet}
-            size={1.2}
-            horizontal
-            vertical
-            rotate={180}
-            className={icon.fill}
-          />
-        </IconButton>
+        <TweetOptionsRetweetMenu fill={icon.fill} />
       </Grid>
       <Grid item xs={3}>
-        <IconButton aria-label="User-Options">
-          <UserIcon className={icon.fill} />
-        </IconButton>
+        <TweetOptionsUserMenu fill={icon.fill} />
       </Grid>
     </Grid>
   );
