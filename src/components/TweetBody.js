@@ -5,8 +5,9 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(theme => ({
   tweetBody: {
-    fontSize: 13,
-    color: theme.palette.text.secondary
+    fontSize: 14,
+    color: theme.palette.text.secondary,
+    userSelect: 'none'
   }
 }));
 

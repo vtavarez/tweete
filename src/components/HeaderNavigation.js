@@ -8,8 +8,7 @@ import ComposeTweetButton from './ComposeTweetButton';
 
 const useStyles = makeStyles(theme => ({
   grid: {
-    backgroundColor: '#424242',
-    marginBottom: 10
+    backgroundColor: '#424242'
   },
   title: {
     textAlign: 'center',

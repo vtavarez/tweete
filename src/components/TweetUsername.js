@@ -5,13 +5,15 @@ import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles(theme => ({
   name: {
     color: theme.palette.text.primary,
-    fontWeight: 600
+    fontWeight: 600,
+    userSelect: "none"
   },
   handle: {
     marginLeft: 5,
     color: theme.palette.grey[500],
     fontWeight: 300,
-    fontSize: 12
+    fontSize: 12,
+    userSelect: "none"
   }
 }));
 

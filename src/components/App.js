@@ -27,6 +27,16 @@ import HeaderNavigation from "./HeaderNavigation";
 import FooterNavigation from "./FooterNavigation";
 
 const theme = createMuiTheme({
+  overrides: {
+    MuiListItem: {
+      root: {
+        "&$disabled": {
+          color: grey[50]
+        }
+      },
+      disabled:{}
+    }
+  },
   props: {
     MuiButtonBase: {
       disableRipple: true

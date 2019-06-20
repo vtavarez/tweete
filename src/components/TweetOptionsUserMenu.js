@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
-import ListItem from '@material-ui/core/ListItem';
 import IconButton from "@material-ui/core/IconButton";
 import UserIcon from "@material-ui/icons/PersonOutlined";
 
@@ -11,11 +10,9 @@ const useStyles = makeStyles(theme => ({
   root: {
     minHeight: 36,
     fontSize: 14,
-    "&$disabled": {
-      color: theme.palette.text.secondary
-    }
-  },
-  disabled: {}
+    paddingTop: 0,
+    paddingBottom: 0
+  }
 }));
 
 const TweetOptionsUserMenu = props => {
@@ -30,6 +27,7 @@ const TweetOptionsUserMenu = props => {
         aria-label="User Options"
         aria-controls="user-options"
         aria-haspopup="true"
+        size="small"
         onClick={e => setAnchorEl(e.currentTarget)}
       >
         <UserIcon className={props.fill} />
@@ -41,20 +39,39 @@ const TweetOptionsUserMenu = props => {
         keepMounted
         open={open}
         onBackdropClick={() => setAnchorEl(null)}
+        MenuListProps={{
+          disablePadding: true
+        }}
       >
-        <ListItem disabled classes={classes}>
+        <MenuItem divider disabled classes={classes}>
           {`@${props.user} is not following you.`}
-        </ListItem>
+        </MenuItem>
         <MenuItem className={root}>Reply</MenuItem>
-        <MenuItem className={root}>Direct Message</MenuItem>
-        <MenuItem className={root}>Add/Remove from Lists</MenuItem>
-        <MenuItem className={root}>Disable Retweets</MenuItem>
-        <MenuItem className={root}>Enable Notifications</MenuItem>
-        <MenuItem className={root}>Open Profile in Browser</MenuItem>
-        <MenuItem className={root}>Unfollow</MenuItem>
-        <MenuItem className={root}>Mute</MenuItem>
-        <MenuItem className={root}>Block User...</MenuItem>
-        <MenuItem className={root}>
+        <MenuItem divider className={root}>
+          Direct Message
+        </MenuItem>
+        <MenuItem disabled={false} className={root}>
+          Add/Remove from Lists
+        </MenuItem>
+        <MenuItem disabled={true} className={root}>
+          Disable Retweets
+        </MenuItem>
+        <MenuItem disabled={true} className={root}>
+          Enable Notifications
+        </MenuItem>
+        <MenuItem disabled={false} className={root}>
+          Open Profile in Browser
+        </MenuItem>
+        <MenuItem disabled={false} className={root}>
+          Unfollow
+        </MenuItem>
+        <MenuItem disabled={false} className={root}>
+          Mute
+        </MenuItem>
+        <MenuItem disabled={false} className={root}>
+          Block User...
+        </MenuItem>
+        <MenuItem disabled={false} className={root}>
           Block and Report for Spam...
         </MenuItem>
       </Menu>

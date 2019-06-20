@@ -9,9 +9,12 @@ import ReplyIcon from "@material-ui/icons/Reply";
 import TweetOptionsUserMenu from './TweetOptionsUserMenu';
 import TweetOptionsRetweetMenu from './TweetOptionsRetweetMenu';
 
+
+let highlight;
+
 const useStyles = makeStyles(theme => ({
   fill: {
-    fill: theme.palette.grey[50]
+    fill: highlight ? theme.palette.primary.main : theme.palette.grey[700]
   },
   selected: {
     fill: theme.palette.primary.main
@@ -19,7 +22,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const TweetOptions = props => {
-  const icon = useStyles();
+  const classes = useStyles();
   const [tweetLiked, setTweetLiked] = useState(false);
 
   const likeTweet = e => {
@@ -32,35 +35,34 @@ const TweetOptions = props => {
   };
 
   useEffect(() => {
-    if (localStorage.getItem(JSON.stringify(props.id))){
-       setTweetLiked(JSON.parse(localStorage.getItem(JSON.stringify(props.id))));
+    if (localStorage.getItem(JSON.stringify(props.id))) {
+      setTweetLiked(
+        JSON.parse(localStorage.getItem(JSON.stringify(props.id)))
+      );
     }
-  },[props.id]);
+  }, [props.id]);
 
   return (
     <Grid container alignItems="center">
       <Grid item xs={3}>
-        <IconButton
-          aria-label="Like"
-          onClick={likeTweet}
-        >
-          { tweetLiked ? (
-            <LikeIconFilled className={icon.selected} />
+        <IconButton aria-label="Like" onClick={likeTweet} size="small">
+          {tweetLiked ? (
+            <LikeIconFilled className={classes.selected} />
           ) : (
-            <LikeIconOutline className={icon.fill} />
+            <LikeIconOutline className={classes.fill} />
           )}
         </IconButton>
       </Grid>
       <Grid item xs={3}>
-        <IconButton aria-label="Reply">
-          <ReplyIcon className={icon.fill} />
+        <IconButton aria-label="Reply" size="small">
+          <ReplyIcon className={classes.fill} />
         </IconButton>
       </Grid>
       <Grid item xs={3}>
-        <TweetOptionsRetweetMenu fill={icon.fill} />
+        <TweetOptionsRetweetMenu fill={classes.fill} />
       </Grid>
       <Grid item xs={3}>
-        <TweetOptionsUserMenu fill={icon.fill} />
+        <TweetOptionsUserMenu fill={classes.fill} />
       </Grid>
     </Grid>
   );

@@ -11,11 +11,9 @@ const useStyles = makeStyles(theme => ({
   root: {
     minHeight: 36,
     fontSize: 14,
-    "&$disabled": {
-      color: theme.palette.text.secondary
-    }
-  },
-  disabled: {}
+    paddingTop: 0,
+    paddingBottom: 0
+  }
 }));
 
 const TweetOptionsRetweetMenu = props => {
@@ -29,6 +27,7 @@ const TweetOptionsRetweetMenu = props => {
         aria-label="Retweet"
         aria-controls="retweet-options"
         aria-haspopup="true"
+        size="small"
         onClick={e => setAnchorEl(e.currentTarget)}
       >
         <Icon
@@ -46,13 +45,12 @@ const TweetOptionsRetweetMenu = props => {
         keepMounted
         open={open}
         onBackdropClick={() => setAnchorEl(null)}
+        MenuListProps={{
+          disablePadding: true
+        }}
       >
-        <MenuItem className={root}>
-          Retweet
-        </MenuItem>
-        <MenuItem className={root}>
-          Quote
-        </MenuItem>
+        <MenuItem className={root}>Retweet to Followers</MenuItem>
+        <MenuItem className={root}>Quote</MenuItem>
       </Menu>
     </React.Fragment>
   );

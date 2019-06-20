@@ -1,17 +1,15 @@
-import React from "react";
+import React, { useState} from "react";
 import { connect } from "react-redux";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Avatar from "@material-ui/core/Avatar";
 import TweetUsername from "./TweetUsername";
 import TweetBody from "./TweetBody";
 import TweetOptions from "./TweetOptions";
 
+const styledBy = (property, mapping) => props => mapping[props[property]];
+
 const useStyles = makeStyles(theme => ({
-  grid: {
-    borderBottom: "1px solid #424242",
-    padding: "5px 10px"
-  },
   avatar: {
     margin: "0px 0px 0px 17px",
     width: 44,
@@ -19,11 +17,25 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
+const TweetContainer = withStyles({
+  root: {
+    borderBottom: "1px solid #424242",
+    padding: "5px 10px",
+    backgroundColor: styledBy('color', {
+      default: 'inherit',
+      highlight: 'rgba(255, 255, 255, .05)'
+    })
+  }
+})(({ classes, color, ...other }) => (
+  <Grid container className={classes.root} {...other} />
+));
+
 const Tweet = props => {
   const classes = useStyles();
+  const [highlight, setHighlight] = useState('default');
 
   return (
-    <Grid container className={classes.grid}>
+    <TweetContainer onClick={() => setHighlight('highlight')} color={highlight}>
       <Grid item xs={2}>
         <Avatar alt="user avatar" src={null} className={classes.avatar} />
       </Grid>
@@ -31,9 +43,9 @@ const Tweet = props => {
       <Grid item xs={10}>
         <TweetUsername name={"Username"} handle={"username"} />
         <TweetBody />
-        <TweetOptions {...props} />
+        <TweetOptions highlightOptions={highlight} {...props} />
       </Grid>
-    </Grid>
+    </TweetContainer>
   );
 };
 
