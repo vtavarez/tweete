@@ -10,11 +10,9 @@ import TweetOptionsUserMenu from './TweetOptionsUserMenu';
 import TweetOptionsRetweetMenu from './TweetOptionsRetweetMenu';
 
 
-let highlight;
-
 const useStyles = makeStyles(theme => ({
   fill: {
-    fill: highlight ? theme.palette.primary.main : theme.palette.grey[700]
+    fill: theme.palette.grey[700]
   },
   selected: {
     fill: theme.palette.primary.main
@@ -25,13 +23,13 @@ const TweetOptions = props => {
   const classes = useStyles();
   const [tweetLiked, setTweetLiked] = useState(false);
 
-  const likeTweet = e => {
-    let likeTweet = tweetLiked ? false:true;
+  const onLikeTweet = e => {
+    let likeState = tweetLiked ? false : true;
     localStorage.setItem(
       JSON.stringify(props.id),
-      JSON.stringify(likeTweet)
+      JSON.stringify(likeState)
     );
-    setTweetLiked(likeTweet);
+    setTweetLiked(likeState);
   };
 
   useEffect(() => {
@@ -45,7 +43,7 @@ const TweetOptions = props => {
   return (
     <Grid container alignItems="center">
       <Grid item xs={3}>
-        <IconButton aria-label="Like" onClick={likeTweet} size="small">
+        <IconButton aria-label="Like" onClick={onLikeTweet} size="small">
           {tweetLiked ? (
             <LikeIconFilled className={classes.selected} />
           ) : (

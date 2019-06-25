@@ -46,7 +46,9 @@ const TweetOptionsUserMenu = props => {
         <MenuItem divider disabled classes={classes}>
           {`@${props.user} is not following you.`}
         </MenuItem>
-        <MenuItem className={root}>Reply</MenuItem>
+        <MenuItem className={root}>
+          Reply
+        </MenuItem>
         <MenuItem divider className={root}>
           Direct Message
         </MenuItem>
