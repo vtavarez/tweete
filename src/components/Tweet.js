@@ -1,4 +1,4 @@
-import React, { useState} from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
@@ -21,9 +21,9 @@ const TweetContainer = withStyles({
   root: {
     borderBottom: "1px solid #424242",
     padding: "5px 10px",
-    backgroundColor: styledBy('color', {
-      default: 'inherit',
-      highlight: 'rgba(255, 255, 255, .05)'
+    backgroundColor: styledBy("color", {
+      default: "inherit",
+      highlight: "rgba(255, 255, 255, .05)"
     })
   }
 })(({ classes, color, ...other }) => (
@@ -32,10 +32,9 @@ const TweetContainer = withStyles({
 
 const Tweet = props => {
   const classes = useStyles();
-  const [highlight, setHighlight] = useState('default');
 
   return (
-    <TweetContainer onClick={() => setHighlight('highlight')} color={highlight}>
+    <TweetContainer>
       <Grid item xs={2}>
         <Avatar alt="user avatar" src={null} className={classes.avatar} />
       </Grid>
@@ -43,7 +42,7 @@ const Tweet = props => {
       <Grid item xs={10}>
         <TweetUsername name={"Username"} handle={"username"} />
         <TweetBody />
-        <TweetOptions highlightOptions={highlight} {...props} />
+        <TweetOptions {...props} />
       </Grid>
     </TweetContainer>
   );

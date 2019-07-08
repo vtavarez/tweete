@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const TweetOptionsRetweetMenu = props => {
+const TweetOptionsRetweetMenu = ({ fill }) => {
   const { root } = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -36,7 +36,7 @@ const TweetOptionsRetweetMenu = props => {
           horizontal
           vertical
           rotate={180}
-          className={props.fill}
+          className={fill}
         />
       </IconButton>
       <Menu
