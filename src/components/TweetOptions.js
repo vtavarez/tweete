@@ -19,7 +19,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const TweetOptions = props => {
-  const classes = useStyles();
+  const { fill, selected } = useStyles();
   const [tweetLiked, setTweetLiked] = useState(false);
 
   const onLikeTweet = e => {
@@ -39,22 +39,22 @@ const TweetOptions = props => {
       <Grid item xs={3}>
         <IconButton aria-label="Like" onClick={onLikeTweet} size="small">
           {tweetLiked ? (
-            <LikeIconFilled className={classes.selected} />
+            <LikeIconFilled className={selected} />
           ) : (
-            <LikeIconOutline className={classes.fill} />
+            <LikeIconOutline className={fill} />
           )}
         </IconButton>
       </Grid>
       <Grid item xs={3}>
         <IconButton aria-label="Reply" size="small">
-          <ReplyIcon className={classes.fill} />
+          <ReplyIcon className={fill} />
         </IconButton>
       </Grid>
       <Grid item xs={3}>
-        <TweetOptionsRetweetMenu fill={classes.fill} />
+        <TweetOptionsRetweetMenu fill={fill} />
       </Grid>
       <Grid item xs={3}>
-        <TweetOptionsUserMenu fill={classes.fill} />
+        <TweetOptionsUserMenu fill={fill} />
       </Grid>
     </Grid>
   );

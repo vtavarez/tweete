@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
@@ -31,12 +31,12 @@ const TweetContainer = withStyles({
 ));
 
 const Tweet = props => {
-  const classes = useStyles();
+  const { avatar } = useStyles();
 
   return (
     <TweetContainer>
       <Grid item xs={2}>
-        <Avatar alt="user avatar" src={null} className={classes.avatar} />
+        <Avatar alt="user avatar" src={null} className={avatar} />
       </Grid>
 
       <Grid item xs={10}>

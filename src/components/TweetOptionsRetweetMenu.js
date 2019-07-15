@@ -20,7 +20,7 @@ const TweetOptionsRetweetMenu = ({ fill }) => {
   const { root } = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
-  
+
   return (
     <React.Fragment>
       <IconButton
@@ -54,6 +54,6 @@ const TweetOptionsRetweetMenu = ({ fill }) => {
       </Menu>
     </React.Fragment>
   );
-}
+};
 
 export default connect(null)(TweetOptionsRetweetMenu);
