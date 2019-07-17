@@ -22,33 +22,34 @@ const StyledContainer = withStyles({
 const Title = withStyles(theme => ({
   root: {
     color: theme.palette.text.primary,
-    textTransform: "uppercase",
-    fontSize: 32,
-    marginTop: 100,
-    fontWeight: 900
+    textTransform: "capitalize",
+    fontSize: 52,
+    fontWeight: 900,
+    letterSpacing: 1
   }
 }))(Box);
 
 const useStyles = makeStyles(theme => ({
   logo: {
-    width: 250,
-    height: "auto",
-    marginTop: 50
+    width: 220,
+    height: "auto"
   },
   button: {
-    marginTop: 80,
     textTransform: "capitalize",
     color: theme.palette.text.secondary
   },
   buttonIcon: {
     fill: theme.palette.text.secondary,
     marginRight: 10
+  },
+  gridContainer: {
+    height: "100vh"
   }
 }));
 
 const LoginWithTwitter = props => {
   const [open, setOpen] = useState(true);
-  const { logo, button, buttonIcon } = useStyles();
+  const { logo, button, buttonIcon, gridContainer } = useStyles();
   return (
     <Modal
       aria-labelledby="login-with-twitter"
@@ -58,7 +59,14 @@ const LoginWithTwitter = props => {
       open={open}
     >
       <StyledContainer maxWidth="xl">
-        <Grid container direction="column" alignItems="center">
+        <Grid
+          container
+          direction="column"
+          alignItems="center"
+          spacing={6}
+          justify="center"
+          className={gridContainer}
+        >
           <Grid item>
             <Title component="h1">tweete</Title>
           </Grid>
