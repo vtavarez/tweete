@@ -23,9 +23,10 @@ const Title = withStyles(theme => ({
   root: {
     color: theme.palette.text.primary,
     textTransform: "capitalize",
-    fontSize: 52,
+    fontSize: 62,
     fontWeight: 900,
-    letterSpacing: 1
+    letterSpacing: 1,
+    margin: 0
   }
 }))(Box);
 
@@ -48,7 +49,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const LoginWithTwitter = props => {
-  const [open, setOpen] = useState(true);
+  const [open] = useState(true);
   const { logo, button, buttonIcon, gridContainer } = useStyles();
   return (
     <Modal
