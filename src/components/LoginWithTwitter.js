@@ -79,6 +79,7 @@ const LoginWithTwitter = props => {
               variant="contained"
               color="primary"
               size="large"
+              onClick={e => window.open()}
             >
               <Icon
                 path={mdiTwitter}
