@@ -54,7 +54,7 @@ const TweetOptions = props => {
         <TweetOptionsRetweetMenu fill={fill} />
       </Grid>
       <Grid item xs={3}>
-        <TweetOptionsUserMenu fill={fill} />
+        <TweetOptionsUserMenu fill={fill} user={"user"} />
       </Grid>
     </Grid>
   );

@@ -15,7 +15,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const TweetOptionsUserMenu = props => {
+const TweetOptionsUserMenu = ({ fill, user }) => {
   const classes = useStyles();
   const { root } = classes;
   const [anchorEl, setAnchorEl] = useState(null);
@@ -30,7 +30,7 @@ const TweetOptionsUserMenu = props => {
         size="small"
         onClick={e => setAnchorEl(e.currentTarget)}
       >
-        <UserIcon className={props.fill} />
+        <UserIcon className={fill} />
       </IconButton>
 
       <Menu
@@ -44,11 +44,9 @@ const TweetOptionsUserMenu = props => {
         }}
       >
         <MenuItem divider disabled classes={classes}>
-          {`@${props.user} is not following you.`}
+          {`@${user} is not following you.`}
         </MenuItem>
-        <MenuItem className={root}>
-          Reply
-        </MenuItem>
+        <MenuItem className={root}>Reply</MenuItem>
         <MenuItem divider className={root}>
           Direct Message
         </MenuItem>

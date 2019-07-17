@@ -26,6 +26,9 @@ import Search from "./routes/Search";
 import HeaderNavigation from "./HeaderNavigation";
 import FooterNavigation from "./FooterNavigation";
 
+// Login With Twitter
+import LoginWithTwitter from "./LoginWithTwitter";
+
 const theme = createMuiTheme({
   overrides: {
     MuiListItem: {
@@ -34,7 +37,7 @@ const theme = createMuiTheme({
           color: grey[50]
         }
       },
-      disabled:{}
+      disabled: {}
     }
   },
   props: {
@@ -55,13 +58,14 @@ const theme = createMuiTheme({
   }
 });
 
-const App = () => { 
+const App = () => {
   return (
     <div className="app--container">
       <CssBaseline />
 
       <ThemeProvider theme={theme}>
         <Router history={history}>
+          <LoginWithTwitter />
           <HeaderNavigation />
 
           <React.Fragment>
@@ -77,7 +81,7 @@ const App = () => {
             </Switch>
           </React.Fragment>
 
-          <FooterNavigation/>
+          <FooterNavigation />
         </Router>
       </ThemeProvider>
     </div>
