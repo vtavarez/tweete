@@ -4,13 +4,15 @@
 /node_modules
 /.pnp
 .pnp.js
-/src/data/twitter_config.json
 
 # testing
 /coverage
 
 # production
 /build
+
+#data
+/src/data
 
 # misc
 .DS_Store
