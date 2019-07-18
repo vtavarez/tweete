@@ -1,8 +1,8 @@
 const { app, ipcMain, BrowserWindow } = require("electron");
-const { Twitter } = require("twitter-node-client");
-const path = require("path");
-const endpoint = require("url");
-const config = require("./data/twitter_config");
+const auth = require(`oauth-electron-twitter`);
+const { join } = require("path");
+const { format } = require("url");
+const config = require("./data/config.json");
 
 let mainWindow;
 let oAuthWindow;
@@ -10,8 +10,8 @@ let oAuthWindow;
 function createMainWindow() {
   const url =
     process.env.DEV_URL ||
-    endpoint.format({
-      pathname: path.join(__dirname, "/../build/index.html"),
+    format({
+      pathname: join(__dirname, "/../build/index.html"),
       protocol: "file:",
       slashes: true
     });
@@ -23,10 +23,10 @@ function createMainWindow() {
     maxWidth: 500,
     minHeight: 800,
     title: "Tweete",
-    icon: path.join(__dirname, "/icon.png"),
+    icon: join(__dirname, "/icon.png"),
     webPreferences: {
       nodeIntegration: true,
-      preload: path.join(__dirname, "/preload.js")
+      preload: join(__dirname, "/preload.js")
     }
   });
 
@@ -35,22 +35,25 @@ function createMainWindow() {
   mainWindow.loadURL(url);
 }
 
-function createOAuthWindow() {
+async function createOAuthWindow() {
   oAuthWindow = new BrowserWindow({
     width: 800,
     height: 800,
     parent: mainWindow,
     alwaysOnTop: true,
     webPreferences: {
-      nodeIntegration: false
+      nodeIntegration: false,
+      contextIsolation: true
     }
   });
 
   oAuthWindow.setMenuBarVisibility(false);
 
-  const twitter = new Twitter(config);
+  const token = await auth.login(config, oAuthWindow);
 
-  twitter.getOAuthRequestToken(res => {});
+  oAuthWindow.close();
+
+  return token;
 }
 
 app.on("ready", createMainWindow);
@@ -63,6 +66,7 @@ app.on("activate", function() {
   if (mainWindow === null) createMainWindow();
 });
 
-ipcMain.on("twitter-oauth", (event, arg) => {
-  createOAuthWindow();
+ipcMain.on("twitter-oauth", async (event, arg) => {
+  const token = await createOAuthWindow();
+  event.sender.send("twitter-oauth-token", token);
 });

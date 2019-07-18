@@ -52,6 +52,10 @@ const LoginWithTwitter = props => {
   const [open] = useState(true);
   const { logo, button, buttonIcon, gridContainer } = useStyles();
 
+  window.ipcRenderer.on("twitter-oauth-token", (event, args) => {
+    console.log(args);
+  });
+
   return (
     <Modal
       aria-labelledby="login-with-twitter"
