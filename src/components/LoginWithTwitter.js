@@ -51,6 +51,7 @@ const useStyles = makeStyles(theme => ({
 const LoginWithTwitter = props => {
   const [open] = useState(true);
   const { logo, button, buttonIcon, gridContainer } = useStyles();
+
   return (
     <Modal
       aria-labelledby="login-with-twitter"
@@ -80,7 +81,9 @@ const LoginWithTwitter = props => {
               variant="contained"
               color="primary"
               size="large"
-              onClick={e => window.open()}
+              onClick={() =>
+                window.ipcRenderer.send("twitter-oauth", "getToken")
+              }
             >
               <Icon
                 path={mdiTwitter}

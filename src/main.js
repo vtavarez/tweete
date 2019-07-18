@@ -1,8 +1,11 @@
-const { app, BrowserWindow } = require("electron");
+const { app, ipcMain, BrowserWindow } = require("electron");
+const { Twitter } = require("twitter-node-client");
 const path = require("path");
 const endpoint = require("url");
+const config = require("./data/twitter_config");
 
 let mainWindow;
+let oAuthWindow;
 
 function createMainWindow() {
   const url =
@@ -19,15 +22,41 @@ function createMainWindow() {
     minWidth: 500,
     maxWidth: 500,
     minHeight: 800,
-    icon: path.join(__dirname, "icon.png"),
+    title: "Tweete",
+    icon: path.join(__dirname, "/icon.png"),
     webPreferences: {
-      nodeIntegration: true
+      nodeIntegration: true,
+      preload: path.join(__dirname, "/preload.js")
     }
   });
 
   mainWindow.setMenuBarVisibility(false);
 
   mainWindow.loadURL(url);
+}
+
+function createOAuthWindow() {
+  oAuthWindow = new BrowserWindow({
+    width: 800,
+    height: 800,
+    parent: mainWindow,
+    alwaysOnTop: true,
+    webPreferences: {
+      nodeIntegration: false
+    }
+  });
+
+  oAuthWindow.setMenuBarVisibility(false);
+
+  const twitter = new Twitter(config);
+
+  const success = data => {};
+
+  const error = (err, res, body) => {
+    console.log("Error", err);
+  };
+
+  twitter.getOAuthRequestToken(success);
 }
 
 app.on("ready", createMainWindow);
@@ -38,4 +67,8 @@ app.on("window-all-closed", function() {
 
 app.on("activate", function() {
   if (mainWindow === null) createMainWindow();
+});
+
+ipcMain.on("twitter-oauth", (event, arg) => {
+  createOAuthWindow();
 });
