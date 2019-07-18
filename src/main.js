@@ -2,7 +2,7 @@ const { app, ipcMain, BrowserWindow } = require("electron");
 const auth = require(`oauth-electron-twitter`);
 const { join } = require("path");
 const { format } = require("url");
-const config = require("./data/config.json");
+const config = require("./data/config");
 
 let mainWindow;
 let oAuthWindow;

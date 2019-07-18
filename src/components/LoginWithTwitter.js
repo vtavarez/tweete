@@ -50,10 +50,11 @@ const useStyles = makeStyles(theme => ({
 
 const LoginWithTwitter = props => {
   const [open] = useState(true);
+  const [loading, setLoading] = useState(false);
   const { logo, button, buttonIcon, gridContainer } = useStyles();
 
-  window.ipcRenderer.on("twitter-oauth-token", (event, args) => {
-    console.log(args);
+  window.ipcRenderer.on("twitter-oauth-token", (event, token) => {
+    console.log(token);
   });
 
   return (
