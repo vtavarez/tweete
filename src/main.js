@@ -50,13 +50,7 @@ function createOAuthWindow() {
 
   const twitter = new Twitter(config);
 
-  const success = data => {};
-
-  const error = (err, res, body) => {
-    console.log("Error", err);
-  };
-
-  twitter.getOAuthRequestToken(success);
+  twitter.getOAuthRequestToken(res => {});
 }
 
 app.on("ready", createMainWindow);
