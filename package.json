@@ -16,6 +16,7 @@
     "react-scripts": "3.0.1",
     "redux": "^4.0.4",
     "redux-thunk": "^2.3.0",
+    "twitter-node-client": "0.0.6",
     "typeface-roboto": "0.0.54"
   },
   "main": "src/main.js",
