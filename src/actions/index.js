@@ -31,13 +31,12 @@ export const changeRoute = (path, route) => {
     case "filters":
       return { type: ROUTE_FILTERS, payload: route };
     case "lists":
-      return { type: ROUTE_LISTS, payload: route }
+      return { type: ROUTE_LISTS, payload: route };
     default:
   }
 };
 
-
-// eslint-disable-next-line
-const fetchTweets = () => dispatch => {
-  dispatch({ type: FETCHED_TWEETS, payload: null });
+export const fetchUser = () => dispatch => {
+  window.ipcRenderer.send("fetch-user", localStorage.getItem("uid"));
+  // dispatch({ type: FETCHED_TWEETS, payload: null });
 };

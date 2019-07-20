@@ -2,10 +2,15 @@ const { app, ipcMain, BrowserWindow } = require("electron");
 const auth = require(`oauth-electron-twitter`);
 const { join } = require("path");
 const { format } = require("url");
+const { Twitter } = require("twitter-node-client");
+const { LocalStorage } = require("node-localstorage");
+const uuidv1 = require("uuid/v1");
 const config = require("./data/config");
 
 let mainWindow;
 let oAuthWindow;
+let localStorage;
+let twitterAPI;
 
 function createMainWindow() {
   const url =
@@ -18,7 +23,7 @@ function createMainWindow() {
 
   mainWindow = new BrowserWindow({
     width: 500,
-    height: 800,
+    height: 1000,
     minWidth: 500,
     maxWidth: 500,
     minHeight: 800,
@@ -29,6 +34,8 @@ function createMainWindow() {
       preload: join(__dirname, "/preload.js")
     }
   });
+
+  localStorage = new LocalStorage("./scratch");
 
   mainWindow.setMenuBarVisibility(false);
 
@@ -49,24 +56,66 @@ async function createOAuthWindow() {
 
   oAuthWindow.setMenuBarVisibility(false);
 
-  const token = await auth.login(config, oAuthWindow);
-
-  oAuthWindow.close();
-
-  return token;
+  try {
+    const token = await auth.login(config, oAuthWindow);
+    oAuthWindow.close();
+    return token;
+  } catch (error) {
+    return error;
+  }
 }
+
+function initTwitterApi(uid) {
+  const { token, tokenSecret } = JSON.parse(localStorage.getItem(uid));
+
+  const userConfig = {
+    consumerKey: config.key,
+    consumerSecret: config.secret,
+    accessToken: token,
+    accessTokenSecret: tokenSecret,
+    callBackUrl: "http://localhost"
+  };
+
+  twitterAPI = new Twitter(userConfig);
+}
+
+ipcMain.on("twitter-oauth", async (event, args) => {
+  const oAuthResponse = await createOAuthWindow();
+  const uid = uuidv1();
+
+  if (oAuthResponse === "closed window") {
+    return event.sender.send("twitter-oauth-cancelled");
+  }
+
+  localStorage.setItem(uid, JSON.stringify(oAuthResponse));
+
+  return event.sender.send("twitter-oauth-completed", uid);
+});
+
+ipcMain.on("fetch-user", (event, uid) => {
+  initTwitterApi(uid);
+
+  const error = function(err, response, body) {
+    console.log("ERROR [%s]", err);
+  };
+
+  const success = function(data) {
+    console.log("Data [%s]", data);
+  };
+
+  twitterAPI.getHomeTimeline({ count: "10" }, error, success);
+});
 
 app.on("ready", createMainWindow);
 
 app.on("window-all-closed", function() {
-  if (process.platform !== "darwin") app.quit();
+  if (process.platform !== "darwin") {
+    app.quit();
+  }
 });
 
 app.on("activate", function() {
-  if (mainWindow === null) createMainWindow();
-});
-
-ipcMain.on("twitter-oauth", async (event, arg) => {
-  const token = await createOAuthWindow();
-  event.sender.send("twitter-oauth-token", token);
+  if (mainWindow === null) {
+    createMainWindow();
+  }
 });

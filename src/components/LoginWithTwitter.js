@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { connect } from "react-redux";
 import { withStyles, makeStyles } from "@material-ui/styles";
+import { fetchUser } from "../actions";
 import Modal from "@material-ui/core/Modal";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
@@ -8,6 +9,7 @@ import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import { mdiTwitter } from "@mdi/js";
 import Icon from "@mdi/react";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import { ReactComponent as Logo } from "../logo.svg";
 
 const StyledContainer = withStyles({
@@ -32,16 +34,22 @@ const Title = withStyles(theme => ({
 
 const useStyles = makeStyles(theme => ({
   logo: {
-    width: 220,
+    width: 240,
     height: "auto"
   },
   button: {
     textTransform: "capitalize",
-    color: theme.palette.text.secondary
+    color: theme.palette.text.secondary,
+    width: 212,
+    height: 42
   },
   buttonIcon: {
     fill: theme.palette.text.secondary,
     marginRight: 10
+  },
+  progress: {
+    margin: "0 auto",
+    color: theme.palette.text.secondary
   },
   gridContainer: {
     height: "100vh"
@@ -50,12 +58,23 @@ const useStyles = makeStyles(theme => ({
 
 const LoginWithTwitter = props => {
   const [open] = useState(true);
-  const [loading, setLoading] = useState(false);
-  const { logo, button, buttonIcon, gridContainer } = useStyles();
+  const [isLoading, setIsLoading] = useState(false);
+  const { logo, button, buttonIcon, progress, gridContainer } = useStyles();
 
-  window.ipcRenderer.on("twitter-oauth-token", (event, token) => {
-    console.log(token);
+  window.ipcRenderer.on("twitter-oauth-completed", (event, uid) => {
+    const { fetchUser } = props;
+    localStorage.setItem("uid", uid);
+    fetchUser();
   });
+
+  window.ipcRenderer.on("twitter-oauth-cancelled", () => {
+    setIsLoading(false);
+  });
+
+  const oAuthFlow = () => {
+    window.ipcRenderer.send("twitter-oauth");
+    setIsLoading(true);
+  };
 
   return (
     <Modal
@@ -86,19 +105,23 @@ const LoginWithTwitter = props => {
               variant="contained"
               color="primary"
               size="large"
-              onClick={() =>
-                window.ipcRenderer.send("twitter-oauth", "getToken")
-              }
+              onClick={oAuthFlow}
             >
-              <Icon
-                path={mdiTwitter}
-                size={1}
-                horizontal
-                vertical
-                rotate={180}
-                className={buttonIcon}
-              />
-              Login with Twitter
+              {isLoading ? (
+                <CircularProgress className={progress} size={24} />
+              ) : (
+                <React.Fragment>
+                  <Icon
+                    path={mdiTwitter}
+                    size={1}
+                    horizontal
+                    vertical
+                    rotate={180}
+                    className={buttonIcon}
+                  />
+                  Login with Twitter
+                </React.Fragment>
+              )}
             </Button>
           </Grid>
         </Grid>
@@ -107,4 +130,7 @@ const LoginWithTwitter = props => {
   );
 };
 
-export default connect(null)(LoginWithTwitter);
+export default connect(
+  null,
+  { fetchUser }
+)(LoginWithTwitter);
