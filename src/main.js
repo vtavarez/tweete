@@ -35,7 +35,7 @@ function createMainWindow() {
     }
   });
 
-  localStorage = new LocalStorage("./scratch");
+  localStorage = new LocalStorage("./src/data");
 
   mainWindow.setMenuBarVisibility(false);
 
