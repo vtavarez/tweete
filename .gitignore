@@ -13,6 +13,7 @@
 
 #data
 /src/data
+/scratch
 
 # misc
 .DS_Store
