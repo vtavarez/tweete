@@ -6,10 +6,10 @@ const { Twitter } = require("twitter-node-client");
 const { LocalStorage } = require("node-localstorage");
 const uuidv1 = require("uuid/v1");
 const config = require("./data/config");
+const localStorage = new LocalStorage("./src/data");
 
 let mainWindow;
 let oAuthWindow;
-let localStorage;
 let twitterAPI;
 
 function createMainWindow() {
@@ -35,12 +35,12 @@ function createMainWindow() {
     }
   });
 
-  localStorage = new LocalStorage("./src/data");
-
   mainWindow.setMenuBarVisibility(false);
 
   mainWindow.loadURL(url);
 }
+
+// Init Twitter oauth flow.
 
 async function createOAuthWindow() {
   oAuthWindow = new BrowserWindow({
@@ -65,6 +65,23 @@ async function createOAuthWindow() {
   }
 }
 
+// Twitter oauth sign in listener.
+
+ipcMain.on("twitter-oauth", async (event, args) => {
+  const oAuthResponse = await createOAuthWindow();
+  const uid = uuidv1();
+
+  if (oAuthResponse === "closed window") {
+    return event.sender.send("twitter-oauth-cancelled");
+  }
+
+  localStorage.setItem(uid, JSON.stringify(oAuthResponse));
+
+  return event.sender.send("twitter-oauth-completed", uid);
+});
+
+// Configures twitter-node-client for authenticated user.
+
 function initTwitterApi(uid) {
   const { token, tokenSecret } = JSON.parse(localStorage.getItem(uid));
 
@@ -79,18 +96,7 @@ function initTwitterApi(uid) {
   twitterAPI = new Twitter(userConfig);
 }
 
-ipcMain.on("twitter-oauth", async (event, args) => {
-  const oAuthResponse = await createOAuthWindow();
-  const uid = uuidv1();
-
-  if (oAuthResponse === "closed window") {
-    return event.sender.send("twitter-oauth-cancelled");
-  }
-
-  localStorage.setItem(uid, JSON.stringify(oAuthResponse));
-
-  return event.sender.send("twitter-oauth-completed", uid);
-});
+// Initial user fetch listener.
 
 ipcMain.on("fetch-user", (event, uid) => {
   initTwitterApi(uid);
