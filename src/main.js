@@ -98,7 +98,7 @@ function initTwitterApi(uid) {
 
 // Initial user fetch listener.
 
-ipcMain.on("fetch-user", async (event, uid) => {
+ipcMain.on("fetch-user", (event, uid) => {
   initTwitterApi(uid);
 
   const user = new Promise((resolve, reject) => {
@@ -114,7 +114,7 @@ ipcMain.on("fetch-user", async (event, uid) => {
     );
   });
 
-  const homeTimeline = new Promise((resolve, reject) => {
+  const timeline = new Promise((resolve, reject) => {
     twitterAPI.getHomeTimeline(
       { count: "10" },
       (error, response, body) => {
@@ -126,7 +126,7 @@ ipcMain.on("fetch-user", async (event, uid) => {
     );
   });
 
-  Promise.all([user, homeTimeline]).then(data => {
+  Promise.all([user, timeline]).then(data => {
     return event.sender.send("fetched-user", data);
   });
 });

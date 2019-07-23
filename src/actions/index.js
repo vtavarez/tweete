@@ -41,6 +41,6 @@ export const fetchUser = () => dispatch => {
 
   window.ipcRenderer.on("fetched-user", data => {
     console.log(data);
+    // dispatch({ type: FETCHED_TWEETS, payload: null });
   });
-  // dispatch({ type: FETCHED_TWEETS, payload: null });
 };
