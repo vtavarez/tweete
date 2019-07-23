@@ -38,5 +38,9 @@ export const changeRoute = (path, route) => {
 
 export const fetchUser = () => dispatch => {
   window.ipcRenderer.send("fetch-user", localStorage.getItem("uid"));
+
+  window.ipcRenderer.on("fetched-user", data => {
+    console.log(data);
+  });
   // dispatch({ type: FETCHED_TWEETS, payload: null });
 };

@@ -85,7 +85,7 @@ ipcMain.on("twitter-oauth", async (event, args) => {
 function initTwitterApi(uid) {
   const { token, tokenSecret } = JSON.parse(localStorage.getItem(uid));
 
-  const userConfig = {
+  const apiConfig = {
     consumerKey: config.key,
     consumerSecret: config.secret,
     accessToken: token,
@@ -93,23 +93,42 @@ function initTwitterApi(uid) {
     callBackUrl: "http://localhost"
   };
 
-  twitterAPI = new Twitter(userConfig);
+  twitterAPI = new Twitter(apiConfig);
 }
 
 // Initial user fetch listener.
 
-ipcMain.on("fetch-user", (event, uid) => {
+ipcMain.on("fetch-user", async (event, uid) => {
   initTwitterApi(uid);
 
-  const error = function(err, response, body) {
-    console.log("ERROR [%s]", err);
-  };
+  const user = new Promise((resolve, reject) => {
+    twitterAPI.getCustomApiCall(
+      "/account/verify_credentials.json",
+      {},
+      (err, response, body) => {
+        reject(err);
+      },
+      response => {
+        resolve(response);
+      }
+    );
+  });
 
-  const success = function(data) {
-    console.log("Data [%s]", data);
-  };
+  const homeTimeline = new Promise((resolve, reject) => {
+    twitterAPI.getHomeTimeline(
+      { count: "10" },
+      (error, response, body) => {
+        reject(error);
+      },
+      response => {
+        resolve(response);
+      }
+    );
+  });
 
-  twitterAPI.getHomeTimeline({ count: "10" }, error, success);
+  Promise.all([user, homeTimeline]).then(data => {
+    return event.sender.send("fetched-user", data);
+  });
 });
 
 app.on("ready", createMainWindow);
