@@ -60,23 +60,30 @@ const LoginWithTwitter = props => {
   const [open, setOpen] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const { logo, button, buttonIcon, progress, gridContainer } = useStyles();
+  const { fetchUser } = props;
 
   useEffect(() => {
-    if (Object.keys(props.user).length !== 0) {
+    if (props.user.profile) {
       setIsLoading(false);
       setOpen(false);
     }
-  }, [props.user]);
 
-  window.ipcRenderer.on("twitter-oauth-completed", (event, uid) => {
-    const { fetchUser } = props;
-    localStorage.setItem("uid", uid);
-    fetchUser();
-  });
+    if (localStorage.getItem("authenticated") && !props.user.profile) {
+      setIsLoading(false);
+      setOpen(false);
+      fetchUser();
+    } else {
+      window.ipcRenderer.on("twitter-oauth-completed", (event, uid) => {
+        localStorage.setItem("uid", uid);
+        localStorage.setItem("authenticated", "true");
+        fetchUser();
+      });
+    }
 
-  window.ipcRenderer.on("twitter-oauth-cancelled", () => {
-    setIsLoading(false);
-  });
+    window.ipcRenderer.on("twitter-oauth-cancelled", () => {
+      setIsLoading(false);
+    });
+  }, [props.user, fetchUser]);
 
   const oAuthFlow = () => {
     window.ipcRenderer.send("twitter-oauth");

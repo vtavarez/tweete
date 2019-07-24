@@ -116,7 +116,7 @@ ipcMain.on("fetch-user", (event, uid) => {
 
   const timeline = new Promise((resolve, reject) => {
     twitterAPI.getHomeTimeline(
-      { count: "10" },
+      { count: "21" },
       (error, response, body) => {
         reject(error);
       },
