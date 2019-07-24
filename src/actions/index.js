@@ -7,7 +7,7 @@ import {
   ROUTE_LIKES,
   ROUTE_FILTERS,
   ROUTE_LISTS,
-  FETCHED_TWEETS
+  FETCHED_USER
 } from "./types";
 import history from "../routerHistory";
 
@@ -39,8 +39,13 @@ export const changeRoute = (path, route) => {
 export const fetchUser = () => dispatch => {
   window.ipcRenderer.send("fetch-user", localStorage.getItem("uid"));
 
-  window.ipcRenderer.on("fetched-user", data => {
-    console.log(data);
-    // dispatch({ type: FETCHED_TWEETS, payload: null });
+  window.ipcRenderer.on("fetched-user", (event, data) => {
+    const [user, timeline] = data;
+    console.log(JSON.parse(user));
+    console.log(JSON.parse(timeline));
+    dispatch({
+      type: FETCHED_USER,
+      payload: { profile: JSON.parse(user), timeline: JSON.parse(timeline) }
+    });
   });
 };

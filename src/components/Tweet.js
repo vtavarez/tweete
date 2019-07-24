@@ -12,8 +12,8 @@ const styledBy = (property, mapping) => props => mapping[props[property]];
 const useStyles = makeStyles(theme => ({
   avatar: {
     margin: "0px 0px 0px 17px",
-    width: 44,
-    height: 44
+    width: 45,
+    height: 45
   }
 }));
 
@@ -36,12 +36,12 @@ const Tweet = props => {
   return (
     <TweetContainer>
       <Grid item xs={2}>
-        <Avatar alt="user avatar" src={null} className={avatar} />
+        <Avatar alt="user avatar" src={props.avatar} className={avatar} />
       </Grid>
 
       <Grid item xs={10}>
-        <TweetUsername name={"Username"} handle={"username"} />
-        <TweetBody />
+        <TweetUsername name={props.name} handle={props.handle} />
+        <TweetBody text={props.text} />
         <TweetOptions {...props} />
       </Grid>
     </TweetContainer>

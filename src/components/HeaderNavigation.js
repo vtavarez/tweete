@@ -1,23 +1,23 @@
 import React from "react";
 import { connect } from "react-redux";
-import { makeStyles } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import Avatar from '@material-ui/core/Avatar';
-import Typography from '@material-ui/core/Typography';
-import ComposeTweetButton from './ComposeTweetButton';
+import { makeStyles } from "@material-ui/core/styles";
+import Grid from "@material-ui/core/Grid";
+import Avatar from "@material-ui/core/Avatar";
+import Typography from "@material-ui/core/Typography";
+import ComposeTweetButton from "./ComposeTweetButton";
 
 const useStyles = makeStyles(theme => ({
   grid: {
-    backgroundColor: '#424242'
+    backgroundColor: "#424242"
   },
   title: {
-    textAlign: 'center',
-    textTransform: 'capitalize',
+    textAlign: "center",
+    textTransform: "capitalize",
     color: theme.palette.grey[300],
     fontWeight: 500
   },
   avatar: {
-    margin: '10px 0px 10px 32px',
+    margin: "10px 0px 10px 32px",
     width: 34,
     height: 34
   }
@@ -29,11 +29,19 @@ const HeaderNavigation = props => {
   return (
     <Grid container alignItems="center" className={classes.grid}>
       <Grid item xs={3}>
-        <Avatar alt="user avatar" src={null} className={classes.avatar} />
+        <Avatar
+          alt="user avatar"
+          src={
+            props.user.profile
+              ? props.user.profile.profile_image_url_https
+              : null
+          }
+          className={classes.avatar}
+        />
       </Grid>
       <Grid item xs={6}>
         <Typography variant="subtitle1" className={classes.title}>
-          { props.route }
+          {props.route}
         </Typography>
       </Grid>
       <Grid item xs={3}>
@@ -41,13 +49,11 @@ const HeaderNavigation = props => {
       </Grid>
     </Grid>
   );
-
 };
 
-const mapStateToProps = state => {
-  return {
-    route: state.route
-  };
-};
+const mapStateToProps = state => ({
+  route: state.route,
+  user: state.user
+});
 
 export default connect(mapStateToProps)(HeaderNavigation);

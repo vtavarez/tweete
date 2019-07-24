@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { withStyles, makeStyles } from "@material-ui/styles";
 import { fetchUser } from "../actions";
@@ -57,9 +57,16 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const LoginWithTwitter = props => {
-  const [open] = useState(true);
+  const [open, setOpen] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const { logo, button, buttonIcon, progress, gridContainer } = useStyles();
+
+  useEffect(() => {
+    if (Object.keys(props.user).length !== 0) {
+      setIsLoading(false);
+      setOpen(false);
+    }
+  }, [props.user]);
 
   window.ipcRenderer.on("twitter-oauth-completed", (event, uid) => {
     const { fetchUser } = props;
@@ -130,7 +137,11 @@ const LoginWithTwitter = props => {
   );
 };
 
+const mapStateToProps = state => ({
+  user: state.user
+});
+
 export default connect(
-  null,
+  mapStateToProps,
   { fetchUser }
 )(LoginWithTwitter);

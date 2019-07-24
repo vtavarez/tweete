@@ -7,7 +7,7 @@ const useStyles = makeStyles(theme => ({
   tweetBody: {
     fontSize: 14,
     color: theme.palette.text.secondary,
-    userSelect: 'none'
+    userSelect: "none"
   }
 }));
 
@@ -17,10 +17,7 @@ const TweetBody = props => {
   return (
     <Box>
       <Typography className={classes.tweetBody} paragraph>
-        Ultrices neque magna commodo nulla facilisis faucibus metus porta
-        vulputate, est taciti nisl potenti sociosqu justo condimentum. Bibendum
-        nunc sollicitudin per diam auctor ipsum fermentum, mus placerat
-        hendrerit venenatis cubilia senectus vestibulum ut, est sociis blandit.
+        {props.text}
       </Typography>
     </Box>
   );
