@@ -17,6 +17,7 @@ const Home = props => {
             name={user.name}
             handle={user.screen_name}
             avatar={user.profile_image_url_https}
+            verified={user.verified}
           />
         );
       }
@@ -28,6 +29,7 @@ const Home = props => {
           name={user.name}
           handle={user.screen_name}
           avatar={user.profile_image_url_https}
+          verified={user.verified}
         />
       );
     });

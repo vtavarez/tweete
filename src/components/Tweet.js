@@ -40,7 +40,11 @@ const Tweet = props => {
       </Grid>
 
       <Grid item xs={10}>
-        <TweetUsername name={props.name} handle={props.handle} />
+        <TweetUsername
+          name={props.name}
+          handle={props.handle}
+          verified={props.verified}
+        />
         <TweetBody text={props.text} />
         <TweetOptions {...props} />
       </Grid>

@@ -14,10 +14,23 @@ const useStyles = makeStyles(theme => ({
 const TweetBody = props => {
   const classes = useStyles();
 
+  const parsedTweet = () => {
+    const splitTweet = props.text.split(" ");
+
+    let tweet = splitTweet.reduce((tweetArr, word) => {
+      if (!word.includes("https")) {
+        tweetArr.push(word);
+      }
+      return tweetArr;
+    }, []);
+
+    return tweet.join(" ");
+  };
+
   return (
     <Box>
       <Typography className={classes.tweetBody} paragraph>
-        {props.text}
+        {parsedTweet()}
       </Typography>
     </Box>
   );
