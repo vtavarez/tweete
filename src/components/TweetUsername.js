@@ -14,7 +14,7 @@ const useStyles = makeStyles(theme => ({
     marginLeft: 5,
     color: theme.palette.grey[500],
     fontWeight: 300,
-    fontSize: 12,
+    fontSize: 13,
     userSelect: "none"
   },
   verified: {

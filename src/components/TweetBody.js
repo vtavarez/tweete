@@ -2,6 +2,7 @@ import React from "react";
 import Box from "@material-ui/core/Box";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
+import twitter from "twitter-text";
 
 const useStyles = makeStyles(theme => ({
   tweetBody: {
@@ -14,24 +15,17 @@ const useStyles = makeStyles(theme => ({
 const TweetBody = props => {
   const classes = useStyles();
 
-  const parsedTweet = () => {
-    const splitTweet = props.text.split(" ");
-
-    let tweet = splitTweet.reduce((tweetArr, word) => {
-      if (!word.includes("https")) {
-        tweetArr.push(word);
-      }
-      return tweetArr;
-    }, []);
-
-    return tweet.join(" ");
-  };
-
   return (
     <Box>
-      <Typography className={classes.tweetBody} paragraph>
-        {parsedTweet()}
-      </Typography>
+      <Typography
+        className={classes.tweetBody}
+        dangerouslySetInnerHTML={{
+          __html: twitter.autoLink(props.full_text, {
+            urlEntities: props.entities.urls
+          })
+        }}
+        paragraph
+      />
     </Box>
   );
 };

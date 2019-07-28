@@ -6,6 +6,7 @@ import Avatar from "@material-ui/core/Avatar";
 import TweetUsername from "./TweetUsername";
 import TweetBody from "./TweetBody";
 import TweetOptions from "./TweetOptions";
+import RetweeterDetails from "./RetweeterDetails";
 
 const styledBy = (property, mapping) => props => mapping[props[property]];
 
@@ -40,12 +41,18 @@ const Tweet = props => {
       </Grid>
 
       <Grid item xs={10}>
+        {props.retweet && (
+          <RetweeterDetails
+            avatar={props.retweeter_avatar}
+            handle={props.retweeter_handle}
+          />
+        )}
         <TweetUsername
           name={props.name}
           handle={props.handle}
           verified={props.verified}
         />
-        <TweetBody text={props.text} />
+        <TweetBody full_text={props.full_text} entities={props.entities} />
         <TweetOptions {...props} />
       </Grid>
     </TweetContainer>

@@ -11,10 +11,17 @@ import TweetOptionsRetweetMenu from "./TweetOptionsRetweetMenu";
 
 const useStyles = makeStyles(theme => ({
   fill: {
-    fill: theme.palette.grey[700]
+    fill: theme.palette.grey[700],
+    width: 22,
+    height: 22,
+    "&:hover": {
+      fill: theme.palette.primary.main
+    }
   },
   selected: {
-    fill: theme.palette.primary.main
+    fill: theme.palette.primary.main,
+    width: 22,
+    height: 22
   }
 }));
 

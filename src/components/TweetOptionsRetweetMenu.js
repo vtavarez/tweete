@@ -32,7 +32,7 @@ const TweetOptionsRetweetMenu = ({ fill }) => {
       >
         <Icon
           path={mdiTwitterRetweet}
-          size={1.2}
+          size={1.1}
           horizontal
           vertical
           rotate={180}
