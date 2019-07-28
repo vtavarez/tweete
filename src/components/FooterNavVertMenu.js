@@ -19,7 +19,9 @@ const useStyles = makeStyles(theme => ({
     }
   },
   icon: {
-    transform: 'translate(5px, 5px)'
+    transform: "translate(7px, 7px)",
+    width: 20,
+    height: 20
   },
   iconBox: {
     position: "relative",
@@ -37,9 +39,7 @@ const VertMenuOption = withStyles(theme => ({
   }
 }))(MenuItem);
 
-
 const FooterNavVertMenu = props => {
-
   const routesState = { filters: false, likes: false, lists: false };
   const [selectedRoute, setSelectedRoute] = useState(routesState);
   const { filters, likes, lists } = selectedRoute;
@@ -49,19 +49,16 @@ const FooterNavVertMenu = props => {
   const yPos = window.innerHeight - 220;
   const xPos = 455;
 
-
   useEffect(() => {
     const newRoutesState = { ...routesState };
     newRoutesState[props.selectedRoute] = true;
     setSelectedRoute(newRoutesState);
   }, [props.selectedRoute, routesState]);
-  
 
   const handleMenu = (e, route) => {
     props.selectRoute(e, route);
     setAnchorEl(null);
   };
-
 
   return (
     <React.Fragment>
@@ -87,7 +84,7 @@ const FooterNavVertMenu = props => {
           }
         }}
         anchorReference="anchorPosition"
-        anchorPosition={{ top: yPos, left: xPos}}
+        anchorPosition={{ top: yPos, left: xPos }}
         marginThreshold={0}
         onBackdropClick={() => setAnchorEl(null)}
       >

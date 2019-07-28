@@ -5,7 +5,7 @@ import Grid from "@material-ui/core/Grid";
 import IconButton from "@material-ui/core/IconButton";
 import LikeIconOutline from "@material-ui/icons/FavoriteBorder";
 import LikeIconFilled from "@material-ui/icons/Favorite";
-import ReplyIcon from "@material-ui/icons/Reply";
+import ReplyIcon from "@material-ui/icons/SubdirectoryArrowLeft";
 import TweetOptionsUserMenu from "./TweetOptionsUserMenu";
 import TweetOptionsRetweetMenu from "./TweetOptionsRetweetMenu";
 
@@ -22,11 +22,20 @@ const useStyles = makeStyles(theme => ({
     fill: theme.palette.primary.main,
     width: 22,
     height: 22
+  },
+  reply_icon: {
+    fill: theme.palette.grey[700],
+    width: 22,
+    height: 22,
+    transform: "scaleX(-1) rotate(180deg)",
+    "&:hover": {
+      fill: theme.palette.primary.main
+    }
   }
 }));
 
 const TweetOptions = props => {
-  const { fill, selected } = useStyles();
+  const { fill, selected, reply_icon } = useStyles();
   const [tweetLiked, setTweetLiked] = useState(false);
 
   const onLikeTweet = e => {
@@ -54,7 +63,7 @@ const TweetOptions = props => {
       </Grid>
       <Grid item xs={3}>
         <IconButton aria-label="Reply" size="small">
-          <ReplyIcon className={fill} />
+          <ReplyIcon className={reply_icon} />
         </IconButton>
       </Grid>
       <Grid item xs={3}>

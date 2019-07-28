@@ -15,12 +15,14 @@ const useStyles = makeStyles(theme => ({
     margin: "0px 0px 0px 17px",
     width: 45,
     height: 45
+  },
+  tweet_details: {
+    borderBottom: "1px solid #424242"
   }
 }));
 
 const TweetContainer = withStyles({
   root: {
-    borderBottom: "1px solid #424242",
     padding: "5px 10px",
     backgroundColor: styledBy("color", {
       default: "inherit",
@@ -32,7 +34,7 @@ const TweetContainer = withStyles({
 ));
 
 const Tweet = props => {
-  const { avatar } = useStyles();
+  const { avatar, tweet_details } = useStyles();
 
   return (
     <TweetContainer>
@@ -40,7 +42,7 @@ const Tweet = props => {
         <Avatar alt="user avatar" src={props.avatar} className={avatar} />
       </Grid>
 
-      <Grid item xs={10}>
+      <Grid className={tweet_details} item xs={10}>
         {props.retweet && (
           <RetweeterDetails
             avatar={props.retweeter_avatar}
