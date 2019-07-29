@@ -1,5 +1,11 @@
 body {
-   background-color: #2e2c29 !important;
+  background-color: #2e2c29 !important;
+}
+
+a {
+  color: #03a9f4;
+  text-decoration: none;
+  font-weight: 600;
 }
 
 .app--container {
@@ -10,10 +16,9 @@ body {
 }
 
 .app--container::-webkit-scrollbar {
-    display: none;
-}
- 
-.app--container::-webkit-scrollbar-track {
-   display: none;
+  display: none;
 }
 
+.app--container::-webkit-scrollbar-track {
+  display: none;
+}

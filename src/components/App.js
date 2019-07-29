@@ -11,6 +11,7 @@ import { createMuiTheme } from "@material-ui/core/styles";
 import { ThemeProvider } from "@material-ui/styles";
 import lightBlue from "@material-ui/core/colors/lightBlue";
 import grey from "@material-ui/core/colors/grey";
+import red from "@material-ui/core/colors/red";
 
 // Routes
 import Home from "./routes/Home";
@@ -49,6 +50,9 @@ const theme = createMuiTheme({
     type: "dark",
     primary: {
       main: lightBlue[500]
+    },
+    secondary: {
+      main: red[500]
     },
     text: {
       primary: lightBlue[500],

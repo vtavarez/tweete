@@ -14,7 +14,6 @@ const useStyles = makeStyles(theme => ({
 
 const TweetBody = props => {
   const classes = useStyles();
-
   return (
     <Box>
       <Typography

@@ -19,7 +19,7 @@ moment.updateLocale("en", {
     past: "%s",
     s: "a few seconds ago",
     ss: "%ds",
-    m: "a minute ago",
+    m: "1m",
     mm: "%dm",
     h: "1h",
     hh: "%dh",
@@ -34,21 +34,12 @@ moment.updateLocale("en", {
 
 const TweetCreatedAt = props => {
   const classes = useStyles();
-
-  const createdAt = () => {
-    const date = new Date(Date.parse(props.created.replace(/( \+)/, " UTC$1")));
-    return moment.utc(date).fromNow();
-  };
-
-  const [time, setTime] = useState(createdAt());
-
-  const updateTime = () => {
-    setTime(createdAt());
-  };
+  const date = new Date(Date.parse(props.created.replace(/( \+)/, " UTC$1")));
+  const [time, setTime] = useState(moment.utc(date).fromNow());
 
   useEffect(() => {
-    setInterval(updateTime, 60000);
-  }, []);
+    setInterval(() => setTime(moment.utc(date).fromNow()), 60000);
+  }, [date]);
 
   return <span className={classes.created_time}>{time}</span>;
 };
