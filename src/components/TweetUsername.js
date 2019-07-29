@@ -3,12 +3,14 @@ import Typography from "@material-ui/core/Typography";
 import { mdiCheckDecagram } from "@mdi/js";
 import Icon from "@mdi/react";
 import { makeStyles } from "@material-ui/core/styles";
+import TweetCreatedAt from "./TweetCreatedAt";
 
 const useStyles = makeStyles(theme => ({
   name: {
     color: theme.palette.text.primary,
     fontWeight: 600,
-    userSelect: "none"
+    userSelect: "none",
+    fontSize: 14
   },
   handle: {
     marginLeft: 5,
@@ -45,6 +47,7 @@ const TweetUsername = props => {
         </span>
       )}
       <span className={classes.handle}>{`@${handle}`}</span>
+      <TweetCreatedAt created={props.created} />
     </Typography>
   );
 };

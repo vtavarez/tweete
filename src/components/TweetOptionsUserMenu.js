@@ -12,25 +12,36 @@ const useStyles = makeStyles(theme => ({
     fontSize: 14,
     paddingTop: 0,
     paddingBottom: 0
+  },
+  icon_button: {
+    "& svg": {
+      fill: theme.palette.grey[700]
+    },
+    "&:hover": {
+      "& svg": {
+        fill: theme.palette.primary.main
+      }
+    }
   }
 }));
 
-const TweetOptionsUserMenu = ({ fill, user }) => {
+const TweetOptionsUserMenu = ({ user }) => {
   const classes = useStyles();
-  const { root } = classes;
+  const { root, icon_button } = classes;
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
   return (
     <React.Fragment>
       <IconButton
+        className={icon_button}
         aria-label="User Options"
         aria-controls="user-options"
         aria-haspopup="true"
         size="small"
         onClick={e => setAnchorEl(e.currentTarget)}
       >
-        <UserIcon className={fill} />
+        <UserIcon />
       </IconButton>
 
       <Menu

@@ -6,6 +6,9 @@ import Box from "@material-ui/core/Box";
 import Avatar from "@material-ui/core/Avatar";
 
 const useStyles = makeStyles(theme => ({
+  retweeter_container: {
+    transform: "translateX(80px)"
+  },
   box: {
     display: "inline-block",
     verticalAlign: "top"
@@ -30,10 +33,10 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const RetweeterDetails = props => {
-  const { box, icon, avatar, handle } = useStyles();
+  const { retweeter_container, box, icon, avatar, handle } = useStyles();
 
   return (
-    <Box>
+    <Box className={retweeter_container}>
       <Box className={box}>
         <Icon
           path={mdiTwitterRetweet}

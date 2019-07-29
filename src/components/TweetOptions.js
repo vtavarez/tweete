@@ -10,36 +10,35 @@ import TweetOptionsUserMenu from "./TweetOptionsUserMenu";
 import TweetOptionsRetweetMenu from "./TweetOptionsRetweetMenu";
 
 const useStyles = makeStyles(theme => ({
-  fill: {
-    fill: theme.palette.grey[700],
-    width: 22,
-    height: 22,
+  tweet_options: {
+    transform: "translateY(-10px)"
+  },
+  icon_button: {
+    "& svg": {
+      fill: theme.palette.grey[700],
+      width: 22,
+      height: 22
+    },
     "&:hover": {
-      fill: theme.palette.primary.main
+      "& svg": {
+        fill: theme.palette.primary.main
+      }
     }
   },
-  selected: {
-    fill: theme.palette.primary.main,
-    width: 22,
-    height: 22
+  selected_icon: {
+    fill: theme.palette.primary.main + "!important"
   },
   reply_icon: {
-    fill: theme.palette.grey[700],
-    width: 22,
-    height: 22,
-    transform: "scaleX(-1) rotate(180deg)",
-    "&:hover": {
-      fill: theme.palette.primary.main
-    }
+    transform: "scaleX(-1) rotate(180deg)"
   }
 }));
 
 const TweetOptions = props => {
-  const { fill, selected, reply_icon } = useStyles();
+  const { tweet_options, selected_icon, reply_icon, icon_button } = useStyles();
   const [tweetLiked, setTweetLiked] = useState(false);
 
   const onLikeTweet = e => {
-    let likeState = tweetLiked ? false : true;
+    let likeState = !tweetLiked;
     localStorage.setItem(JSON.stringify(props.id), JSON.stringify(likeState));
     setTweetLiked(likeState);
   };
@@ -51,26 +50,31 @@ const TweetOptions = props => {
   }, [props.id]);
 
   return (
-    <Grid container alignItems="center">
-      <Grid item xs={3}>
-        <IconButton aria-label="Like" onClick={onLikeTweet} size="small">
+    <Grid className={tweet_options} container alignItems="center" spacing={6}>
+      <Grid item>
+        <IconButton
+          className={icon_button}
+          aria-label="Like"
+          onClick={onLikeTweet}
+          size="small"
+        >
           {tweetLiked ? (
-            <LikeIconFilled className={selected} />
+            <LikeIconFilled className={selected_icon} />
           ) : (
-            <LikeIconOutline className={fill} />
+            <LikeIconOutline />
           )}
         </IconButton>
       </Grid>
-      <Grid item xs={3}>
-        <IconButton aria-label="Reply" size="small">
+      <Grid item>
+        <IconButton className={icon_button} aria-label="Reply" size="small">
           <ReplyIcon className={reply_icon} />
         </IconButton>
       </Grid>
-      <Grid item xs={3}>
-        <TweetOptionsRetweetMenu fill={fill} />
+      <Grid item>
+        <TweetOptionsRetweetMenu />
       </Grid>
-      <Grid item xs={3}>
-        <TweetOptionsUserMenu fill={fill} user={"user"} />
+      <Grid item>
+        <TweetOptionsUserMenu user={"user"} />
       </Grid>
     </Grid>
   );

@@ -36,23 +36,30 @@ const TweetContainer = withStyles({
 const Tweet = props => {
   const { avatar, tweet_details } = useStyles();
 
+  const higherResAavatar = () => {
+    return props.avatar.replace("normal", "bigger");
+  };
+
   return (
     <TweetContainer>
-      <Grid item xs={2}>
-        <Avatar alt="user avatar" src={props.avatar} className={avatar} />
-      </Grid>
-
-      <Grid className={tweet_details} item xs={10}>
-        {props.retweet && (
+      {props.retweet && (
+        <Grid item xs={12}>
           <RetweeterDetails
             avatar={props.retweeter_avatar}
             handle={props.retweeter_handle}
           />
-        )}
+        </Grid>
+      )}
+      <Grid item xs={2}>
+        <Avatar alt="user avatar" src={higherResAavatar()} className={avatar} />
+      </Grid>
+
+      <Grid className={tweet_details} item xs={10}>
         <TweetUsername
           name={props.name}
           handle={props.handle}
           verified={props.verified}
+          created={props.created}
         />
         <TweetBody full_text={props.full_text} entities={props.entities} />
         <TweetOptions {...props} />

@@ -13,11 +13,21 @@ const useStyles = makeStyles(theme => ({
     fontSize: 14,
     paddingTop: 0,
     paddingBottom: 0
+  },
+  icon_button: {
+    "& svg": {
+      fill: theme.palette.grey[700]
+    },
+    "&:hover": {
+      "& svg": {
+        fill: theme.palette.primary.main
+      }
+    }
   }
 }));
 
-const TweetOptionsRetweetMenu = ({ fill }) => {
-  const { root } = useStyles();
+const TweetOptionsRetweetMenu = props => {
+  const { root, icon_button } = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
@@ -29,14 +39,14 @@ const TweetOptionsRetweetMenu = ({ fill }) => {
         aria-haspopup="true"
         size="small"
         onClick={e => setAnchorEl(e.currentTarget)}
+        className={icon_button}
       >
         <Icon
           path={mdiTwitterRetweet}
-          size={1.1}
+          size={1}
           horizontal
           vertical
           rotate={180}
-          className={fill}
         />
       </IconButton>
       <Menu
