@@ -15,6 +15,7 @@ const useStyles = makeStyles(theme => ({
     paddingBottom: 0
   },
   icon_button: {
+    cursor: "default",
     "& svg": {
       fill: theme.palette.grey[700]
     },

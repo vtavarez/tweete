@@ -10,10 +10,15 @@ import TweetOptionsUserMenu from "./TweetOptionsUserMenu";
 import TweetOptionsRetweetMenu from "./TweetOptionsRetweetMenu";
 
 const useStyles = makeStyles(theme => ({
-  tweet_options: {
-    transform: "translateY(-10px)"
+  grid_container: {
+    transform: "translateX(-10px)",
+    marginBottom: 5
+  },
+  grid_item: {
+    paddingLeft: 10
   },
   icon_button: {
+    cursor: "default",
     "& svg": {
       fill: theme.palette.grey[700],
       width: 22,
@@ -34,7 +39,13 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const TweetOptions = props => {
-  const { tweet_options, selected_icon, reply_icon, icon_button } = useStyles();
+  const {
+    grid_item,
+    grid_container,
+    selected_icon,
+    reply_icon,
+    icon_button
+  } = useStyles();
   const [tweetLiked, setTweetLiked] = useState(false);
 
   const onLikeTweet = e => {
@@ -50,8 +61,8 @@ const TweetOptions = props => {
   }, [props.id]);
 
   return (
-    <Grid className={tweet_options} container alignItems="center" spacing={6}>
-      <Grid item>
+    <Grid className={grid_container} container alignItems="center">
+      <Grid item xs={2} className={grid_item}>
         <IconButton
           className={icon_button}
           aria-label="Like"
@@ -65,15 +76,15 @@ const TweetOptions = props => {
           )}
         </IconButton>
       </Grid>
-      <Grid item>
+      <Grid item xs={2} className={grid_item}>
         <IconButton className={icon_button} aria-label="Reply" size="small">
           <ReplyIcon className={reply_icon} />
         </IconButton>
       </Grid>
-      <Grid item>
+      <Grid item xs={2} className={grid_item}>
         <TweetOptionsRetweetMenu />
       </Grid>
-      <Grid item>
+      <Grid item xs={2}>
         <TweetOptionsUserMenu user={"user"} />
       </Grid>
     </Grid>

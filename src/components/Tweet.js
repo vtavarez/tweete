@@ -37,7 +37,7 @@ const Tweet = props => {
   const { avatar, tweet_details } = useStyles();
 
   const higherResAavatar = () => {
-    return props.avatar.replace("normal", "bigger");
+    return props.avatar.replace("_normal", "");
   };
 
   return (
@@ -61,7 +61,11 @@ const Tweet = props => {
           verified={props.verified}
           created={props.created}
         />
-        <TweetBody full_text={props.full_text} entities={props.entities} />
+        <TweetBody
+          full_text={props.full_text}
+          entities={props.entities}
+          media={props.media}
+        />
         <TweetOptions {...props} />
       </Grid>
     </TweetContainer>

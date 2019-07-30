@@ -6,6 +6,7 @@ a {
   color: #03a9f4;
   text-decoration: none;
   font-weight: 600;
+  cursor: default;
 }
 
 .app--container {
@@ -21,4 +22,8 @@ a {
 
 .app--container::-webkit-scrollbar-track {
   display: none;
+}
+
+.video-react-big-play-button-left {
+  display: none !important;
 }

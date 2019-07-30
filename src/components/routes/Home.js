@@ -6,7 +6,14 @@ import Tweet from "../Tweet";
 const Home = props => {
   if (props.user.timeline) {
     const tweets = props.user.timeline.map(tweet => {
-      const { id, full_text, user, entities, created_at } = tweet;
+      const {
+        id,
+        full_text,
+        user,
+        entities,
+        extended_entities,
+        created_at
+      } = tweet;
       const retweeter_avatar = user.profile_image_url_https;
       const retweeter_handle = user.screen_name;
 
@@ -15,6 +22,7 @@ const Home = props => {
           full_text,
           user,
           entities,
+          extended_entities,
           created_at
         } = tweet.retweeted_status;
 
@@ -24,6 +32,7 @@ const Home = props => {
             id={id}
             full_text={full_text}
             entities={entities}
+            media={extended_entities}
             name={user.name}
             handle={user.screen_name}
             avatar={user.profile_image_url_https}
@@ -42,6 +51,7 @@ const Home = props => {
           id={id}
           full_text={full_text}
           entities={entities}
+          media={extended_entities}
           name={user.name}
           handle={user.screen_name}
           avatar={user.profile_image_url_https}
