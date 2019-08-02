@@ -1,3 +1,3 @@
 ## Tweete
 
-Twitter desktop application for Linux. Built on Electron and React.
+Twitter application for Linux. Built on Electron and React.
