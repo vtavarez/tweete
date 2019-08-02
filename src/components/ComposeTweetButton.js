@@ -10,7 +10,8 @@ const useStyles = makeStyles(theme => ({
     marginLeft: "48px",
     "&:hover": {
       backgroundColor: "transparent"
-    }
+    },
+    cursor: "default"
   },
   tweetIcon: {
     fill: theme.palette.grey[400],

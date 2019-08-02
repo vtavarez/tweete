@@ -7,7 +7,7 @@ import TweetMedia from "./TweetMedia";
 
 const useStyles = makeStyles(theme => ({
   tweetBody: {
-    fontSize: 14,
+    fontSize: props => props.fontSize || 14,
     color: theme.palette.text.secondary,
     userSelect: "none",
     whiteSpace: "pre-line",
@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const TweetBody = props => {
-  const classes = useStyles();
+  let classes = useStyles(props);
 
   const linkTo = event => {
     event.preventDefault();
@@ -34,11 +34,17 @@ const TweetBody = props => {
       });
     }
 
-    const tweet = twitter.autoLink(tweet_text, {
+    if (props.entities.urls.length > 0) {
+      props.entities.urls.forEach(urlObj => {
+        if (urlObj.expanded_url.includes("https://twitter.com/")) {
+          tweet_text = tweet_text.replace(urlObj.url, "");
+        }
+      });
+    }
+
+    return twitter.autoLink(tweet_text, {
       urlEntities: props.entities.urls
     });
-
-    return tweet;
   };
 
   return (

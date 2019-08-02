@@ -7,6 +7,7 @@ import TweetUsername from "./TweetUsername";
 import TweetBody from "./TweetBody";
 import TweetOptions from "./TweetOptions";
 import RetweeterDetails from "./RetweeterDetails";
+import QuotedTweet from "./QuotedTweet";
 
 const styledBy = (property, mapping) => props => mapping[props[property]];
 
@@ -37,7 +38,7 @@ const Tweet = props => {
   const { avatar, tweet_details } = useStyles();
 
   const higherResAavatar = () => {
-    return props.avatar.replace("_normal", "");
+    return props.user.profile_image_url_https.replace("_normal", "");
   };
 
   return (
@@ -56,9 +57,9 @@ const Tweet = props => {
 
       <Grid className={tweet_details} item xs={10}>
         <TweetUsername
-          name={props.name}
-          handle={props.handle}
-          verified={props.verified}
+          name={props.user.name}
+          handle={props.user.screen_name}
+          verified={props.user.verified}
           created={props.created}
         />
         <TweetBody
@@ -66,6 +67,15 @@ const Tweet = props => {
           entities={props.entities}
           media={props.media}
         />
+        {props.quoted && (
+          <QuotedTweet
+            quoted_full_text={props.quoted_full_text}
+            quoted_entities={props.quoted_entities}
+            quoted_media={props.quoted_media}
+            quoted_created={props.quoted_created}
+            quoted_user={props.quoted_user}
+          />
+        )}
         <TweetOptions {...props} />
       </Grid>
     </TweetContainer>

@@ -8,7 +8,7 @@ const useStyles = makeStyles(theme => ({
     marginRight: 10,
     color: theme.palette.grey[500],
     fontWeight: 600,
-    fontSize: 13,
+    fontSize: props => props.fontSize || 13,
     userSelect: "none"
   }
 }));
@@ -33,7 +33,7 @@ moment.updateLocale("en", {
 });
 
 const TweetCreatedAt = props => {
-  const classes = useStyles();
+  const classes = useStyles(props);
   const date = new Date(Date.parse(props.created.replace(/( \+)/, " UTC$1")));
   const [time, setTime] = useState(moment.utc(date).fromNow());
 

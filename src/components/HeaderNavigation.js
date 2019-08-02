@@ -14,7 +14,8 @@ const useStyles = makeStyles(theme => ({
     textAlign: "center",
     textTransform: "capitalize",
     color: theme.palette.grey[300],
-    fontWeight: 500
+    fontWeight: 500,
+    userSelect: "none"
   },
   avatar: {
     margin: "10px 0px 10px 32px",

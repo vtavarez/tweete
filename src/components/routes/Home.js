@@ -14,17 +14,39 @@ const Home = props => {
         extended_entities,
         created_at
       } = tweet;
-      const retweeter_avatar = user.profile_image_url_https;
-      const retweeter_handle = user.screen_name;
 
       if (tweet.retweeted_status) {
-        const {
-          full_text,
-          user,
-          entities,
-          extended_entities,
-          created_at
-        } = tweet.retweeted_status;
+        const retweetedId = tweet.retweeted_status.id;
+        const retweetedFullText = tweet.retweeted_status.full_text;
+        const retweetedUser = tweet.retweeted_status.user;
+        const retweetedEntities = tweet.retweeted_status.entities;
+        const retweetedExtendedEntities =
+          tweet.retweeted_status.extended_entities;
+        const retweetedCreated = tweet.retweeted_status.created_at;
+
+        return (
+          <Tweet
+            key={retweetedId}
+            id={retweetedId}
+            full_text={retweetedFullText}
+            entities={retweetedEntities}
+            media={retweetedExtendedEntities}
+            created={retweetedCreated}
+            user={retweetedUser}
+            retweet={true}
+            quoted={false}
+            retweeter_avatar={user.profile_image_url_https}
+            retweeter_handle={user.screen_name}
+          />
+        );
+      }
+
+      if (tweet.quoted_status) {
+        const quoted_full_text = tweet.quoted_status.full_text;
+        const quoted_user = tweet.quoted_status.user;
+        const quoted_entities = tweet.quoted_status.entities;
+        const quoted_extended_entities = tweet.quoted_status.extended_entities;
+        const quoted_created = tweet.quoted_status.created_at;
 
         return (
           <Tweet
@@ -33,14 +55,15 @@ const Home = props => {
             full_text={full_text}
             entities={entities}
             media={extended_entities}
-            name={user.name}
-            handle={user.screen_name}
-            avatar={user.profile_image_url_https}
-            verified={user.verified}
+            user={user}
+            retweet={false}
+            quoted={true}
             created={created_at}
-            retweet={true}
-            retweeter_avatar={retweeter_avatar}
-            retweeter_handle={retweeter_handle}
+            quoted_full_text={quoted_full_text}
+            quoted_entities={quoted_entities}
+            quoted_media={quoted_extended_entities}
+            quoted_created={quoted_created}
+            quoted_user={quoted_user}
           />
         );
       }
@@ -52,11 +75,9 @@ const Home = props => {
           full_text={full_text}
           entities={entities}
           media={extended_entities}
-          name={user.name}
-          handle={user.screen_name}
-          avatar={user.profile_image_url_https}
-          verified={user.verified}
+          user={user}
           retweet={false}
+          quoted={false}
           created={created_at}
         />
       );

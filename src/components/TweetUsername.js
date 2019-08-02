@@ -10,13 +10,13 @@ const useStyles = makeStyles(theme => ({
     color: theme.palette.text.primary,
     fontWeight: 600,
     userSelect: "none",
-    fontSize: 14
+    fontSize: props => props.fontSize || 14
   },
   handle: {
     marginLeft: 5,
     color: theme.palette.grey[500],
     fontWeight: 300,
-    fontSize: 13,
+    fontSize: props => props.fontSize - 1 || 13,
     userSelect: "none"
   },
   verified: {
@@ -29,7 +29,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const TweetUsername = props => {
-  const classes = useStyles();
+  const classes = useStyles(props);
   const { name, handle } = props;
 
   return (
@@ -47,7 +47,7 @@ const TweetUsername = props => {
         </span>
       )}
       <span className={classes.handle}>{`@${handle}`}</span>
-      <TweetCreatedAt created={props.created} />
+      <TweetCreatedAt created={props.created} fontSize={props.fontSize - 2} />
     </Typography>
   );
 };
