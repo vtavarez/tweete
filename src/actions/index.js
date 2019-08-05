@@ -1,3 +1,4 @@
+import history from "../history";
 import {
   ROUTE_HOME,
   ROUTE_MENTIONS,
@@ -7,9 +8,10 @@ import {
   ROUTE_LIKES,
   ROUTE_FILTERS,
   ROUTE_LISTS,
-  FETCHED_USER
+  FETCHED_USER,
+  FETCHED_TIMELINE,
+  FETCHED_TWEETS
 } from "./types";
-import history from "../routerHistory";
 
 const _route = path => history.push(path);
 
@@ -39,13 +41,36 @@ export const changeRoute = (path, route) => {
 export const fetchUser = () => dispatch => {
   window.ipcRenderer.send("fetch-user", localStorage.getItem("uid"));
 
-  window.ipcRenderer.on("fetched-user", (event, data) => {
-    const [user, timeline] = data;
+  window.ipcRenderer.once("fetched-user", (event, user) => {
     console.log(JSON.parse(user));
-    console.log(JSON.parse(timeline));
     dispatch({
       type: FETCHED_USER,
-      payload: { profile: JSON.parse(user), timeline: JSON.parse(timeline) }
+      payload: JSON.parse(user)
+    });
+  });
+};
+
+export const fetchHomeTimeline = () => dispatch => {
+  window.ipcRenderer.send("fetch-timeline");
+
+  window.ipcRenderer.once("fetched-timeline", (event, timeline) => {
+    console.log(JSON.parse(timeline));
+    localStorage.setItem("timeline", timeline);
+    dispatch({
+      type: FETCHED_TIMELINE,
+      payload: JSON.parse(timeline)
+    });
+  });
+};
+
+export const fetchTweets = () => (dispatch, getState) => {
+  window.ipcRenderer.send("fetch-tweets", getState().tweets[0].id_str);
+
+  window.ipcRenderer.once("fetched-tweets", (event, tweets) => {
+    console.log(JSON.parse(tweets));
+    dispatch({
+      type: FETCHED_TWEETS,
+      payload: JSON.parse(tweets)
     });
   });
 };

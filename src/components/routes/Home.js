@@ -1,11 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
+import { fetchTweets } from "../../actions";
 import Progress from "../Progress";
 import Tweet from "../Tweet";
 
 const Home = props => {
-  if (props.user.timeline) {
-    const tweets = props.user.timeline.map(tweet => {
+  const { tweets, fetchTweets } = props;
+
+  useEffect(() => {
+    let timeout;
+    if (tweets.length > 0) {
+      timeout = setTimeout(() => fetchTweets(), 180000);
+    }
+    return () => clearTimeout(timeout);
+  }, [tweets, fetchTweets]);
+
+  if (props.tweets) {
+    const tweets = props.tweets.map(tweet => {
       const {
         id,
         full_text,
@@ -23,6 +34,39 @@ const Home = props => {
         const retweetedExtendedEntities =
           tweet.retweeted_status.extended_entities;
         const retweetedCreated = tweet.retweeted_status.created_at;
+
+        if (tweet.retweeted_status.quoted_status) {
+          const retweetedQuotedFullText =
+            tweet.retweeted_status.quoted_status.full_text;
+          const retweetedQuotedEntites =
+            tweet.retweeted_status.quoted_status.entities;
+          const retweetedQuotedMedia =
+            tweet.retweeted_status.quoted_status.extended_entities;
+          const retweetedQuotedCreated =
+            tweet.retweeted_status.quoted_status.created_at;
+          const retweetedQuotedUser = tweet.retweeted_status.quoted_status.user;
+
+          return (
+            <Tweet
+              key={retweetedId}
+              id={retweetedId}
+              full_text={retweetedFullText}
+              entities={retweetedEntities}
+              media={retweetedExtendedEntities}
+              created={retweetedCreated}
+              user={retweetedUser}
+              retweet={true}
+              quoted={true}
+              retweeter_avatar={user.profile_image_url_https}
+              retweeter_handle={user.screen_name}
+              quoted_full_text={retweetedQuotedFullText}
+              quoted_entities={retweetedQuotedEntites}
+              quoted_media={retweetedQuotedMedia}
+              quoted_created={retweetedQuotedCreated}
+              quoted_user={retweetedQuotedUser}
+            />
+          );
+        }
 
         return (
           <Tweet
@@ -90,7 +134,10 @@ const Home = props => {
 };
 
 const mapStateToProps = state => ({
-  user: state.user
+  tweets: state.tweets
 });
 
-export default connect(mapStateToProps)(Home);
+export default connect(
+  mapStateToProps,
+  { fetchTweets }
+)(Home);

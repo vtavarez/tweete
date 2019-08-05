@@ -3,7 +3,7 @@ import "../css/index.css";
 
 // React Router
 import { Router, Switch, Route } from "react-router-dom";
-import history from "../routerHistory";
+import history from "../history";
 
 // Material UI
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -56,7 +56,7 @@ const theme = createMuiTheme({
     },
     text: {
       primary: lightBlue[500],
-      secondary: grey[50],
+      secondary: grey[200],
       disabled: grey[200]
     }
   }

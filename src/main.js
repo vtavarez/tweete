@@ -114,6 +114,18 @@ ipcMain.on("fetch-user", (event, uid) => {
     );
   });
 
+  user
+    .then(data => {
+      event.sender.send("fetched-user", data);
+    })
+    .catch(err => {
+      console.log(err);
+    });
+});
+
+// Fetch home timeline listener.
+
+ipcMain.on("fetch-timeline", event => {
   const timeline = new Promise((resolve, reject) => {
     twitterAPI.getHomeTimeline(
       { count: "20", tweet_mode: "extended" },
@@ -126,9 +138,37 @@ ipcMain.on("fetch-user", (event, uid) => {
     );
   });
 
-  Promise.all([user, timeline]).then(data => {
-    return event.sender.send("fetched-user", data);
+  timeline
+    .then(data => {
+      event.sender.send("fetched-timeline", data);
+    })
+    .catch(err => {
+      console.log(err);
+    });
+});
+
+// Fetch tweets listener.
+
+ipcMain.on("fetch-tweets", (event, id) => {
+  const tweets = new Promise((resolve, reject) => {
+    twitterAPI.getHomeTimeline(
+      { since_id: id, tweet_mode: "extended" },
+      (error, response, body) => {
+        reject(error);
+      },
+      response => {
+        resolve(response);
+      }
+    );
   });
+
+  tweets
+    .then(data => {
+      event.sender.send("fetched-tweets", data);
+    })
+    .catch(err => {
+      console.log(err);
+    });
 });
 
 app.on("ready", createMainWindow);

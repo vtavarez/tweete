@@ -84,8 +84,8 @@ const TweetOptions = props => {
       <Grid item xs={2} className={grid_item}>
         <TweetOptionsRetweetMenu />
       </Grid>
-      <Grid item xs={2}>
-        <TweetOptionsUserMenu user={"user"} />
+      <Grid item xs={2} className={grid_item}>
+        <TweetOptionsUserMenu user={props.user.screen_name} />
       </Grid>
     </Grid>
   );

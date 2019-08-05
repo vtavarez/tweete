@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
     height: 45
   },
   tweet_details: {
-    borderBottom: "1px solid #424242"
+    borderBottom: "1px solid rgba(66,66,66,.3)"
   }
 }));
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { withStyles, makeStyles } from "@material-ui/styles";
-import { fetchUser } from "../actions";
+import { fetchUser, fetchHomeTimeline } from "../actions";
 import Modal from "@material-ui/core/Modal";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
@@ -12,14 +12,14 @@ import Icon from "@mdi/react";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { ReactComponent as Logo } from "../logo.svg";
 
-const StyledContainer = withStyles({
+const StyledContainer = withStyles(theme => ({
   root: {
     position: "absolute",
-    backgroundColor: "#2e2c29",
+    backgroundColor: theme.palette.grey[900],
     width: "100vw",
     height: "100vh"
   }
-})(Container);
+}))(Container);
 
 const Title = withStyles(theme => ({
   root: {
@@ -60,30 +60,32 @@ const LoginWithTwitter = props => {
   const [open, setOpen] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const { logo, button, buttonIcon, progress, gridContainer } = useStyles();
-  const { fetchUser } = props;
+  const { fetchUser, fetchHomeTimeline } = props;
 
   useEffect(() => {
-    if (props.user.profile) {
+    if (props.user.id) {
       setIsLoading(false);
       setOpen(false);
     }
 
-    if (localStorage.getItem("authenticated") && !props.user.profile) {
+    if (localStorage.getItem("authenticated") && !props.user.id) {
       setIsLoading(false);
       setOpen(false);
       fetchUser();
+      fetchHomeTimeline();
     } else {
       window.ipcRenderer.on("twitter-oauth-completed", (event, uid) => {
         localStorage.setItem("uid", uid);
         localStorage.setItem("authenticated", "true");
         fetchUser();
+        fetchHomeTimeline();
       });
     }
 
     window.ipcRenderer.on("twitter-oauth-cancelled", () => {
       setIsLoading(false);
     });
-  }, [props.user, fetchUser]);
+  }, [props.user, fetchUser, fetchHomeTimeline]);
 
   const oAuthFlow = () => {
     window.ipcRenderer.send("twitter-oauth");
@@ -150,5 +152,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { fetchUser }
+  { fetchUser, fetchHomeTimeline }
 )(LoginWithTwitter);

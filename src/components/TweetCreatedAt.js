@@ -6,8 +6,8 @@ const useStyles = makeStyles(theme => ({
   created_time: {
     float: "right",
     marginRight: 10,
-    color: theme.palette.grey[500],
-    fontWeight: 600,
+    color: theme.palette.grey[400],
+    fontWeight: 500,
     fontSize: props => props.fontSize || 13,
     userSelect: "none"
   }

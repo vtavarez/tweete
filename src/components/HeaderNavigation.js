@@ -8,7 +8,7 @@ import ComposeTweetButton from "./ComposeTweetButton";
 
 const useStyles = makeStyles(theme => ({
   grid: {
-    backgroundColor: "#424242"
+    backgroundColor: theme.palette.grey[800]
   },
   title: {
     textAlign: "center",
@@ -32,11 +32,7 @@ const HeaderNavigation = props => {
       <Grid item xs={3}>
         <Avatar
           alt="user avatar"
-          src={
-            props.user.profile
-              ? props.user.profile.profile_image_url_https
-              : null
-          }
+          src={props.user ? props.user.profile_image_url_https : null}
           className={classes.avatar}
         />
       </Grid>

@@ -1,5 +1,5 @@
 body {
-  background-color: #2e2c29 !important;
+  background-color: #212121 !important;
 }
 
 a {
@@ -9,11 +9,16 @@ a {
   cursor: default;
 }
 
+a:active {
+  color: skyblue;
+}
+
 .app--container {
   max-width: 500px;
   height: calc(100vh - 54px);
   overflow: scroll;
-  background-color: #2e2c29 !important;
+  background-color: #212121 !important;
+  transition: height 0.5s linear;
 }
 
 .app--container::-webkit-scrollbar {

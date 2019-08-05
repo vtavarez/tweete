@@ -43,7 +43,8 @@ const TweetBody = props => {
     }
 
     return twitter.autoLink(tweet_text, {
-      urlEntities: props.entities.urls
+      urlEntities: props.entities.urls,
+      usernameIncludeSymbol: true
     });
   };
 
