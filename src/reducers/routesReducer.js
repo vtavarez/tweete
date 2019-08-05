@@ -12,21 +12,21 @@ import {
 export default (state = "home", action) => {
   switch (action.type) {
     case ROUTE_HOME:
-      return action.payload;
+      return "home";
     case ROUTE_MENTIONS:
-      return action.payload;
+      return "mentions";
     case ROUTE_MESSAGES:
-      return action.payload;
+      return "messages";
     case ROUTE_SEARCH:
-      return action.payload;
+      return "search";
     case ROUTE_PROFILE:
-      return action.payload;
+      return "profile";
     case ROUTE_LIKES:
-      return action.payload;
+      return "likes";
     case ROUTE_FILTERS:
-      return action.payload;
+      return "filters";
     case ROUTE_LISTS:
-      return action.payload;
+      return "lists";
     default:
       return state;
   }

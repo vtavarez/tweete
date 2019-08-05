@@ -13,27 +13,27 @@ import {
   FETCHED_TWEETS
 } from "./types";
 
-const _route = path => history.push(path);
+const route = path => history.push(path);
 
-export const changeRoute = (path, route) => {
-  _route(path);
-  switch (route) {
-    case "home":
-      return { type: ROUTE_HOME, payload: route };
-    case "mentions":
-      return { type: ROUTE_MENTIONS, payload: route };
-    case "messages":
-      return { type: ROUTE_MESSAGES, payload: route };
-    case "search":
-      return { type: ROUTE_SEARCH, payload: route };
-    case "profile":
-      return { type: ROUTE_PROFILE, payload: route };
-    case "likes":
-      return { type: ROUTE_LIKES, payload: route };
-    case "filters":
-      return { type: ROUTE_FILTERS, payload: route };
-    case "lists":
-      return { type: ROUTE_LISTS, payload: route };
+export const changeRoute = path => {
+  route(path);
+  switch (path) {
+    case "/":
+      return { type: ROUTE_HOME };
+    case "/Mentions":
+      return { type: ROUTE_MENTIONS };
+    case "/Messages":
+      return { type: ROUTE_MESSAGES };
+    case "/Search":
+      return { type: ROUTE_SEARCH };
+    case "/Profile":
+      return { type: ROUTE_PROFILE };
+    case "/Likes":
+      return { type: ROUTE_LIKES };
+    case "/Filters":
+      return { type: ROUTE_FILTERS };
+    case "/Lists":
+      return { type: ROUTE_LISTS };
     default:
   }
 };
