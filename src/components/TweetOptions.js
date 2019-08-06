@@ -31,7 +31,7 @@ const useStyles = makeStyles(theme => ({
     }
   },
   selected_icon: {
-    fill: theme.palette.primary.main + "!important"
+    fill: theme.palette.secondary.main + "!important"
   },
   reply_icon: {
     transform: "scaleX(-1) rotate(180deg)"

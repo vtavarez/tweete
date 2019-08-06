@@ -13,6 +13,7 @@ const useStyles = makeStyles(theme => ({
   root: {
     borderRadius: 0,
     color: theme.palette.text.secondary,
+    cursor: "default",
     "&:hover": {
       backgroundColor: "transparent",
       color: theme.palette.text.primary

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { changeRoute } from "../actions";
+import { changeRoute, fetchTweets } from "../actions";
 import { makeStyles } from "@material-ui/core/styles";
 import BottomNavigation from "@material-ui/core/BottomNavigation";
 import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
@@ -17,60 +17,60 @@ const useStyles = makeStyles({
     position: "fixed",
     bottom: 0,
     width: "100%",
-    maxWidth: 500
+    maxWidth: 500,
+    backgroundColor: "#2d2c2f"
+  },
+  action: {
+    cursor: "default"
   }
 });
 
 const FooterNavigation = props => {
-  const classes = useStyles();
-  const [homeBadgeInvisible, setHomeBadgeInvisible] = useState(false);
+  const { route, tweets, changeRoute, fetchTweets } = props;
+  const { nav, action } = useStyles();
   const [mentionsBadgeInvisible, setMentionsBadgeInvisible] = useState(false);
   const [messagesBadgeInvisible, setMessagesBadgeInvisible] = useState(false);
-
-  useEffect(() => {
-    if (props.route === "home") setHomeBadgeInvisible(true);
-  }, [props.route]);
+  const [homeBadgeInvisible, setHomeBadgeInvisible] = useState(true);
+  const [stateTweetsLength, setStateTweetsLength] = useState(0);
 
   const handleRoute = (event, route) => {
     switch (route) {
       case "home":
-        props.changeRoute("/");
+        changeRoute("/");
+        fetchTweets();
         setHomeBadgeInvisible(true);
         break;
       case "mentions":
-        props.changeRoute("/Mentions");
+        changeRoute("/Mentions");
         setMentionsBadgeInvisible(true);
         break;
       case "messages":
-        props.changeRoute("/Messages");
+        changeRoute("/Messages");
         setMessagesBadgeInvisible(true);
         break;
       case "search":
-        props.changeRoute("/Search");
+        changeRoute("/Search");
         break;
       case "profile":
-        props.changeRoute("/Profile");
+        changeRoute("/Profile");
         break;
       case "likes":
-        props.changeRoute("/Likes");
+        changeRoute("/Likes");
         break;
       case "filters":
-        props.changeRoute("/Filters");
+        changeRoute("/Filters");
         break;
       case "lists":
-        props.changeRoute("/Lists");
+        changeRoute("/Lists");
         break;
       default:
     }
   };
 
   return (
-    <BottomNavigation
-      className={classes.nav}
-      value={props.route}
-      onChange={handleRoute}
-    >
+    <BottomNavigation className={nav} value={route} onChange={handleRoute}>
       <BottomNavigationAction
+        className={action}
         label="Home"
         value="home"
         icon={
@@ -81,6 +81,7 @@ const FooterNavigation = props => {
       />
 
       <BottomNavigationAction
+        className={action}
         label="Mentions"
         value="mentions"
         icon={
@@ -95,6 +96,7 @@ const FooterNavigation = props => {
       />
 
       <BottomNavigationAction
+        className={action}
         label="Messages"
         value="messages"
         icon={
@@ -109,20 +111,23 @@ const FooterNavigation = props => {
       />
 
       <BottomNavigationAction
+        className={action}
         label="Search"
         value="search"
         icon={<SearchIcon />}
       />
 
       <BottomNavigationAction
+        className={action}
         label="Profile"
         value="profile"
         icon={<ProfileIcon />}
       />
 
       <FooterNavVertMenu
+        className={action}
         selectRoute={(e, route) => handleRoute(e, route)}
-        selectedRoute={props.route}
+        selectedRoute={route}
       />
     </BottomNavigation>
   );
@@ -130,13 +135,12 @@ const FooterNavigation = props => {
 
 const mapStateToProps = state => {
   return {
-    route: state.route
+    route: state.route,
+    tweets: state.tweets
   };
 };
 
 export default connect(
   mapStateToProps,
-  {
-    changeRoute
-  }
+  { changeRoute, fetchTweets }
 )(FooterNavigation);

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { withStyles, makeStyles } from "@material-ui/styles";
-import { fetchUser, fetchHomeTimeline } from "../actions";
+import { beginOAuth, fetchUser, fetchHomeTimeline } from "../actions";
 import Modal from "@material-ui/core/Modal";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
@@ -60,35 +60,28 @@ const LoginWithTwitter = props => {
   const [open, setOpen] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const { logo, button, buttonIcon, progress, gridContainer } = useStyles();
-  const { fetchUser, fetchHomeTimeline } = props;
+  const { oauth, beginOAuth, fetchUser, fetchHomeTimeline } = props;
 
   useEffect(() => {
-    if (props.user.id) {
+    if (oauth === "oauth-completed") {
       setIsLoading(false);
       setOpen(false);
     }
 
-    if (localStorage.getItem("authenticated") && !props.user.id) {
+    if (localStorage.getItem("authenticated") && !oauth) {
       setIsLoading(false);
       setOpen(false);
       fetchUser();
       fetchHomeTimeline();
-    } else {
-      window.ipcRenderer.on("twitter-oauth-completed", (event, uid) => {
-        localStorage.setItem("uid", uid);
-        localStorage.setItem("authenticated", "true");
-        fetchUser();
-        fetchHomeTimeline();
-      });
     }
 
-    window.ipcRenderer.on("twitter-oauth-cancelled", () => {
+    if (oauth === "oauth-cancelled") {
       setIsLoading(false);
-    });
-  }, [props.user, fetchUser, fetchHomeTimeline]);
+    }
+  }, [oauth, fetchUser, fetchHomeTimeline]);
 
   const oAuthFlow = () => {
-    window.ipcRenderer.send("twitter-oauth");
+    beginOAuth();
     setIsLoading(true);
   };
 
@@ -147,10 +140,10 @@ const LoginWithTwitter = props => {
 };
 
 const mapStateToProps = state => ({
-  user: state.user
+  oauth: state.oauth
 });
 
 export default connect(
   mapStateToProps,
-  { fetchUser, fetchHomeTimeline }
+  { fetchUser, fetchHomeTimeline, beginOAuth }
 )(LoginWithTwitter);

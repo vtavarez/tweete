@@ -8,11 +8,14 @@ import {
   ROUTE_LIKES,
   ROUTE_FILTERS,
   ROUTE_LISTS,
+  OAUTH_CANCELLED,
+  OAUTH_COMPLETED,
   FETCHED_USER,
   FETCHED_TIMELINE,
   FETCHED_TWEETS
 } from "./types";
 
+const ipcRenderer = window.require("electron").ipcRenderer;
 const route = path => history.push(path);
 
 export const changeRoute = path => {
@@ -38,10 +41,30 @@ export const changeRoute = path => {
   }
 };
 
-export const fetchUser = () => dispatch => {
-  window.ipcRenderer.send("fetch-user", localStorage.getItem("uid"));
+export const beginOAuth = () => dispatch => {
+  ipcRenderer.send("twitter-oauth");
 
-  window.ipcRenderer.once("fetched-user", (event, user) => {
+  ipcRenderer.once("twitter-oauth-response", (event, uid) => {
+    if (!uid) {
+      dispatch({
+        type: OAUTH_CANCELLED
+      });
+    } else {
+      localStorage.setItem("uid", uid);
+      localStorage.setItem("authenticated", "true");
+      dispatch(fetchUser());
+      dispatch(fetchHomeTimeline());
+      dispatch({
+        type: OAUTH_COMPLETED
+      });
+    }
+  });
+};
+
+export const fetchUser = () => dispatch => {
+  ipcRenderer.send("fetch-user", localStorage.getItem("uid"));
+
+  ipcRenderer.once("fetched-user", (event, user) => {
     console.log(JSON.parse(user));
     dispatch({
       type: FETCHED_USER,
@@ -51,9 +74,9 @@ export const fetchUser = () => dispatch => {
 };
 
 export const fetchHomeTimeline = () => dispatch => {
-  window.ipcRenderer.send("fetch-timeline");
+  ipcRenderer.send("fetch-timeline");
 
-  window.ipcRenderer.once("fetched-timeline", (event, timeline) => {
+  ipcRenderer.once("fetched-timeline", (event, timeline) => {
     console.log(JSON.parse(timeline));
     localStorage.setItem("timeline", timeline);
     dispatch({
@@ -64,10 +87,9 @@ export const fetchHomeTimeline = () => dispatch => {
 };
 
 export const fetchTweets = () => (dispatch, getState) => {
-  window.ipcRenderer.send("fetch-tweets", getState().tweets[0].id_str);
+  ipcRenderer.send("fetch-tweets", getState().tweets[0].id_str);
 
-  window.ipcRenderer.once("fetched-tweets", (event, tweets) => {
-    console.log(JSON.parse(tweets));
+  ipcRenderer.once("fetched-tweets", (event, tweets) => {
     dispatch({
       type: FETCHED_TWEETS,
       payload: JSON.parse(tweets)

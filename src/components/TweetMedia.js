@@ -1,5 +1,6 @@
 import React from "react";
 import Box from "@material-ui/core/Box";
+import Gallery from "react-photo-gallery";
 import "video-react/dist/video-react.css";
 import { makeStyles } from "@material-ui/core/styles";
 import {
@@ -7,21 +8,14 @@ import {
   ControlBar,
   Shortcut,
   PlayToggle,
-  FullscreenToggle
+  FullscreenToggle,
+  LoadingSpinner
 } from "video-react";
 
 const useStyles = makeStyles(theme => ({
   media_container: {
     margin: "5px 0",
     width: "fit-content"
-  },
-  img_container: {
-    maxWidth: 390
-  },
-  img: {
-    width: "100%",
-    height: "auto",
-    borderRadius: 5
   },
   video: {
     borderRadius: 5,
@@ -33,7 +27,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const TweetMedia = props => {
-  const { media_container, img_container, img, video } = useStyles();
+  const { media_container, video } = useStyles();
   const { media } = props.media;
   let control;
 
@@ -47,11 +41,12 @@ const TweetMedia = props => {
 
   const content = media.map(media => {
     if (media.type === "photo") {
-      return (
-        <Box key={media.id} className={img_container}>
-          <img className={img} src={media.media_url_https} alt="" />
-        </Box>
-      );
+      return {
+        src: media.media_url_https,
+        width: media.sizes.large.w,
+        height: media.sizes.large.h,
+        alt: "gallery"
+      };
     }
 
     if (media.type === "video") {
@@ -77,9 +72,10 @@ const TweetMedia = props => {
             }`}
           >
             <source
-              src={media.video_info.variants[2].url}
-              type={media.video_info.variants[2].content_type}
+              src={media.video_info.variants[1].url}
+              type={media.video_info.variants[1].content_type}
             />
+            <LoadingSpinner disabled />
             <Shortcut disabled />
             <ControlBar autoHideTime={1000}>
               <PlayToggle disabled />
@@ -117,6 +113,7 @@ const TweetMedia = props => {
               src={media.video_info.variants[0].url}
               type={media.video_info.variants[0].content_type}
             />
+            <LoadingSpinner disabled />
             <Shortcut disabled />
             <ControlBar disabled />
           </Player>
@@ -126,6 +123,10 @@ const TweetMedia = props => {
 
     return <Box key={media.id} />;
   });
+
+  if (content[0].alt) {
+    return <Gallery photos={content} />;
+  }
 
   return <Box className={media_container}>{content}</Box>;
 };

@@ -30,8 +30,7 @@ function createMainWindow() {
     title: "Tweete",
     icon: join(__dirname, "/icon.png"),
     webPreferences: {
-      nodeIntegration: true,
-      preload: join(__dirname, "/preload.js")
+      nodeIntegration: true
     }
   });
 
@@ -72,12 +71,12 @@ ipcMain.on("twitter-oauth", async (event, args) => {
   const uid = uuidv1();
 
   if (oAuthResponse === "closed window") {
-    return event.sender.send("twitter-oauth-cancelled");
+    return event.sender.send("twitter-oauth-response", null);
   }
 
   localStorage.setItem(uid, JSON.stringify(oAuthResponse));
 
-  return event.sender.send("twitter-oauth-completed", uid);
+  return event.sender.send("twitter-oauth-response", uid);
 });
 
 // Configures twitter-node-client for authenticated user.

@@ -1,22 +1,31 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
+import { makeStyles } from "@material-ui/core/styles";
 import { fetchTweets } from "../../actions";
 import Progress from "../Progress";
 import Tweet from "../Tweet";
 
+const useStyles = makeStyles(theme => ({
+  timeline_container: {
+    margin: "54px 0",
+    overflowX: "hidden"
+  }
+}));
+
 const Home = props => {
   const { tweets, fetchTweets } = props;
+  const { timeline_container } = useStyles();
 
   useEffect(() => {
     let timeout;
     if (tweets.length > 0) {
-      timeout = setTimeout(() => fetchTweets(), 180000);
+      timeout = setTimeout(() => fetchTweets(), 120000);
     }
     return () => clearTimeout(timeout);
   }, [tweets, fetchTweets]);
 
-  if (props.tweets) {
-    const tweets = props.tweets.map(tweet => {
+  if (tweets.length > 0) {
+    const timeline = tweets.map(tweet => {
       const {
         id,
         full_text,
@@ -127,7 +136,7 @@ const Home = props => {
       );
     });
 
-    return <div>{tweets}</div>;
+    return <div className={timeline_container}>{timeline}</div>;
   }
 
   return <Progress />;

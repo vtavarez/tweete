@@ -2,6 +2,13 @@ body {
   background-color: #212121 !important;
 }
 
+body::-webkit-scrollbar {
+  display: none;
+}
+body::-webkit-scrollbar-track {
+  display: none;
+}
+
 a {
   color: #03a9f4;
   text-decoration: none;
@@ -13,20 +20,13 @@ a:active {
   color: skyblue;
 }
 
+img {
+  border-radius: 5px;
+}
+
 .app--container {
   max-width: 500px;
-  height: calc(100vh - 54px);
-  overflow: scroll;
   background-color: #212121 !important;
-  transition: height 0.5s linear;
-}
-
-.app--container::-webkit-scrollbar {
-  display: none;
-}
-
-.app--container::-webkit-scrollbar-track {
-  display: none;
 }
 
 .video-react-big-play-button-left {

@@ -5,12 +5,13 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 const useStyles = makeStyles({
   progressContainer: {
     position: "relative",
-    top: "50%",
-    marginTop: "-20px"
+    height: "100vh"
   },
   progress: {
     position: "absolute",
+    top: "50%",
     left: "50%",
+    marginTop: "-20px",
     marginLeft: "-20px"
   }
 });
