@@ -22,6 +22,7 @@
 .env.test.local
 .env.production.local
 .vscode
+._*
 
 npm-debug.log*
 yarn-debug.log*
