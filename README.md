@@ -21,23 +21,21 @@ npm install
 1. Head to [developer.twitter.com](https://developer.twitter.com/en/apply-for-access) and apply for twitter api access.
 2. Create a a data directory in the src folder and create a config.json file holding your api key and secret provided by twitter.
 
-`
+<code>
 /src/data/config.json
 
 {
 "key": KEY,
 "secret": SECRET
 }
-
-`
+</code>
 
 ## Build
 
-`
+<code>
 npm pre-electron-pack
 npm electron-pack
-
-`
+</code>
 
 - "pre-electron-pack" will build CRA.
 - "electron-pack" packages the CRA build files, assets, and app dependencies for distribution via Snapcraft.
