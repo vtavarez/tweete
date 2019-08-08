@@ -10,16 +10,15 @@ Twitter application for Linux. Built on Electron and React.
 
 ## Installation
 
-`
+```
 git clone
 npm install
-
-`
+```
 
 ## Setup
 
 1. Head to [developer.twitter.com](https://developer.twitter.com/en/apply-for-access) and apply for twitter api access.
-2. Create a a data directory in the src folder and create a config.json file holding your api key and secret provided by twitter.
+2. Create a directory named "data" in the src directory, and generate a config.json file with your twitter api key and secret.
 
 ```
 /src/data/config.json
@@ -28,19 +27,23 @@ npm install
 "key": KEY,
 "secret": SECRET
 }
-
 ```
 
+## Run
+
+Once you've done the installation and setup steps above, you can run the app with `npm start`.
+
 ## Build
+
+When your ready to deploy, run the npm scripts below.
 
 ```
 npm pre-electron-pack
 npm electron-pack
-
 ```
 
-- "pre-electron-pack" will build CRA.
-- "electron-pack" packages the CRA build files, assets, and app dependencies for distribution via Snapcraft.
+`pre-electron-pack` will build CRA.
+`electron-pack` will package the CRA build files, assets, and app dependencies for distribution via Snapcraft.
 
 ## Inspiration & Thanks
 
