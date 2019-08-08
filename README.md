@@ -42,8 +42,9 @@ npm pre-electron-pack
 npm electron-pack
 ```
 
-`pre-electron-pack` will build CRA.
-`electron-pack` will package the CRA build files, assets, and app dependencies for distribution via Snapcraft.
+`pre-electron-pack` will run the CRA build process.
+
+`electron-pack` will package the CRA build files, any assets in src assets folder, and app dependencies for distribution via Snapcraft.
 
 ## Inspiration & Thanks
 
