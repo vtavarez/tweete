@@ -6,7 +6,7 @@ const { Twitter } = require("twitter-node-client");
 const { LocalStorage } = require("node-localstorage");
 const uuidv1 = require("uuid/v1");
 const config = require("./data/config");
-const localStorage = new LocalStorage("./src/data");
+const localStorage = new LocalStorage("./data");
 
 let mainWindow;
 let oAuthWindow;
@@ -28,7 +28,7 @@ function createMainWindow() {
     maxWidth: 500,
     minHeight: 800,
     title: "Tweete",
-    icon: join(__dirname, "/icon.png"),
+    icon: join(__dirname, "/assets/icon.png"),
     webPreferences: {
       nodeIntegration: true
     }

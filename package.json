@@ -2,6 +2,24 @@
   "name": "Tweete",
   "version": "0.1.0",
   "private": true,
+  "author": {
+    "name": "Victor Tavarez",
+    "email": "hello@victortavarez.dev",
+    "url": "https://victortavarez.dev"
+  },
+  "build": {
+    "appId": "com.electron.${name}",
+    "productName": "Tweete",
+    "copyright": "Copyright © 2019 ${author}",
+    "files": [
+      "build/**/*",
+      "node_modules/**/*"
+    ],
+    "directories": {
+      "buildResources": "src/assets"
+    }
+  },
+  "license": "GPL-3.0",
   "dependencies": {
     "@material-ui/core": "^4.2.1",
     "@material-ui/icons": "^4.2.1",
@@ -26,6 +44,7 @@
     "uuid": "^3.3.2",
     "video-react": "^0.14.1"
   },
+  "homepage": "./",
   "main": "src/main.js",
   "scripts": {
     "react-start": "react-scripts start",
@@ -33,7 +52,10 @@
     "start": "concurrently \"npm run react-start\" \"wait-on http://127.0.0.1:3000/ && npm run electron-dev\"",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "postinstall": "electron-builder install-app-deps",
+    "pre-electron-pack": "npm build",
+    "electron-pack": "build --linux snap"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -53,7 +75,7 @@
   "devDependencies": {
     "concurrently": "^4.1.1",
     "electron": "^5.0.7",
+    "electron-builder": "^21.2.0",
     "wait-on": "^3.3.0"
-  },
-  "homepage": "./"
+  }
 }
