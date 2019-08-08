@@ -1,4 +1,4 @@
-[![GitHub version](https://badge.fury.io/gh/vtavarez%2FTweete.svg)](https://badge.fury.io/gh/vtavarez%2FTweete)
+![GitHub package.json version](https://img.shields.io/github/package-json/v/vtavarez/Tweete?color=28a745)
 
 ## Tweete
 
