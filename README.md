@@ -22,19 +22,24 @@ npm install
 2. Create a a data directory in the src folder and create a config.json file holding your api key and secret provided by twitter.
 
 <code>
-/src/data/config.json
 
+/src/data/config.json
+<br>
 {
 "key": KEY,
 "secret": SECRET
 }
+
 </code>
 
 ## Build
 
 <code>
+
 npm pre-electron-pack
+<br>
 npm electron-pack
+
 </code>
 
 - "pre-electron-pack" will build CRA.
