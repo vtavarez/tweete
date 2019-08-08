@@ -1,3 +1,5 @@
+[![GitHub version](https://badge.fury.io/gh/vtavarez%2FTweete.svg)](https://badge.fury.io/gh/vtavarez%2FTweete)
+
 ## Tweete
 
 Twitter application for Linux. Built on Electron and React.
