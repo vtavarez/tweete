@@ -16,7 +16,7 @@
       "node_modules/**/*"
     ],
     "directories": {
-      "buildResources": "src/assets"
+      "buildResources": "assets"
     }
   },
   "license": "GPL-3.0",
@@ -45,17 +45,16 @@
     "video-react": "^0.14.1"
   },
   "homepage": "./",
-  "main": "src/main.js",
+  "main": "public/electron.js",
   "scripts": {
     "react-start": "react-scripts start",
     "electron-dev": "DEV_URL=http://127.0.0.1:3000/ electron .",
-    "start": "concurrently \"npm run react-start\" \"wait-on http://127.0.0.1:3000/ && npm run electron-dev\"",
+    "start": "concurrently \"BROWSER=none npm run react-start\" \"wait-on http://127.0.0.1:3000/ && npm run electron-dev\"",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "postinstall": "electron-builder install-app-deps",
-    "pre-electron-pack": "npm build",
-    "electron-pack": "build --linux snap"
+    "pre-electron-pack": "npm run build",
+    "electron-pack": "electron-builder build --linux snap"
   },
   "eslintConfig": {
     "extends": "react-app"

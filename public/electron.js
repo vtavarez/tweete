@@ -5,7 +5,7 @@ const { format } = require("url");
 const { Twitter } = require("twitter-node-client");
 const { LocalStorage } = require("node-localstorage");
 const uuidv1 = require("uuid/v1");
-const config = require("./data/config");
+const config = require("./config");
 const localStorage = new LocalStorage("./data");
 
 let mainWindow;

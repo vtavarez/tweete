@@ -10,9 +10,11 @@
 
 # production
 /build
+/dist
 
 #data
-/src/data
+/public/config.json
+/data
 /scratch
 
 # misc
