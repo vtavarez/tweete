@@ -20,10 +20,10 @@ npm install
 ## Setup
 
 1. Head to [developer.twitter.com](https://developer.twitter.com/en/apply-for-access) and apply for twitter api access.
-2. Generate a config.json file in the public directory with your twitter api key and secret.
+2. Generate a config.json file in the app public directory with your twitter api key and secret.
 
 ```
-./config.json
+./public/config.json
 
 {
 "key": KEY,
