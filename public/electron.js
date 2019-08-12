@@ -28,7 +28,7 @@ function createMainWindow() {
     maxWidth: 500,
     minHeight: 800,
     title: "Tweete",
-    icon: join(__dirname, "/assets/icon.png"),
+    icon: join(__dirname, "/../assets/icon.png"),
     webPreferences: {
       nodeIntegration: true
     }
