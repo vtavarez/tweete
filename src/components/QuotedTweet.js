@@ -1,7 +1,7 @@
 import React from "react";
 import { withStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
-import TweetUsername from "./TweetUsername";
+import TweetHeader from "./TweetHeader";
 import TweetBody from "./TweetBody";
 import RetweeterDetails from "./RetweeterDetails";
 
@@ -22,29 +22,38 @@ const TweetContainer = withStyles({
 ));
 
 const Tweet = props => {
+  const {
+    retweeterAvatar,
+    retweeterHandle,
+    quotedUser,
+    quotedFullText,
+    quotedEntities,
+    quotedMedia,
+    quotedCreated,
+    quotedReply
+  } = props;
+
   return (
     <TweetContainer color={"highlight"}>
       {props.retweet && (
         <Grid item xs={12}>
-          <RetweeterDetails
-            avatar={props.retweeter_avatar}
-            handle={props.retweeter_handle}
-          />
+          <RetweeterDetails avatar={retweeterAvatar} handle={retweeterHandle} />
         </Grid>
       )}
       <Grid item xs={12}>
-        <TweetUsername
-          name={props.quoted_user.name}
-          handle={props.quoted_user.screen_name}
-          verified={props.quoted_user.verified}
-          created={props.quoted_created}
+        <TweetHeader
+          name={quotedUser.name}
+          handle={quotedUser.screen_name}
+          verified={quotedUser.verified}
+          created={quotedCreated}
           quoted={true}
           fontSize={13}
+          reply={quotedReply}
         />
         <TweetBody
-          full_text={props.quoted_full_text}
-          entities={props.quoted_entities}
-          media={props.quoted_media}
+          fullText={quotedFullText}
+          entities={quotedEntities}
+          media={quotedMedia}
           fontSize={12}
         />
       </Grid>

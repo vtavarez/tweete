@@ -4,6 +4,7 @@ import { mdiCheckDecagram } from "@mdi/js";
 import Icon from "@mdi/react";
 import { makeStyles } from "@material-ui/core/styles";
 import TweetCreatedAt from "./TweetCreatedAt";
+import ReplyIcon from "@material-ui/icons/ForumOutlined";
 
 const useStyles = makeStyles(theme => ({
   name: {
@@ -25,17 +26,27 @@ const useStyles = makeStyles(theme => ({
     width: 15,
     height: 15,
     top: 3
+  },
+  reply: {
+    position: "relative",
+    display: "inline",
+    float: "right",
+    fill: theme.palette.grey[700],
+    width: 15,
+    height: 15,
+    top: 3,
+    transform: "translateX(-5px)"
   }
 }));
 
-const TweetUsername = props => {
+const TweetHeader = props => {
   const classes = useStyles(props);
-  const { name, handle } = props;
+  const { name, handle, reply, verified, created, fontSize } = props;
 
   return (
     <Typography variant="subtitle2" className={classes.name}>
       {name}
-      {props.verified && (
+      {verified && (
         <span className={classes.handle}>
           <Icon
             path={mdiCheckDecagram}
@@ -47,9 +58,10 @@ const TweetUsername = props => {
         </span>
       )}
       <span className={classes.handle}>{`@${handle}`}</span>
-      <TweetCreatedAt created={props.created} fontSize={props.fontSize - 2} />
+      <TweetCreatedAt created={created} fontSize={fontSize - 2} />
+      {reply && <ReplyIcon className={classes.reply} />}
     </Typography>
   );
 };
 
-export default TweetUsername;
+export default TweetHeader;

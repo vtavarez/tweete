@@ -17,32 +17,33 @@ const useStyles = makeStyles(theme => ({
 
 const TweetBody = props => {
   let classes = useStyles(props);
+  const { fullText, entities, media } = props;
 
-  const linkTo = event => {
-    event.preventDefault();
-    console.log(event.target.getAttribute("data-screen-name"));
+  const linkTo = e => {
+    e.preventDefault();
+    console.log(e.target.getAttribute("data-screen-name"));
   };
 
   const tweetParser = () => {
-    let tweet_text = props.full_text;
+    let tweetText = fullText;
 
-    if (props.entities.media) {
-      props.entities.media.forEach(media => {
-        if (tweet_text.includes(media.url)) {
-          tweet_text = tweet_text.replace(media.url, "");
+    if (entities.media) {
+      entities.media.forEach(media => {
+        if (tweetText.includes(media.url)) {
+          tweetText = tweetText.replace(media.url, "");
         }
       });
     }
 
-    if (props.entities.urls.length > 0) {
-      props.entities.urls.forEach(urlObj => {
+    if (entities.urls.length > 0) {
+      entities.urls.forEach(urlObj => {
         if (urlObj.expanded_url.includes("https://twitter.com/")) {
-          tweet_text = tweet_text.replace(urlObj.url, "");
+          tweetText = tweetText.replace(urlObj.url, "");
         }
       });
     }
 
-    return twitter.autoLink(tweet_text, {
+    return twitter.autoLink(tweetText, {
       urlEntities: props.entities.urls,
       usernameIncludeSymbol: true
     });
@@ -58,7 +59,7 @@ const TweetBody = props => {
         }}
         paragraph
       />
-      {props.entities.media && <TweetMedia media={props.media} />}
+      {entities.media && <TweetMedia media={media} />}
     </Box>
   );
 };
