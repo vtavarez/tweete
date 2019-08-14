@@ -1,28 +1,23 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
-import { fetchTweets } from "../../actions";
 import Progress from "../Progress";
 import Tweet from "../Tweet";
 
+// TODO highlight selected tweet
+// TODO rubberband animation to fetch more tweets
+// TODO animation for newly added tweets
+
 const useStyles = makeStyles(theme => ({
-  timeline_container: {
+  container: {
     margin: "54px 0",
     overflowX: "hidden"
   }
 }));
 
 const Home = props => {
-  const { tweets, fetchTweets } = props;
-  const { timeline_container } = useStyles();
-
-  useEffect(() => {
-    let timeout;
-    if (tweets.length > 0) {
-      timeout = setTimeout(() => fetchTweets(), 120000);
-    }
-    return () => clearTimeout(timeout);
-  }, [tweets, fetchTweets]);
+  const { tweets } = props;
+  const { container } = useStyles();
 
   if (tweets.length > 0) {
     const timeline = tweets.map(tweet => {
@@ -116,7 +111,7 @@ const Home = props => {
       );
     });
 
-    return <div className={timeline_container}>{timeline}</div>;
+    return <div className={container}>{timeline}</div>;
   }
 
   return <Progress />;
@@ -126,7 +121,4 @@ const mapStateToProps = state => ({
   tweets: state.tweets
 });
 
-export default connect(
-  mapStateToProps,
-  { fetchTweets }
-)(Home);
+export default connect(mapStateToProps)(Home);

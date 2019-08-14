@@ -9,6 +9,8 @@ import ReplyIcon from "@material-ui/icons/SubdirectoryArrowLeft";
 import TweetOptionsUserMenu from "./TweetOptionsUserMenu";
 import TweetOptionsRetweetMenu from "./TweetOptionsRetweetMenu";
 
+// TODO connect tweet options with actions
+
 const useStyles = makeStyles(theme => ({
   grid_container: {
     transform: "translateX(-10px)",

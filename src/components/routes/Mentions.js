@@ -1,9 +1,7 @@
-import React from 'react';
+import React from "react";
 
 const Mentions = () => {
-  return (
-    <div>Mentions</div>
-  );
-}
+  return <div>Mentions</div>;
+};
 
 export default Mentions;

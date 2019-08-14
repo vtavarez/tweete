@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { connect } from "react-redux";
-import { makeStyles, withStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Avatar from "@material-ui/core/Avatar";
 import TweetHeader from "./TweetHeader";
@@ -9,34 +9,22 @@ import TweetOptions from "./TweetOptions";
 import RetweeterDetails from "./RetweeterDetails";
 import QuotedTweet from "./QuotedTweet";
 
-const styledBy = (property, mapping) => props => mapping[props[property]];
-
 const useStyles = makeStyles(theme => ({
+  container: {
+    padding: "5px 10px"
+  },
   avatar: {
     margin: "0px 0px 0px 17px",
     width: 45,
     height: 45
   },
-  tweet_details: {
+  details: {
     borderBottom: "1px solid rgba(66,66,66,.3)"
   }
 }));
 
-const TweetContainer = withStyles({
-  root: {
-    padding: "5px 10px",
-    backgroundColor: styledBy("highlight", {
-      default: "inherit",
-      highlight: "rgba(255, 255, 255, .05)"
-    })
-  }
-})(({ classes, highlight, ...other }) => (
-  <Grid container className={classes.root} {...other} />
-));
-
 const Tweet = props => {
-  const { avatar, tweet_details } = useStyles();
-  const [highlight, setHighlight] = useState("default");
+  const { avatar, details, container } = useStyles();
   const {
     fullText,
     entities,
@@ -59,12 +47,8 @@ const Tweet = props => {
     return user.profile_image_url_https.replace("_normal", "");
   };
 
-  const onTweetClick = () => {
-    setHighlight("highlight");
-  };
-
   return (
-    <TweetContainer onClick={onTweetClick} highlight={highlight}>
+    <Grid container className={container}>
       {retweet && (
         <Grid item xs={12}>
           <RetweeterDetails avatar={retweeterAvatar} handle={retweeterHandle} />
@@ -73,7 +57,7 @@ const Tweet = props => {
       <Grid item xs={2}>
         <Avatar alt="user avatar" src={higherResAavatar()} className={avatar} />
       </Grid>
-      <Grid className={tweet_details} item xs={10}>
+      <Grid className={details} item xs={10}>
         <TweetHeader
           name={user.name}
           handle={user.screen_name}
@@ -94,7 +78,7 @@ const Tweet = props => {
         )}
         <TweetOptions {...props} />
       </Grid>
-    </TweetContainer>
+    </Grid>
   );
 };
 

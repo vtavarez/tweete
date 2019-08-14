@@ -79,6 +79,7 @@ export const fetchHomeTimeline = () => dispatch => {
   ipcRenderer.once("fetched-timeline", (event, timeline) => {
     console.log(JSON.parse(timeline));
     localStorage.setItem("timeline", timeline);
+    dispatch(updateTimeline());
     dispatch({
       type: FETCHED_TIMELINE,
       payload: JSON.parse(timeline)
@@ -86,10 +87,15 @@ export const fetchHomeTimeline = () => dispatch => {
   });
 };
 
+export const updateTimeline = () => dispatch => {
+  setTimeout(() => dispatch(fetchTweets()), 120000);
+};
+
 export const fetchTweets = () => (dispatch, getState) => {
   ipcRenderer.send("fetch-tweets", getState().tweets[0].id_str);
 
   ipcRenderer.once("fetched-tweets", (event, tweets) => {
+    dispatch(updateTimeline());
     dispatch({
       type: FETCHED_TWEETS,
       payload: JSON.parse(tweets)

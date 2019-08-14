@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { changeRoute, fetchTweets } from "../actions";
+import { changeRoute } from "../actions";
 import { makeStyles } from "@material-ui/core/styles";
 import BottomNavigation from "@material-ui/core/BottomNavigation";
 import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
@@ -26,18 +26,17 @@ const useStyles = makeStyles({
 });
 
 const FooterNavigation = props => {
-  const { route, tweets, changeRoute, fetchTweets } = props;
+  const { route, tweets, changeRoute } = props;
   const { nav, action } = useStyles();
   const [mentionsBadgeInvisible, setMentionsBadgeInvisible] = useState(false);
   const [messagesBadgeInvisible, setMessagesBadgeInvisible] = useState(false);
   const [homeBadgeInvisible, setHomeBadgeInvisible] = useState(true);
-  const [stateTweetsLength, setStateTweetsLength] = useState(0);
+  const [mostCurrentTweetsLength, setTweetsLength] = useState(null);
 
   const handleRoute = (event, route) => {
     switch (route) {
       case "home":
         changeRoute("/");
-        fetchTweets();
         setHomeBadgeInvisible(true);
         break;
       case "mentions":
@@ -66,6 +65,14 @@ const FooterNavigation = props => {
       default:
     }
   };
+
+  useEffect(() => {
+    if (route === "home") {
+      setTweetsLength(tweets.length);
+    } else if (tweets.length > mostCurrentTweetsLength) {
+      setHomeBadgeInvisible(false);
+    }
+  }, [route, tweets, mostCurrentTweetsLength]);
 
   return (
     <BottomNavigation className={nav} value={route} onChange={handleRoute}>
@@ -142,5 +149,5 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { changeRoute, fetchTweets }
+  { changeRoute }
 )(FooterNavigation);

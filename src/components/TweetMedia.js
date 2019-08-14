@@ -12,6 +12,8 @@ import {
   LoadingSpinner
 } from "video-react";
 
+// TODO enlarge clicked media in a new browswer window.
+
 const useStyles = makeStyles(theme => ({
   media_container: {
     margin: "5px 0",

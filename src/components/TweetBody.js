@@ -5,6 +5,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import twitter from "twitter-text";
 import TweetMedia from "./TweetMedia";
 
+// TODO handle clicked links
+
 const useStyles = makeStyles(theme => ({
   tweetBody: {
     fontSize: props => props.fontSize || 14,

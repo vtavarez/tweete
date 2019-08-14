@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { withStyles, makeStyles } from "@material-ui/styles";
-import { beginOAuth, fetchUser, fetchHomeTimeline } from "../actions";
+import {
+  beginOAuth,
+  fetchUser,
+  fetchHomeTimeline,
+  updateTimeline
+} from "../actions";
 import Modal from "@material-ui/core/Modal";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
@@ -145,5 +150,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { fetchUser, fetchHomeTimeline, beginOAuth }
+  { fetchUser, fetchHomeTimeline, beginOAuth, updateTimeline }
 )(LoginWithTwitter);
