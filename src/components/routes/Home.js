@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
+import { useSpring, animated, config } from "react-spring";
 import { makeStyles } from "@material-ui/core/styles";
 import Progress from "../Progress";
 import Tweet from "../Tweet";
@@ -11,7 +12,7 @@ import Tweet from "../Tweet";
 const useStyles = makeStyles(theme => ({
   container: {
     position: "absolute",
-    width: "100%",
+    wdth: "100vw",
     margin: "54px 0",
     overflowX: "hidden"
   }
@@ -20,6 +21,20 @@ const useStyles = makeStyles(theme => ({
 const Home = props => {
   const { tweets } = props;
   const { container } = useStyles();
+  const [disableAnimation, setDisableAnimation] = useState(true);
+  const animation = useSpring({
+    to: { opacity: 1, transform: "translate3d(0%,0,0)" },
+    from: { opacity: 0, transform: "translate3d(-100%,0,0)" },
+    config: { ...config.default, duration: 500 },
+    immediate: disableAnimation
+  });
+
+  useEffect(() => {
+    if (tweets.length > 0) {
+      setDisableAnimation(false);
+    }
+    return () => setDisableAnimation(true);
+  }, [tweets]);
 
   if (tweets.length > 0) {
     const timeline = tweets.map(tweet => {
@@ -32,8 +47,32 @@ const Home = props => {
           };
 
           return (
+            <animated.div style={animation} key={retweet.id}>
+              <Tweet
+                id={retweet.id}
+                fullText={retweet.full_text}
+                entities={retweet.entities}
+                media={retweet.extended_entities}
+                created={retweet.created_at}
+                user={retweet.user}
+                retweet={true}
+                quoted={true}
+                retweeterAvatar={tweet.user.profile_image_url_https}
+                retweeterHandle={tweet.user.screen_name}
+                quotedFullText={retweetQuotedTweet.full_text}
+                quotedEntities={retweetQuotedTweet.entities}
+                quotedMedia={retweetQuotedTweet.extended_entities}
+                quotedCreated={retweetQuotedTweet.created_at}
+                quotedUser={retweetQuotedTweet.user}
+                quotedReply={retweetQuotedTweet.in_reply_to_status_id}
+              />
+            </animated.div>
+          );
+        }
+
+        return (
+          <animated.div style={animation} key={retweet.id}>
             <Tweet
-              key={retweet.id}
               id={retweet.id}
               fullText={retweet.full_text}
               entities={retweet.entities}
@@ -41,34 +80,12 @@ const Home = props => {
               created={retweet.created_at}
               user={retweet.user}
               retweet={true}
-              quoted={true}
+              quoted={false}
               retweeterAvatar={tweet.user.profile_image_url_https}
               retweeterHandle={tweet.user.screen_name}
-              quotedFullText={retweetQuotedTweet.full_text}
-              quotedEntities={retweetQuotedTweet.entities}
-              quotedMedia={retweetQuotedTweet.extended_entities}
-              quotedCreated={retweetQuotedTweet.created_at}
-              quotedUser={retweetQuotedTweet.user}
-              quotedReply={retweetQuotedTweet.in_reply_to_status_id}
+              reply={retweet.in_reply_to_status_id}
             />
-          );
-        }
-
-        return (
-          <Tweet
-            key={retweet.id}
-            id={retweet.id}
-            fullText={retweet.full_text}
-            entities={retweet.entities}
-            media={retweet.extended_entities}
-            created={retweet.created_at}
-            user={retweet.user}
-            retweet={true}
-            quoted={false}
-            retweeterAvatar={tweet.user.profile_image_url_https}
-            retweeterHandle={tweet.user.screen_name}
-            reply={retweet.in_reply_to_status_id}
-          />
+          </animated.div>
         );
       }
 
@@ -76,40 +93,42 @@ const Home = props => {
         const quotedTweet = { ...tweet.quoted_status };
 
         return (
+          <animated.div style={animation} key={tweet.id}>
+            <Tweet
+              id={tweet.id}
+              fullText={tweet.full_text}
+              entities={tweet.entities}
+              media={tweet.extended_entities}
+              user={tweet.user}
+              retweet={false}
+              quoted={true}
+              created={tweet.created_at}
+              reply={tweet.in_reply_to_status_id}
+              quotedFullText={quotedTweet.full_text}
+              quotedEntities={quotedTweet.entities}
+              quotedMedia={quotedTweet.extended_entities}
+              quotedCreated={quotedTweet.created_at}
+              quotedUser={quotedTweet.user}
+              quotedReply={quotedTweet.in_reply_to_status_id}
+            />
+          </animated.div>
+        );
+      }
+
+      return (
+        <animated.div style={animation} key={tweet.id}>
           <Tweet
-            key={tweet.id}
             id={tweet.id}
             fullText={tweet.full_text}
             entities={tweet.entities}
             media={tweet.extended_entities}
             user={tweet.user}
             retweet={false}
-            quoted={true}
+            quoted={false}
             created={tweet.created_at}
             reply={tweet.in_reply_to_status_id}
-            quotedFullText={quotedTweet.full_text}
-            quotedEntities={quotedTweet.entities}
-            quotedMedia={quotedTweet.extended_entities}
-            quotedCreated={quotedTweet.created_at}
-            quotedUser={quotedTweet.user}
-            quotedReply={quotedTweet.in_reply_to_status_id}
           />
-        );
-      }
-
-      return (
-        <Tweet
-          key={tweet.id}
-          id={tweet.id}
-          fullText={tweet.full_text}
-          entities={tweet.entities}
-          media={tweet.extended_entities}
-          user={tweet.user}
-          retweet={false}
-          quoted={false}
-          created={tweet.created_at}
-          reply={tweet.in_reply_to_status_id}
-        />
+        </animated.div>
       );
     });
 

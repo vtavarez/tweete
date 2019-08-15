@@ -77,6 +77,10 @@ const TweetMedia = props => {
               src={media.video_info.variants[1].url}
               type={media.video_info.variants[1].content_type}
             />
+            <source
+              src={media.video_info.variants[3].url}
+              type={media.video_info.variants[3].content_type}
+            />
             <LoadingSpinner disabled />
             <Shortcut disabled />
             <ControlBar autoHideTime={1000}>
