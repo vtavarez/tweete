@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import "../css/index.css";
 
 // React Router
-import { Router, Switch, Route } from "react-router-dom";
-import history from "../history";
+import { Switch, Route, __RouterContext } from "react-router-dom";
+
+// React Spring
+import { useTransition, animated } from "react-spring";
 
 // Material UI
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -63,17 +65,23 @@ const theme = createMuiTheme({
 });
 
 const App = () => {
+  const { location } = useContext(__RouterContext);
+  const transition = useTransition(location, location => location.pathname, {
+    from: { transform: "translate3d(100%,0,0)" },
+    enter: { transform: "translate3d(0%,0,0)" },
+    leave: { transform: "translate3d(-100%,0,0)" }
+  });
+
   return (
     <div className="app--container">
       <CssBaseline />
 
       <ThemeProvider theme={theme}>
-        <Router history={history}>
-          <LoginWithTwitter />
-          <HeaderNavigation />
-
-          <React.Fragment>
-            <Switch>
+        <LoginWithTwitter />
+        <HeaderNavigation />
+        {transition.map(({ item, props, key }) => (
+          <animated.div key={key} style={props}>
+            <Switch location={item}>
               <Route path="/" exact component={Home} />
               <Route path="/Filters" exact component={Filters} />
               <Route path="/Likes" exact component={Likes} />
@@ -81,12 +89,11 @@ const App = () => {
               <Route path="/Mentions" exact component={Mentions} />
               <Route path="/Messages" exact component={Messages} />
               <Route path="/Profile" exact component={Profile} />
-              <Route path="/Search" exact component={Search} />9
+              <Route path="/Search" exact component={Search} />
             </Switch>
-          </React.Fragment>
-
-          <FooterNavigation />
-        </Router>
+          </animated.div>
+        ))}
+        <FooterNavigation />
       </ThemeProvider>
     </div>
   );

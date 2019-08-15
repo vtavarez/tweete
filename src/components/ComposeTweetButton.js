@@ -5,6 +5,8 @@ import { mdiMessagePlus } from "@mdi/js";
 import Icon from "@mdi/react";
 import IconButton from "@material-ui/core/IconButton";
 
+// TODO dispatch action to create new browswer window with tweet creation component
+
 const useStyles = makeStyles(theme => ({
   tweetButton: {
     marginLeft: "48px",

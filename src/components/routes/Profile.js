@@ -1,9 +1,7 @@
-import React from 'react';
+import React from "react";
 
 const Profile = () => {
-  return (
-    <div>Profile</div>
-  );
-}
+  return <div style={{ position: "absolute", width: "100%" }}>Profile</div>;
+};
 
 export default Profile;

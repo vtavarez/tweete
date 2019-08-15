@@ -13,7 +13,7 @@ const useStyles = makeStyles(theme => ({
     paddingTop: 0,
     paddingBottom: 0
   },
-  icon_button: {
+  selected: {
     cursor: "default",
     "& svg": {
       fill: theme.palette.grey[700]
@@ -28,14 +28,14 @@ const useStyles = makeStyles(theme => ({
 
 const TweetOptionsUserMenu = ({ user }) => {
   const classes = useStyles();
-  const { root, icon_button } = classes;
+  const { root, selected } = classes;
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
   return (
     <React.Fragment>
       <IconButton
-        className={icon_button}
+        className={selected}
         aria-label="User Options"
         aria-controls="user-options"
         aria-haspopup="true"

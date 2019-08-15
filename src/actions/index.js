@@ -16,7 +16,7 @@ import {
 } from "./types";
 
 const ipcRenderer = window.require("electron").ipcRenderer;
-const route = path => history.replace(path);
+const route = path => history.push(path);
 
 export const changeRoute = path => {
   route(path);
@@ -78,7 +78,6 @@ export const fetchHomeTimeline = () => dispatch => {
 
   ipcRenderer.once("fetched-timeline", (event, timeline) => {
     console.log(JSON.parse(timeline));
-    localStorage.setItem("timeline", timeline);
     dispatch(updateTimeline());
     dispatch({
       type: FETCHED_TIMELINE,

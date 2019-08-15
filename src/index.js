@@ -1,5 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { Router } from "react-router-dom";
+import history from "./history";
 import "typeface-roboto";
 import { createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
@@ -11,7 +13,9 @@ const store = createStore(reducers, applyMiddleware(thunk));
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <Router history={history}>
+      <App />
+    </Router>
   </Provider>,
   document.getElementById("root")
 );

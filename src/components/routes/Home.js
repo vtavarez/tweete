@@ -10,6 +10,8 @@ import Tweet from "../Tweet";
 
 const useStyles = makeStyles(theme => ({
   container: {
+    position: "absolute",
+    width: "100%",
     margin: "54px 0",
     overflowX: "hidden"
   }
