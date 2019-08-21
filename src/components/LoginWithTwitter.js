@@ -61,11 +61,15 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const LoginWithTwitter = props => {
+const LoginWithTwitter = ({
+  oauth,
+  beginOAuth,
+  fetchUser,
+  fetchHomeTimeline
+}) => {
   const [open, setOpen] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const { logo, button, buttonIcon, progress, gridContainer } = useStyles();
-  const { oauth, beginOAuth, fetchUser, fetchHomeTimeline } = props;
 
   useEffect(() => {
     if (oauth === "oauth-completed") {

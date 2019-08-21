@@ -40,7 +40,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const TweetOptions = props => {
+const TweetOptions = ({ id, handle }) => {
   const {
     grid_item,
     grid_container,
@@ -52,15 +52,15 @@ const TweetOptions = props => {
 
   const onLikeTweet = e => {
     let likeState = !tweetLiked;
-    localStorage.setItem(JSON.stringify(props.id), JSON.stringify(likeState));
+    localStorage.setItem(JSON.stringify(id), JSON.stringify(likeState));
     setTweetLiked(likeState);
   };
 
   useEffect(() => {
-    if (localStorage.getItem(JSON.stringify(props.id))) {
-      setTweetLiked(JSON.parse(localStorage.getItem(JSON.stringify(props.id))));
+    if (localStorage.getItem(JSON.stringify(id))) {
+      setTweetLiked(JSON.parse(localStorage.getItem(JSON.stringify(id))));
     }
-  }, [props.id]);
+  }, [id]);
 
   return (
     <Grid className={grid_container} container alignItems="center">
@@ -87,7 +87,7 @@ const TweetOptions = props => {
         <TweetOptionsRetweetMenu />
       </Grid>
       <Grid item xs={2} className={grid_item}>
-        <TweetOptionsUserMenu user={props.user.screen_name} />
+        <TweetOptionsUserMenu user={handle} />
       </Grid>
     </Grid>
   );

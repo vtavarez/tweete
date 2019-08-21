@@ -29,7 +29,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const HeaderNavigation = props => {
+const HeaderNavigation = ({ user, route }) => {
   const classes = useStyles();
 
   return (
@@ -37,13 +37,13 @@ const HeaderNavigation = props => {
       <Grid item xs={3}>
         <Avatar
           alt="user avatar"
-          src={props.user ? props.user.profile_image_url_https : null}
+          src={user ? user.profile_image_url_https : null}
           className={classes.avatar}
         />
       </Grid>
       <Grid item xs={6}>
         <Typography variant="subtitle1" className={classes.title}>
-          {props.route}
+          {route}
         </Typography>
       </Grid>
       <Grid item xs={3}>

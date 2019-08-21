@@ -25,8 +25,7 @@ const useStyles = makeStyles({
   }
 });
 
-const FooterNavigation = props => {
-  const { route, tweets, changeRoute } = props;
+const FooterNavigation = ({ route, timeline, changeRoute }) => {
   const { nav, action } = useStyles();
   const [mentionsBadgeInvisible, setMentionsBadgeInvisible] = useState(false);
   const [messagesBadgeInvisible, setMessagesBadgeInvisible] = useState(false);
@@ -68,11 +67,11 @@ const FooterNavigation = props => {
 
   useEffect(() => {
     if (route === "home") {
-      setTweetsLength(tweets.length);
-    } else if (tweets.length > mostCurrentTweetsLength) {
+      setTweetsLength(timeline.length);
+    } else if (timeline.length > mostCurrentTweetsLength) {
       setHomeBadgeInvisible(false);
     }
-  }, [route, tweets, mostCurrentTweetsLength]);
+  }, [route, timeline, mostCurrentTweetsLength]);
 
   return (
     <BottomNavigation className={nav} value={route} onChange={handleRoute}>
@@ -143,7 +142,7 @@ const FooterNavigation = props => {
 const mapStateToProps = state => {
   return {
     route: state.route,
-    tweets: state.tweets
+    timeline: state.tweets.timeline
   };
 };
 

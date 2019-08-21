@@ -74,8 +74,8 @@ const TweetMedia = props => {
             }`}
           >
             <source
-              src={media.video_info.variants[1].url}
-              type={media.video_info.variants[1].content_type}
+              src={media.video_info.variants[2].url}
+              type={media.video_info.variants[2].content_type}
             />
             <source
               src={media.video_info.variants[3].url}

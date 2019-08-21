@@ -5,6 +5,7 @@ body {
 body::-webkit-scrollbar {
   display: none;
 }
+
 body::-webkit-scrollbar-track {
   display: none;
 }
@@ -24,9 +25,8 @@ img {
   border-radius: 5px;
 }
 
-.app--container {
+#root {
   max-width: 500px;
-  background-color: #212121 !important;
 }
 
 .video-react-big-play-button-left {

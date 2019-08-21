@@ -1,11 +1,17 @@
 import { FETCHED_TIMELINE, FETCHED_TWEETS } from "../actions/types";
 
-export default (state = [], action) => {
+export default (state = { status: "isFetching", timeline: [] }, action) => {
   switch (action.type) {
     case FETCHED_TIMELINE:
-      return [...state, ...action.payload];
+      return {
+        status: "isFetched",
+        timeline: [...state.timeline, ...action.payload]
+      };
     case FETCHED_TWEETS:
-      return [...action.payload, ...state];
+      return {
+        status: "isFetched",
+        timeline: [...action.payload, ...state.timeline]
+      };
     default:
       return state;
   }

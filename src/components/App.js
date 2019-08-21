@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import "../css/index.css";
+import "typeface-roboto";
 
 // React Router
 import { Switch, Route, __RouterContext } from "react-router-dom";
@@ -66,20 +67,22 @@ const theme = createMuiTheme({
 
 const App = () => {
   const { location } = useContext(__RouterContext);
-  const transition = useTransition(location, location => location.pathname, {
+  const transitions = useTransition(location, location => location.pathname, {
+    initial: { transform: "translate3d(0%,0,0)" },
     from: { transform: "translate3d(100%,0,0)" },
     enter: { transform: "translate3d(0%,0,0)" },
-    leave: { transform: "translate3d(-100%,0,0)" }
+    leave: { transform: "translate3d(-100%,0,0)" },
+    unique: true,
+    trail: 200
   });
 
   return (
-    <div className="app--container">
+    <React.Fragment>
       <CssBaseline />
-
       <ThemeProvider theme={theme}>
         <LoginWithTwitter />
         <HeaderNavigation />
-        {transition.map(({ item, props, key }) => (
+        {transitions.map(({ item, props, key }) => (
           <animated.div key={key} style={props}>
             <Switch location={item}>
               <Route path="/" exact component={Home} />
@@ -95,7 +98,7 @@ const App = () => {
         ))}
         <FooterNavigation />
       </ThemeProvider>
-    </div>
+    </React.Fragment>
   );
 };
 

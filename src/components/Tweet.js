@@ -23,26 +23,25 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Tweet = props => {
+const Tweet = ({
+  fullText,
+  entities,
+  media,
+  user,
+  created,
+  quoted,
+  reply,
+  retweet,
+  retweeterAvatar,
+  retweeterHandle,
+  quotedFullText,
+  quotedEntities,
+  quotedMedia,
+  quotedCreated,
+  quotedUser,
+  quotedReply
+}) => {
   const { avatar, details, container } = useStyles();
-  const {
-    fullText,
-    entities,
-    media,
-    user,
-    created,
-    quoted,
-    reply,
-    retweet,
-    retweeterAvatar,
-    retweeterHandle,
-    quotedFullText,
-    quotedEntities,
-    quotedMedia,
-    quotedCreated,
-    quotedUser,
-    quotedReply
-  } = props;
   const higherResAavatar = () => {
     return user.profile_image_url_https.replace("_normal", "");
   };
@@ -76,7 +75,7 @@ const Tweet = props => {
             quotedReply={quotedReply}
           />
         )}
-        <TweetOptions {...props} />
+        <TweetOptions id={user.id} handle={user.screen_name} />
       </Grid>
     </Grid>
   );

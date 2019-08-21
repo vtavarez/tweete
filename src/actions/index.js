@@ -91,7 +91,7 @@ export const updateTimeline = () => dispatch => {
 };
 
 export const fetchTweets = () => (dispatch, getState) => {
-  ipcRenderer.send("fetch-tweets", getState().tweets[0].id_str);
+  ipcRenderer.send("fetch-tweets", getState().tweets.timeline[0].id_str);
 
   ipcRenderer.once("fetched-tweets", (event, tweets) => {
     dispatch(updateTimeline());
