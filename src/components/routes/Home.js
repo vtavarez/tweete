@@ -40,7 +40,7 @@ const Home = ({ status, timeline, fetchPreviousTweets }) => {
       set(true);
     } else if (
       e.target.scrollHeight - e.target.scrollTop !==
-      e.target.clientHeigh
+      e.target.clientHeight
     ) {
       set(false);
     }
