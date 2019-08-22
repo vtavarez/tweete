@@ -12,7 +12,9 @@ import {
   OAUTH_COMPLETED,
   FETCHED_USER,
   FETCHED_TIMELINE,
-  FETCHED_TWEETS
+  FETCHED_TWEETS,
+  FETCHING_PREVIOUS_TWEETS,
+  FETCHED_PREVIOUS_TWEETS
 } from "./types";
 
 const ipcRenderer = window.require("electron").ipcRenderer;
@@ -87,17 +89,35 @@ export const fetchHomeTimeline = () => dispatch => {
 };
 
 export const updateTimeline = () => dispatch => {
-  setTimeout(() => dispatch(fetchTweets()), 120000);
+  setTimeout(() => dispatch(fetchTweets()), 180000);
 };
 
 export const fetchTweets = () => (dispatch, getState) => {
-  ipcRenderer.send("fetch-tweets", getState().tweets.timeline[0].id_str);
+  const timeline = getState().tweets.timeline;
+  ipcRenderer.send("fetch-tweets", timeline[0].id_str);
 
   ipcRenderer.once("fetched-tweets", (event, tweets) => {
     dispatch(updateTimeline());
     dispatch({
       type: FETCHED_TWEETS,
       payload: JSON.parse(tweets)
+    });
+  });
+};
+
+export const fetchPreviousTweets = () => (dispatch, getState) => {
+  const timeline = getState().tweets.timeline;
+  ipcRenderer.send(
+    "fetch-previous-tweets",
+    timeline[timeline.length - 1].id_str
+  );
+
+  dispatch({ type: FETCHING_PREVIOUS_TWEETS });
+
+  ipcRenderer.once("fetched-previous-tweets", (event, tweets) => {
+    dispatch({
+      type: FETCHED_PREVIOUS_TWEETS,
+      payload: JSON.parse(tweets).slice(1)
     });
   });
 };

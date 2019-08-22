@@ -170,6 +170,30 @@ ipcMain.on("fetch-tweets", (event, id) => {
     });
 });
 
+// Fetch previous tweets listener.
+
+ipcMain.on("fetch-previous-tweets", (event, id) => {
+  const tweets = new Promise((resolve, reject) => {
+    twitterAPI.getHomeTimeline(
+      { max_id: id, count: "20", tweet_mode: "extended" },
+      (error, response, body) => {
+        reject(error);
+      },
+      response => {
+        resolve(response);
+      }
+    );
+  });
+
+  tweets
+    .then(data => {
+      event.sender.send("fetched-previous-tweets", data);
+    })
+    .catch(err => {
+      console.log(err);
+    });
+});
+
 app.on("ready", createMainWindow);
 
 app.on("window-all-closed", function() {

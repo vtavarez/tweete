@@ -16,7 +16,7 @@ const useStyles = makeStyles({
   }
 });
 
-const Progress = props => {
+const CircularLoader = props => {
   const classes = useStyles();
   return (
     <div className={classes.progressContainer}>
@@ -25,4 +25,4 @@ const Progress = props => {
   );
 };
 
-export default Progress;
+export default CircularLoader;

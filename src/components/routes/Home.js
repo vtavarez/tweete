@@ -1,13 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
+import { fetchPreviousTweets } from "../../actions";
 import { useTransition, animated, config } from "react-spring";
 import { makeStyles } from "@material-ui/core/styles";
-import Progress from "../Progress";
+import CircularLoader from "../CircularLoader";
+import LinearLoader from "../LinearLoader";
 import Tweet from "../Tweet";
 
 // TODO highlight selected tweet
-// TODO search field to filter tweets by search term
-// TODO fetch more tweets once scrolled to bottom
+// TODO search bar to filter tweets
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -19,26 +20,37 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Home = ({ status, timeline }) => {
+const Home = ({ status, timeline, fetchPreviousTweets }) => {
   const { container } = useStyles();
   const transitions = useTransition(timeline, timeline => timeline.id, {
     initial: { opacity: 1, transform: "translate3d(0%,0,0)" },
     from: { opacity: 0, transform: "translate3d(-100%,0,0)" },
     enter: { opacity: 1, transform: "translate3d(0%,0,0)" },
-    config: { ...config.default, duration: 800 }
+    config: config.slow
   });
 
+  const [cancelScroll, set] = useState(false);
+
   const onScrollHandler = e => {
-    if (e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight) {
-      console.log("at bottom");
+    if (
+      e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight &&
+      !cancelScroll
+    ) {
+      fetchPreviousTweets();
+      set(true);
+    } else if (
+      e.target.scrollHeight - e.target.scrollTop !==
+      e.target.clientHeigh
+    ) {
+      set(false);
     }
   };
 
-  if (status === "isFetching") {
-    return <Progress />;
+  if (status === "fetchingTweets") {
+    return <CircularLoader />;
   }
 
-  if (status === "isFetched" && timeline.length === 0) {
+  if (status === "fetchedTweets" && timeline.length === 0) {
     return <div />;
   }
 
@@ -138,6 +150,7 @@ const Home = ({ status, timeline }) => {
           </animated.div>
         );
       })}
+      {status === "fetchingPreviousTweets" && <LinearLoader />}
     </div>
   );
 };
@@ -147,4 +160,7 @@ const mapStateToProps = state => ({
   timeline: state.tweets.timeline
 });
 
-export default connect(mapStateToProps)(Home);
+export default connect(
+  mapStateToProps,
+  { fetchPreviousTweets }
+)(Home);
