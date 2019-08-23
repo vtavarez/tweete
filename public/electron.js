@@ -1,9 +1,10 @@
 const { app, ipcMain, BrowserWindow } = require("electron");
-const auth = require(`oauth-electron-twitter`);
+const isDev = require("electron-is-dev");
 const { join } = require("path");
 const { format } = require("url");
 const { Twitter } = require("twitter-node-client");
 const { LocalStorage } = require("node-localstorage");
+const auth = require(`oauth-electron-twitter`);
 const uuidv1 = require("uuid/v1");
 const config = require("./config");
 const localStorage = new LocalStorage("./data");
@@ -13,13 +14,13 @@ let oAuthWindow;
 let twitterAPI;
 
 function createMainWindow() {
-  const url =
-    process.env.DEV_URL ||
-    format({
-      pathname: join(__dirname, "/../build/index.html"),
-      protocol: "file:",
-      slashes: true
-    });
+  const url = isDev
+    ? "http://127.0.0.1:3000"
+    : format({
+        pathname: join(__dirname, "/../build/index.html"),
+        protocol: "file:",
+        slashes: true
+      });
 
   mainWindow = new BrowserWindow({
     width: 500,
@@ -37,6 +38,8 @@ function createMainWindow() {
   mainWindow.setMenuBarVisibility(false);
 
   mainWindow.loadURL(url);
+
+  mainWindow.once("ready-to-show", () => mainWindow.show());
 }
 
 // Init Twitter oauth flow.
@@ -66,7 +69,7 @@ async function createOAuthWindow() {
 
 // Twitter oauth sign in listener.
 
-ipcMain.on("twitter-oauth", async (event, args) => {
+ipcMain.on("twitter-oauth", async event => {
   const oAuthResponse = await createOAuthWindow();
   const uid = uuidv1();
 

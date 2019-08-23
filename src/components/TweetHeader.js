@@ -39,9 +39,8 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const TweetHeader = props => {
-  const classes = useStyles(props);
-  const { name, handle, reply, verified, created, fontSize } = props;
+const TweetHeader = ({ name, handle, reply, verified, created, fontSize }) => {
+  const classes = useStyles({ fontSize });
 
   return (
     <Typography variant="subtitle2" className={classes.name}>

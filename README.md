@@ -14,7 +14,7 @@ Twitter application for Linux. Built on Electron and React.
 
 ```
 git clone
-npm install
+yarn install
 ```
 
 ## Setup
@@ -33,15 +33,15 @@ npm install
 
 ## Run
 
-Once you've done the installation and setup steps above, you can run the app with `npm start`.
+Once you've done the installation and setup steps above, you can run the app with `yarn electron-dev`.
 
 ## Build
 
-When your ready to deploy, run the npm scripts below.
+When your ready to deploy, run the scripts below.
 
 ```
-npm pre-electron-pack
-npm electron-pack
+yarn pre-electron-pack
+yarn electron-pack
 ```
 
 `pre-electron-pack` will run the CRA build process.

@@ -16,7 +16,6 @@ import {
 
 const useStyles = makeStyles(theme => ({
   media_container: {
-    margin: "5px 0",
     width: "fit-content"
   },
   video: {
@@ -28,9 +27,8 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const TweetMedia = props => {
+const TweetMedia = ({ media }) => {
   const { media_container, video } = useStyles();
-  const { media } = props.media;
   let control;
 
   const onMouseOutHandler = event => {
@@ -130,7 +128,7 @@ const TweetMedia = props => {
     return <Box key={media.id} />;
   });
 
-  if (content[0].alt) {
+  if (content[0].alt === "gallery") {
     return <Gallery photos={content} />;
   }
 

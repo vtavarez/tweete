@@ -17,7 +17,7 @@ import {
   FETCHED_PREVIOUS_TWEETS
 } from "./types";
 
-const ipcRenderer = window.require("electron").ipcRenderer;
+const ipcRenderer = require("electron").ipcRenderer;
 const route = path => history.push(path);
 
 export const changeRoute = path => {

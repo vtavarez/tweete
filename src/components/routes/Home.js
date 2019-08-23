@@ -26,10 +26,13 @@ const Home = ({ status, timeline, fetchPreviousTweets }) => {
     initial: { opacity: 1, transform: "translate3d(0%,0,0)" },
     from: { opacity: 0, transform: "translate3d(-100%,0,0)" },
     enter: { opacity: 1, transform: "translate3d(0%,0,0)" },
+    reset: true,
     config: config.slow
   });
 
-  const [cancelScroll, set] = useState(false);
+  const [cancelScroll, setCancelScroll] = useState(false);
+
+  const resetScroll = () => setTimeout(() => setCancelScroll(false), 2000);
 
   const onScrollHandler = e => {
     if (
@@ -37,12 +40,8 @@ const Home = ({ status, timeline, fetchPreviousTweets }) => {
       !cancelScroll
     ) {
       fetchPreviousTweets();
-      set(true);
-    } else if (
-      e.target.scrollHeight - e.target.scrollTop !==
-      e.target.clientHeight
-    ) {
-      set(false);
+      setCancelScroll(true);
+      resetScroll();
     }
   };
 
@@ -71,7 +70,11 @@ const Home = ({ status, timeline, fetchPreviousTweets }) => {
                   id={retweet.id}
                   fullText={retweet.full_text}
                   entities={retweet.entities}
-                  media={retweet.extended_entities}
+                  media={
+                    retweet.extended_entities
+                      ? retweet.extended_entities.media
+                      : null
+                  }
                   created={retweet.created_at}
                   user={retweet.user}
                   retweet={true}
@@ -80,7 +83,11 @@ const Home = ({ status, timeline, fetchPreviousTweets }) => {
                   retweeterHandle={item.user.screen_name}
                   quotedFullText={retweetQuotedTweet.full_text}
                   quotedEntities={retweetQuotedTweet.entities}
-                  quotedMedia={retweetQuotedTweet.extended_entities}
+                  quotedMedia={
+                    retweetQuotedTweet.extended_entities
+                      ? retweetQuotedTweet.extended_entities.media
+                      : null
+                  }
                   quotedCreated={retweetQuotedTweet.created_at}
                   quotedUser={retweetQuotedTweet.user}
                   quotedReply={retweetQuotedTweet.in_reply_to_status_id}
@@ -95,7 +102,11 @@ const Home = ({ status, timeline, fetchPreviousTweets }) => {
                 id={retweet.id}
                 fullText={retweet.full_text}
                 entities={retweet.entities}
-                media={retweet.extended_entities}
+                media={
+                  retweet.extended_entities
+                    ? retweet.extended_entities.media
+                    : null
+                }
                 created={retweet.created_at}
                 user={retweet.user}
                 retweet={true}
@@ -117,7 +128,9 @@ const Home = ({ status, timeline, fetchPreviousTweets }) => {
                 id={item.id}
                 fullText={item.full_text}
                 entities={item.entities}
-                media={item.extended_entities}
+                media={
+                  item.extended_entities ? item.extended_entities.media : null
+                }
                 user={item.user}
                 retweet={false}
                 quoted={true}
@@ -125,7 +138,11 @@ const Home = ({ status, timeline, fetchPreviousTweets }) => {
                 reply={item.in_reply_to_status_id}
                 quotedFullText={quotedTweet.full_text}
                 quotedEntities={quotedTweet.entities}
-                quotedMedia={quotedTweet.extended_entities}
+                quotedMedia={
+                  quotedTweet.extended_entities
+                    ? quotedTweet.extended_entities.media
+                    : null
+                }
                 quotedCreated={quotedTweet.created_at}
                 quotedUser={quotedTweet.user}
                 quotedReply={quotedTweet.in_reply_to_status_id}
@@ -140,7 +157,9 @@ const Home = ({ status, timeline, fetchPreviousTweets }) => {
               id={item.id}
               fullText={item.full_text}
               entities={item.entities}
-              media={item.extended_entities}
+              media={
+                item.extended_entities ? item.extended_entities.media : null
+              }
               user={item.user}
               retweet={false}
               quoted={false}

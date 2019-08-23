@@ -14,7 +14,8 @@ import TweetOptionsRetweetMenu from "./TweetOptionsRetweetMenu";
 const useStyles = makeStyles(theme => ({
   grid_container: {
     transform: "translateX(-10px)",
-    marginBottom: 5
+    marginBottom: 5,
+    marginTop: 5
   },
   grid_item: {
     paddingLeft: 10

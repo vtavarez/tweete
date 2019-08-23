@@ -17,9 +17,8 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const TweetBody = props => {
-  let classes = useStyles(props);
-  const { fullText, entities, media } = props;
+const TweetBody = ({ fullText, entities, media, fontSize }) => {
+  let classes = useStyles({ fontSize });
 
   const linkTo = e => {
     e.preventDefault();
@@ -46,7 +45,7 @@ const TweetBody = props => {
     }
 
     return twitter.autoLink(tweetText, {
-      urlEntities: props.entities.urls,
+      urlEntities: entities.urls,
       usernameIncludeSymbol: true
     });
   };
@@ -61,7 +60,7 @@ const TweetBody = props => {
         }}
         paragraph
       />
-      {entities.media && <TweetMedia media={media} />}
+      {media && <TweetMedia media={media} />}
     </Box>
   );
 };
