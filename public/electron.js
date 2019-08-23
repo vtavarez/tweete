@@ -1,9 +1,9 @@
 const { app, ipcMain, BrowserWindow } = require("electron");
-const isDev = require("electron-is-dev");
 const { join } = require("path");
 const { format } = require("url");
 const { Twitter } = require("twitter-node-client");
 const { LocalStorage } = require("node-localstorage");
+const isDev = require("electron-is-dev");
 const auth = require(`oauth-electron-twitter`);
 const uuidv1 = require("uuid/v1");
 const config = require("./config");

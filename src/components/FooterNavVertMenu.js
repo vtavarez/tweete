@@ -40,24 +40,25 @@ const VertMenuOption = withStyles(theme => ({
   }
 }))(MenuItem);
 
-const FooterNavVertMenu = props => {
-  const routesState = { filters: false, likes: false, lists: false };
-  const [selectedRoute, setSelectedRoute] = useState(routesState);
-  const { filters, likes, lists } = selectedRoute;
-  const classes = useStyles();
+const FooterNavVertMenu = ({ selectedRoute, selectRoute }) => {
+  const [routes, setRoutes] = useState({});
   const [anchorEl, setAnchorEl] = useState(null);
+  const { filters, likes, lists } = routes;
+  const classes = useStyles();
   const open = Boolean(anchorEl);
   const yPos = window.innerHeight - 220;
   const xPos = 455;
 
   useEffect(() => {
-    const newRoutesState = { ...routesState };
-    newRoutesState[props.selectedRoute] = true;
-    setSelectedRoute(newRoutesState);
-  }, [props.selectedRoute, routesState]);
+    const routesState = { filters: false, likes: false, lists: false };
+    if (routesState[selectedRoute] !== "undefined") {
+      routesState[selectedRoute] = true;
+      setRoutes(routesState);
+    }
+  }, [selectedRoute]);
 
   const handleMenu = (e, route) => {
-    props.selectRoute(e, route);
+    selectRoute(e, route);
     setAnchorEl(null);
   };
 
