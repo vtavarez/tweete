@@ -11,9 +11,10 @@ const useStyles = makeStyles(theme => ({
     minHeight: 36,
     fontSize: 14,
     paddingTop: 0,
-    paddingBottom: 0
+    paddingBottom: 0,
+    cursor: "default"
   },
-  selected: {
+  enabled: {
     cursor: "default",
     "& svg": {
       fill: theme.palette.grey[700]
@@ -27,15 +28,14 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const TweetOptionsUserMenu = ({ user }) => {
-  const classes = useStyles();
-  const { root, selected } = classes;
+  const { root, enabled } = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
   return (
     <React.Fragment>
       <IconButton
-        className={selected}
+        className={enabled}
         aria-label="User Options"
         aria-controls="user-options"
         aria-haspopup="true"
@@ -55,36 +55,42 @@ const TweetOptionsUserMenu = ({ user }) => {
           disablePadding: true
         }}
       >
-        <MenuItem divider disabled classes={classes}>
-          {`@${user} is not following you.`}
+        <MenuItem divider disabled className={root}>
+          {user.follow_request_sent
+            ? `@${user.screen_name} is following you.`
+            : `@${user.screen_name} is not following you.`}
         </MenuItem>
-        <MenuItem className={root}>Reply</MenuItem>
-        <MenuItem divider className={root}>
+        <MenuItem className={root}>Public Reply</MenuItem>
+        <MenuItem divider disabled={false} className={root}>
           Direct Message
         </MenuItem>
         <MenuItem disabled={false} className={root}>
           Add/Remove from Lists
         </MenuItem>
-        <MenuItem disabled={true} className={root}>
+        <MenuItem disabled={false} className={root}>
           Disable Retweets
         </MenuItem>
-        <MenuItem disabled={true} className={root}>
-          Enable Notifications
+        <MenuItem disabled={false} className={root}>
+          {user.notifications
+            ? "Disable Notifications"
+            : "Enable Notifications"}
         </MenuItem>
         <MenuItem disabled={false} className={root}>
           Open Profile in Browser
         </MenuItem>
         <MenuItem disabled={false} className={root}>
-          Unfollow
+          {user.following
+            ? `Unfollow @${user.screen_name}`
+            : `Follow @${user.screen_name}`}
         </MenuItem>
         <MenuItem disabled={false} className={root}>
-          Mute
+          {`Mute @${user.screen_name}`}
         </MenuItem>
         <MenuItem disabled={false} className={root}>
-          Block User...
+          {`Block @${user.screen_name}`}
         </MenuItem>
         <MenuItem disabled={false} className={root}>
-          Block and Report for Spam...
+          Report for Spam...
         </MenuItem>
       </Menu>
     </React.Fragment>

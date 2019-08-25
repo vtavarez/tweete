@@ -79,7 +79,6 @@ export const fetchHomeTimeline = () => dispatch => {
   ipcRenderer.send("fetch-timeline");
 
   ipcRenderer.once("fetched-timeline", (event, timeline) => {
-    console.log(JSON.parse(timeline));
     dispatch(updateTimeline());
     dispatch({
       type: FETCHED_TIMELINE,

@@ -82,7 +82,9 @@ const LoginWithTwitter = ({
     if (oauth === "oauth-cancelled") {
       setIsLoading(false);
     }
-  }, [oauth, fetchUser, fetchHomeTimeline]);
+
+    //eslint-disable-next-line
+  }, [oauth]);
 
   const oAuthFlow = () => {
     beginOAuth();

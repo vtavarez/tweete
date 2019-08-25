@@ -42,6 +42,11 @@ const theme = createMuiTheme({
         }
       },
       disabled: {}
+    },
+    MuiPopover: {
+      paper: {
+        backgroundColor: "#2d2c2f"
+      }
     }
   },
   props: {

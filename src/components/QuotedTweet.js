@@ -55,6 +55,7 @@ const Tweet = props => {
           entities={quotedEntities}
           media={quotedMedia}
           fontSize={12}
+          quoted={true}
         />
       </Grid>
     </TweetContainer>

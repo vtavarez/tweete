@@ -27,7 +27,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const TweetMedia = ({ media }) => {
+const TweetMedia = ({ media, quoted }) => {
   const { media_container, video } = useStyles();
   let control;
 
@@ -39,20 +39,29 @@ const TweetMedia = ({ media }) => {
     control.pause();
   };
 
-  const content = media.map(media => {
-    if (media.type === "photo") {
+  const content = media.map(item => {
+    if (item.type === "photo" && media.length < 2) {
       return {
-        src: media.media_url_https,
-        width: media.sizes.large.w,
-        height: media.sizes.large.h,
+        src: item.media_url_https,
+        width: item.sizes.small.w,
+        height: item.sizes.small.h,
         alt: "gallery"
       };
     }
 
-    if (media.type === "video") {
+    if (item.type === "photo" && media.length > 1) {
+      return {
+        src: item.media_url_https,
+        width: item.sizes.thumb.w,
+        height: item.sizes.thumb.h,
+        alt: "gallery"
+      };
+    }
+
+    if (item.type === "video") {
       return (
         <Box
-          key={media.id}
+          key={item.id}
           onMouseOver={() => control.play()}
           onMouseOut={onMouseOutHandler}
           onDoubleClick={e => {
@@ -65,20 +74,46 @@ const TweetMedia = ({ media }) => {
             }}
             className={video}
             fluid={false}
-            width={390}
+            width={
+              item.video_info.aspect_ratio[0] === 16 && quoted
+                ? 380
+                : item.video_info.aspect_ratio[0] === 16
+                ? 390
+                : item.video_info.aspect_ratio[0] === 1 ||
+                  item.video_info.aspect_ratio[0] === 3 ||
+                  item.video_info.aspect_ratio[0] === 4
+                ? 300
+                : 200
+            }
             muted={true}
-            aspectRatio={`${media.video_info.aspect_ratio[0]}:${
-              media.video_info.aspect_ratio[1]
+            aspectRatio={`${item.video_info.aspect_ratio[0]}:${
+              item.video_info.aspect_ratio[1]
             }`}
           >
-            <source
-              src={media.video_info.variants[2].url}
-              type={media.video_info.variants[2].content_type}
-            />
-            <source
-              src={media.video_info.variants[3].url}
-              type={media.video_info.variants[3].content_type}
-            />
+            {item.video_info.variants[3] &&
+            item.video_info.variants[3].content_type === "video/mp4" ? (
+              <source
+                src={item.video_info.variants[3].url}
+                type={item.video_info.variants[3].content_type}
+              />
+            ) : item.video_info.variants[2] &&
+              item.video_info.variants[2].content_type === "video/mp4" ? (
+              <source
+                src={item.video_info.variants[2].url}
+                type={item.video_info.variants[2].content_type}
+              />
+            ) : item.video_info.variants[1] &&
+              item.video_info.variants[1].content_type === "video/mp4" ? (
+              <source
+                src={item.video_info.variants[1].url}
+                type={item.video_info.variants[1].content_type}
+              />
+            ) : (
+              <source
+                src={item.video_info.variants[0].url}
+                type={item.video_info.variants[0].content_type}
+              />
+            )}
             <LoadingSpinner disabled />
             <Shortcut disabled />
             <ControlBar autoHideTime={1000}>
@@ -90,10 +125,10 @@ const TweetMedia = ({ media }) => {
       );
     }
 
-    if (media.type === "animated_gif") {
+    if (item.type === "animated_gif") {
       return (
         <Box
-          key={media.id}
+          key={item.id}
           onMouseOver={() => control.play()}
           onMouseOut={onMouseOutHandler}
           onDoubleClick={e => {
@@ -106,16 +141,16 @@ const TweetMedia = ({ media }) => {
             }}
             className={video}
             fluid={false}
-            width={390}
+            width={quoted ? 380 : 390}
             muted={true}
             loop={true}
-            aspectRatio={`${media.video_info.aspect_ratio[0]}:${
-              media.video_info.aspect_ratio[1]
+            aspectRatio={`${item.video_info.aspect_ratio[0]}:${
+              item.video_info.aspect_ratio[1]
             }`}
           >
             <source
-              src={media.video_info.variants[0].url}
-              type={media.video_info.variants[0].content_type}
+              src={item.video_info.variants[0].url}
+              type={item.video_info.variants[0].content_type}
             />
             <LoadingSpinner disabled />
             <Shortcut disabled />
@@ -125,7 +160,7 @@ const TweetMedia = ({ media }) => {
       );
     }
 
-    return <Box key={media.id} />;
+    return <Box key={item.id} />;
   });
 
   if (content[0].alt === "gallery") {

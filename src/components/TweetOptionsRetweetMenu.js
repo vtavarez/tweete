@@ -12,7 +12,8 @@ const useStyles = makeStyles(theme => ({
     minHeight: 36,
     fontSize: 14,
     paddingTop: 0,
-    paddingBottom: 0
+    paddingBottom: 0,
+    cursor: "default"
   },
   icon_button: {
     cursor: "default",

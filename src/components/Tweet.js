@@ -75,7 +75,7 @@ const Tweet = ({
             quotedReply={quotedReply}
           />
         )}
-        <TweetOptions id={user.id} handle={user.screen_name} />
+        <TweetOptions user={user} />
       </Grid>
     </Grid>
   );

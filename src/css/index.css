@@ -32,3 +32,11 @@ img {
 .video-react-big-play-button-left {
   display: none !important;
 }
+
+.video-react .video-react-control-bar {
+  background-color: rgba(0, 0, 0, 0.3) !important;
+}
+
+.video-react .video-react-time-control {
+  display: none !important;
+}

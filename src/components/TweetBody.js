@@ -17,7 +17,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const TweetBody = ({ fullText, entities, media, fontSize }) => {
+const TweetBody = ({ fullText, entities, media, fontSize, quoted }) => {
   let classes = useStyles({ fontSize });
 
   const linkTo = e => {
@@ -60,7 +60,7 @@ const TweetBody = ({ fullText, entities, media, fontSize }) => {
         }}
         paragraph
       />
-      {media && <TweetMedia media={media} />}
+      {media && <TweetMedia media={media} quoted={quoted} />}
     </Box>
   );
 };

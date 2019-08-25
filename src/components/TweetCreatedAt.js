@@ -38,12 +38,13 @@ const TweetCreatedAt = props => {
   const [time, setTime] = useState(moment.utc(date).fromNow());
 
   useEffect(() => {
-    const interval = setInterval(
+    const timeout = setTimeout(
       () => setTime(moment.utc(date).fromNow()),
       60000
     );
-    return () => clearInterval(interval);
-  }, [date]);
+    return () => clearTimeout(timeout);
+    //eslint-disable-next-line
+  }, [time]);
 
   return <span className={classes.created_time}>{time}</span>;
 };

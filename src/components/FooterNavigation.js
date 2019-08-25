@@ -36,32 +36,25 @@ const FooterNavigation = ({ route, timeline, changeRoute }) => {
     switch (route) {
       case "home":
         changeRoute("/");
-        setHomeBadgeInvisible(true);
-        break;
+        return setHomeBadgeInvisible(true);
       case "mentions":
         changeRoute("/Mentions");
-        setMentionsBadgeInvisible(true);
-        break;
+        return setMentionsBadgeInvisible(true);
       case "messages":
         changeRoute("/Messages");
-        setMessagesBadgeInvisible(true);
-        break;
+        return setMessagesBadgeInvisible(true);
       case "search":
-        changeRoute("/Search");
-        break;
+        return changeRoute("/Search");
       case "profile":
-        changeRoute("/Profile");
-        break;
+        return changeRoute("/Profile");
       case "likes":
-        changeRoute("/Likes");
-        break;
+        return changeRoute("/Likes");
       case "filters":
-        changeRoute("/Filters");
-        break;
+        return changeRoute("/Filters");
       case "lists":
-        changeRoute("/Lists");
-        break;
+        return changeRoute("/Lists");
       default:
+        return;
     }
   };
 
