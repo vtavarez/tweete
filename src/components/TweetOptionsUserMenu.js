@@ -30,7 +30,19 @@ const useStyles = makeStyles(theme => ({
 const TweetOptionsUserMenu = ({ user }) => {
   const { root, enabled } = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
+  const [notifications, setNotifications] = useState(user.notifications);
+  const [isFollowing, setIsFollowing] = useState(user.following);
   const open = Boolean(anchorEl);
+
+  const notificationsHandler = e => {
+    setNotifications(!notifications);
+    setAnchorEl(null);
+  };
+
+  const isFollowingHandler = e => {
+    setIsFollowing(!isFollowing);
+    setAnchorEl(null);
+  };
 
   return (
     <React.Fragment>
@@ -70,16 +82,22 @@ const TweetOptionsUserMenu = ({ user }) => {
         <MenuItem disabled={false} className={root}>
           Disable Retweets
         </MenuItem>
-        <MenuItem disabled={false} className={root}>
-          {user.notifications
-            ? "Disable Notifications"
-            : "Enable Notifications"}
+        <MenuItem
+          onClick={notificationsHandler}
+          disabled={false}
+          className={root}
+        >
+          {notifications ? "Disable Notifications" : "Enable Notifications"}
         </MenuItem>
         <MenuItem disabled={false} className={root}>
           Open Profile in Browser
         </MenuItem>
-        <MenuItem disabled={false} className={root}>
-          {user.following
+        <MenuItem
+          onClick={isFollowingHandler}
+          disabled={false}
+          className={root}
+        >
+          {isFollowing
             ? `Unfollow @${user.screen_name}`
             : `Follow @${user.screen_name}`}
         </MenuItem>

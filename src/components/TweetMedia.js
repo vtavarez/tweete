@@ -31,7 +31,7 @@ const TweetMedia = ({ media, quoted }) => {
   const { media_container, video } = useStyles();
   let control;
 
-  const onMouseOutHandler = event => {
+  const onMouseOutHandler = e => {
     const { player } = control.getState();
     if (player.ended) {
       control.load(player.currentSrc);
@@ -40,20 +40,11 @@ const TweetMedia = ({ media, quoted }) => {
   };
 
   const content = media.map(item => {
-    if (item.type === "photo" && media.length < 2) {
+    if (item.type === "photo") {
       return {
         src: item.media_url_https,
-        width: item.sizes.small.w,
-        height: item.sizes.small.h,
-        alt: "gallery"
-      };
-    }
-
-    if (item.type === "photo" && media.length > 1) {
-      return {
-        src: item.media_url_https,
-        width: item.sizes.thumb.w,
-        height: item.sizes.thumb.h,
+        width: item.sizes.small.w / 100,
+        height: item.sizes.small.h / 100,
         alt: "gallery"
       };
     }
