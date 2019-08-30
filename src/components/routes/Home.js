@@ -56,42 +56,65 @@ const Home = ({ status, timeline, fetchPreviousTweets }) => {
 
   return (
     <div className={container} onScroll={onScrollHandler}>
-      {transitions.map(({ item, props, key }) => {
-        if (item.retweeted_status) {
-          const retweet = { ...item.retweeted_status };
+      {transitions.map(({ item: tweet, props, key }) => {
+        const {
+          id,
+          full_text,
+          entities,
+          extended_entities,
+          created_at,
+          user,
+          in_reply_to_status_id,
+          retweeted_status: retweet,
+          quoted_status: quotedTweet
+        } = tweet;
 
-          if (item.retweeted_status.quoted_status) {
-            const retweetQuotedTweet = {
-              ...item.retweeted_status.quoted_status
-            };
+        if (retweet) {
+          const {
+            id: retweetId,
+            full_text: retweetFullText,
+            entities: retweetEntities,
+            extended_entities: retweetExtendedEntities,
+            created_at: retweetCreated,
+            user: retweetUser,
+            in_reply_to_status_id: retweetReplyStatus,
+            quoted_status: retweetQuotedTweet
+          } = retweet;
+
+          if (retweetQuotedTweet) {
+            const {
+              full_text: retweetQuotedTweetFullText,
+              entities: retweetQuotedTweetEntities,
+              extended_entities: retweetQuotedTweetExtendedEntities,
+              created_at: retweetQuotedTweetCreated,
+              user: retweetQuotedTweetUser,
+              in_reply_to_status_id: retweetQuotedTweetReplyStatus
+            } = retweetQuotedTweet;
 
             return (
               <animated.div key={key} style={props}>
                 <Tweet
-                  id={retweet.id}
-                  fullText={retweet.full_text}
-                  entities={retweet.entities}
+                  id={retweetId}
+                  fullText={retweetFullText}
+                  entities={retweetEntities}
                   media={
-                    retweet.extended_entities
-                      ? retweet.extended_entities.media
-                      : null
+                    retweetExtendedEntities && retweetExtendedEntities.media
                   }
-                  created={retweet.created_at}
-                  user={retweet.user}
+                  created={retweetCreated}
+                  user={retweetUser}
                   retweet={true}
                   quoted={true}
-                  retweeterAvatar={item.user.profile_image_url_https}
-                  retweeterHandle={item.user.screen_name}
-                  quotedFullText={retweetQuotedTweet.full_text}
-                  quotedEntities={retweetQuotedTweet.entities}
+                  retweeterAvatar={tweet.user.profile_image_url_https}
+                  retweeterHandle={tweet.user.screen_name}
+                  quotedFullText={retweetQuotedTweetFullText}
+                  quotedEntities={retweetQuotedTweetEntities}
                   quotedMedia={
-                    retweetQuotedTweet.extended_entities
-                      ? retweetQuotedTweet.extended_entities.media
-                      : null
+                    retweetQuotedTweetExtendedEntities &&
+                    retweetQuotedTweetExtendedEntities.media
                   }
-                  quotedCreated={retweetQuotedTweet.created_at}
-                  quotedUser={retweetQuotedTweet.user}
-                  quotedReply={retweetQuotedTweet.in_reply_to_status_id}
+                  quotedCreated={retweetQuotedTweetCreated}
+                  quotedUser={retweetQuotedTweetUser}
+                  quotedReply={retweetQuotedTweetReplyStatus}
                 />
               </animated.div>
             );
@@ -100,53 +123,53 @@ const Home = ({ status, timeline, fetchPreviousTweets }) => {
           return (
             <animated.div key={key} style={props}>
               <Tweet
-                id={retweet.id}
-                fullText={retweet.full_text}
-                entities={retweet.entities}
-                media={
-                  retweet.extended_entities
-                    ? retweet.extended_entities.media
-                    : null
-                }
-                created={retweet.created_at}
-                user={retweet.user}
+                id={retweetId}
+                fullText={retweetFullText}
+                entities={retweetEntities}
+                media={retweetExtendedEntities && retweetExtendedEntities.media}
+                created={retweetCreated}
+                user={retweetUser}
                 retweet={true}
                 quoted={false}
-                retweeterAvatar={item.user.profile_image_url_https}
-                retweeterHandle={item.user.screen_name}
-                reply={retweet.in_reply_to_status_id}
+                retweeterAvatar={user.profile_image_url_https}
+                retweeterHandle={user.screen_name}
+                reply={retweetReplyStatus}
               />
             </animated.div>
           );
         }
 
-        if (item.quoted_status) {
-          const quotedTweet = { ...item.quoted_status };
+        if (quotedTweet) {
+          const {
+            full_text: quotedTweetFullText,
+            entities: quotedTweetEntities,
+            extended_entities: quotedTweetExtendedEntities,
+            created_at: quotedTweetCreated,
+            user: quotedTweetUser,
+            in_reply_to_status_id: quotedTweetReplyStatus
+          } = quotedTweet;
 
           return (
             <animated.div key={key} style={props}>
               <Tweet
-                id={item.id}
-                fullText={item.full_text}
-                entities={item.entities}
-                media={
-                  item.extended_entities ? item.extended_entities.media : null
-                }
-                user={item.user}
+                id={id}
+                fullText={full_text}
+                entities={entities}
+                media={extended_entities && extended_entities.media}
+                user={user}
                 retweet={false}
                 quoted={true}
-                created={item.created_at}
-                reply={item.in_reply_to_status_id}
-                quotedFullText={quotedTweet.full_text}
-                quotedEntities={quotedTweet.entities}
+                created={created_at}
+                reply={in_reply_to_status_id}
+                quotedFullText={quotedTweetFullText}
+                quotedEntities={quotedTweetEntities}
                 quotedMedia={
-                  quotedTweet.extended_entities
-                    ? quotedTweet.extended_entities.media
-                    : null
+                  quotedTweetExtendedEntities &&
+                  quotedTweetExtendedEntities.media
                 }
-                quotedCreated={quotedTweet.created_at}
-                quotedUser={quotedTweet.user}
-                quotedReply={quotedTweet.in_reply_to_status_id}
+                quotedCreated={quotedTweetCreated}
+                quotedUser={quotedTweetUser}
+                quotedReply={quotedTweetReplyStatus}
               />
             </animated.div>
           );
@@ -155,17 +178,15 @@ const Home = ({ status, timeline, fetchPreviousTweets }) => {
         return (
           <animated.div key={key} style={props}>
             <Tweet
-              id={item.id}
-              fullText={item.full_text}
-              entities={item.entities}
-              media={
-                item.extended_entities ? item.extended_entities.media : null
-              }
-              user={item.user}
+              id={id}
+              fullText={full_text}
+              entities={entities}
+              media={extended_entities && extended_entities.media}
+              user={user}
               retweet={false}
               quoted={false}
-              created={item.created_at}
-              reply={item.in_reply_to_status_id}
+              created={created_at}
+              reply={in_reply_to_status_id}
             />
           </animated.div>
         );

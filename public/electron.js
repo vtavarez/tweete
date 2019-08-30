@@ -15,7 +15,7 @@ let twitterAPI;
 
 function createMainWindow() {
   const url = isDev
-    ? "http://127.0.0.1:3000"
+    ? "http://localhost:3000"
     : format({
         pathname: join(__dirname, "/../build/index.html"),
         protocol: "file:",

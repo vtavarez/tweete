@@ -50,6 +50,15 @@ const TweetMedia = ({ media, quoted }) => {
     }
 
     if (item.type === "video") {
+      const [ratioWidth, ratioHeight] = item.video_info.aspect_ratio;
+      const [
+        videoSourceOne,
+        videoSourceTwo,
+        videoSourceThree,
+        videoSourceFour
+      ] = item.video_info.variants;
+      const bitrate = 832000;
+
       return (
         <Box
           key={item.id}
@@ -66,43 +75,39 @@ const TweetMedia = ({ media, quoted }) => {
             className={video}
             fluid={false}
             width={
-              item.video_info.aspect_ratio[0] === 16 && quoted
+              ratioWidth === 16 && quoted
                 ? 380
-                : item.video_info.aspect_ratio[0] === 16
+                : ratioWidth === 16 || ratioWidth === 4
                 ? 390
-                : item.video_info.aspect_ratio[0] === 1 ||
-                  item.video_info.aspect_ratio[0] === 3 ||
-                  item.video_info.aspect_ratio[0] === 4
+                : ratioWidth === 1 || ratioWidth === 3
                 ? 300
                 : 200
             }
             muted={true}
-            aspectRatio={`${item.video_info.aspect_ratio[0]}:${
-              item.video_info.aspect_ratio[1]
-            }`}
+            aspectRatio={`${ratioWidth}:${ratioHeight}`}
           >
-            {item.video_info.variants[3] &&
-            item.video_info.variants[3].content_type === "video/mp4" ? (
+            {videoSourceFour && videoSourceFour.bitrate === bitrate && (
               <source
-                src={item.video_info.variants[3].url}
-                type={item.video_info.variants[3].content_type}
+                src={videoSourceFour.url}
+                type={videoSourceFour.content_type}
               />
-            ) : item.video_info.variants[2] &&
-              item.video_info.variants[2].content_type === "video/mp4" ? (
+            )}
+            {videoSourceThree && videoSourceThree.bitrate === bitrate && (
               <source
-                src={item.video_info.variants[2].url}
-                type={item.video_info.variants[2].content_type}
+                src={videoSourceThree.url}
+                type={videoSourceThree.content_type}
               />
-            ) : item.video_info.variants[1] &&
-              item.video_info.variants[1].content_type === "video/mp4" ? (
+            )}
+            {videoSourceTwo && videoSourceTwo.bitrate === bitrate && (
               <source
-                src={item.video_info.variants[1].url}
-                type={item.video_info.variants[1].content_type}
+                src={videoSourceTwo.url}
+                type={videoSourceTwo.content_type}
               />
-            ) : (
+            )}
+            {videoSourceOne && videoSourceOne.bitrate === bitrate && (
               <source
-                src={item.video_info.variants[0].url}
-                type={item.video_info.variants[0].content_type}
+                src={videoSourceOne.url}
+                type={videoSourceOne.content_type}
               />
             )}
             <LoadingSpinner disabled />
@@ -117,6 +122,8 @@ const TweetMedia = ({ media, quoted }) => {
     }
 
     if (item.type === "animated_gif") {
+      const [ratioWidth, ratioHeight] = item.video_info.aspect_ratio;
+      const [gif] = item.video_info.variants;
       return (
         <Box
           key={item.id}
@@ -135,14 +142,9 @@ const TweetMedia = ({ media, quoted }) => {
             width={quoted ? 380 : 390}
             muted={true}
             loop={true}
-            aspectRatio={`${item.video_info.aspect_ratio[0]}:${
-              item.video_info.aspect_ratio[1]
-            }`}
+            aspectRatio={`${ratioWidth}:${ratioHeight}`}
           >
-            <source
-              src={item.video_info.variants[0].url}
-              type={item.video_info.variants[0].content_type}
-            />
+            <source src={gif.url} type={gif.content_type} />
             <LoadingSpinner disabled />
             <Shortcut disabled />
             <ControlBar disabled />
