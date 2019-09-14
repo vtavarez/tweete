@@ -2,16 +2,16 @@ const { app, ipcMain, BrowserWindow } = require("electron");
 const { join } = require("path");
 const { format } = require("url");
 const { Twitter } = require("twitter-node-client");
-const { LocalStorage } = require("node-localstorage");
+const sqlite3 = require("sqlite3").verbose();
+const uuidv1 = require("uuid/v1");
 const isDev = require("electron-is-dev");
 const auth = require(`oauth-electron-twitter`);
-const uuidv1 = require("uuid/v1");
 const config = require("./config");
-const localStorage = new LocalStorage("./data");
 
 let mainWindow;
 let oAuthWindow;
-let twitterAPI;
+let twitterClient;
+let db;
 
 function createMainWindow() {
   const url = isDev
@@ -21,6 +21,16 @@ function createMainWindow() {
         protocol: "file:",
         slashes: true
       });
+
+  db = new sqlite3.Database("./data/users.db", sqlite3.OPEN_READWRITE, err =>
+    err ? console.error(err.message) : console.log("Connected to database.")
+  );
+
+  db.run("CREATE TABLE IF NOT EXISTS users(uid, token, token_secret)");
+
+  db.close(err =>
+    err ? console.error(err.message) : console.log("Database closed.")
+  );
 
   mainWindow = new BrowserWindow({
     width: 500,
@@ -59,142 +69,112 @@ async function createOAuthWindow() {
   oAuthWindow.setMenuBarVisibility(false);
 
   try {
-    const token = await auth.login(config, oAuthWindow);
+    const response = await auth.login(config, oAuthWindow);
     oAuthWindow.close();
-    return token;
+    return response;
   } catch (error) {
     return error;
   }
 }
 
+// Configure twitter-node-client for selected account.
+
+const configTwitterClient = (token, secret) => {
+  twitterClient = new Twitter({
+    consumerKey: config.key,
+    consumerSecret: config.secret,
+    accessToken: token,
+    accessTokenSecret: secret,
+    callBackUrl: "http://localhost"
+  });
+};
+
 // Twitter oauth sign in listener.
 
 ipcMain.on("twitter-oauth", async event => {
-  const oAuthResponse = await createOAuthWindow();
-  const uid = uuidv1();
+  const response = await createOAuthWindow();
+  let uid = uuidv1();
 
-  if (oAuthResponse === "closed window") {
+  if (response === "closed window") {
     return event.sender.send("twitter-oauth-response", null);
   }
 
-  localStorage.setItem(uid, JSON.stringify(oAuthResponse));
+  db = new sqlite3.Database("./data/users.db");
+
+  db.run(
+    "INSERT INTO users(uid, token, token_secret) VALUES((?), (?), (?))",
+    [uid, response.token, response.tokenSecret],
+    err => err && console.error(err.message)
+  );
+
+  db.close(err => err && console.error(err.message));
+
+  configTwitterClient(response.token, response.tokenSecret);
 
   return event.sender.send("twitter-oauth-response", uid);
 });
 
-// Configures twitter-node-client for authenticated user.
+// Initializing selected account
 
-function initTwitterApi(uid) {
-  const { token, tokenSecret } = JSON.parse(localStorage.getItem(uid));
+ipcMain.on("select-acct", (event, uid) => {
+  db = new sqlite3.Database("./data/users.db");
 
-  const apiConfig = {
-    consumerKey: config.key,
-    consumerSecret: config.secret,
-    accessToken: token,
-    accessTokenSecret: tokenSecret,
-    callBackUrl: "http://localhost"
-  };
-
-  twitterAPI = new Twitter(apiConfig);
-}
-
-// Initial user fetch listener.
-
-ipcMain.on("fetch-user", (event, uid) => {
-  initTwitterApi(uid);
-
-  const user = new Promise((resolve, reject) => {
-    twitterAPI.getCustomApiCall(
-      "/account/verify_credentials.json",
-      {},
-      (err, response, body) => {
-        reject(err);
-      },
-      response => {
-        resolve(response);
+  db.each(
+    "SELECT token, token_secret FROM users WHERE uid = ?",
+    [uid],
+    (err, row) => {
+      if (err) {
+        return console.error(err);
       }
-    );
-  });
 
-  user
-    .then(data => {
-      event.sender.send("fetched-user", data);
-    })
-    .catch(err => {
-      console.log(err);
-    });
+      configTwitterClient(row.token, row.token_secret);
+
+      event.sender.send("selected-acct");
+    }
+  );
+
+  db.close(err => err && console.error(err.message));
+});
+
+// Fetch user listener.
+
+ipcMain.on("fetch-user", event => {
+  twitterClient.getCustomApiCall(
+    "/account/verify_credentials.json",
+    {},
+    err => console.error(err),
+    res => event.sender.send("fetched-user", res)
+  );
 });
 
 // Fetch home timeline listener.
 
 ipcMain.on("fetch-timeline", event => {
-  const timeline = new Promise((resolve, reject) => {
-    twitterAPI.getHomeTimeline(
-      { count: "20", tweet_mode: "extended" },
-      (error, response, body) => {
-        reject(error);
-      },
-      response => {
-        resolve(response);
-      }
-    );
-  });
-
-  timeline
-    .then(data => {
-      event.sender.send("fetched-timeline", data);
-    })
-    .catch(err => {
-      console.log(err);
-    });
+  twitterClient.getHomeTimeline(
+    { count: "20", tweet_mode: "extended" },
+    err => console.error(err),
+    res => event.sender.send("fetched-timeline", res)
+  );
 });
 
 // Fetch tweets listener.
 
 ipcMain.on("fetch-tweets", (event, id) => {
-  const tweets = new Promise((resolve, reject) => {
-    twitterAPI.getHomeTimeline(
-      { since_id: id, tweet_mode: "extended" },
-      (error, response, body) => {
-        reject(error);
-      },
-      response => {
-        resolve(response);
-      }
-    );
-  });
-
-  tweets
-    .then(data => {
-      event.sender.send("fetched-tweets", data);
-    })
-    .catch(err => {
-      console.log(err);
-    });
+  twitterClient.getHomeTimeline(
+    { since_id: id, tweet_mode: "extended" },
+    err => console.error(err),
+    res => event.sender.send("fetched-tweets", res)
+  );
 });
 
 // Fetch previous tweets listener.
 
 ipcMain.on("fetch-previous-tweets", (event, id) => {
-  const tweets = new Promise((resolve, reject) => {
-    twitterAPI.getHomeTimeline(
-      { max_id: id, count: "20", tweet_mode: "extended" },
-      (error, response, body) => {
-        reject(error);
-      },
-      response => {
-        resolve(response);
-      }
-    );
-  });
-
-  tweets
-    .then(data => {
-      event.sender.send("fetched-previous-tweets", data);
-    })
-    .catch(err => {
-      console.log(err);
-    });
+  twitterClient.getHomeTimeline(
+    { max_id: id, count: "20", tweet_mode: "extended" },
+    err => console.error(err),
+    res => event.sender.send("fetched-previous-tweets", res)
+  );
 });
 
 app.on("ready", createMainWindow);

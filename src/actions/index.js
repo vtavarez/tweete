@@ -63,8 +63,17 @@ export const beginOAuth = () => dispatch => {
   });
 };
 
+export const selectAcct = () => dispatch => {
+  ipcRenderer.send("select-acct", localStorage.getItem("uid"));
+
+  ipcRenderer.once("selected-acct", event => {
+    dispatch(fetchUser());
+    dispatch(fetchHomeTimeline());
+  });
+};
+
 export const fetchUser = () => dispatch => {
-  ipcRenderer.send("fetch-user", localStorage.getItem("uid"));
+  ipcRenderer.send("fetch-user");
 
   ipcRenderer.once("fetched-user", (event, user) => {
     console.log(JSON.parse(user));
