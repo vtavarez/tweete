@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { withStyles, makeStyles } from "@material-ui/styles";
-import { beginOAuth, selectAcct } from "../actions";
+import { beginOAuth, selectAccount } from "../actions";
 import Modal from "@material-ui/core/Modal";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
@@ -56,7 +56,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const LoginWithTwitter = ({ oauth, beginOAuth, selectAcct }) => {
+const LoginWithTwitter = ({ oauth, beginOAuth, selectAccount }) => {
   const [open, setOpen] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const { logo, button, buttonIcon, progress, gridContainer } = useStyles();
@@ -72,7 +72,7 @@ const LoginWithTwitter = ({ oauth, beginOAuth, selectAcct }) => {
     }
 
     if (localStorage.getItem("authenticated") && !oauth) {
-      selectAcct();
+      selectAccount();
       setIsLoading(false);
       setOpen(false);
     }
@@ -144,5 +144,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { selectAcct, beginOAuth }
+  { selectAccount, beginOAuth }
 )(LoginWithTwitter);

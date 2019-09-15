@@ -1,16 +1,16 @@
 const { app, ipcMain, BrowserWindow } = require("electron");
 const { join } = require("path");
 const { format } = require("url");
-const { Twitter } = require("twitter-node-client");
+const Twit = require("twit");
 const sqlite3 = require("sqlite3").verbose();
 const uuidv1 = require("uuid/v1");
 const isDev = require("electron-is-dev");
-const auth = require(`oauth-electron-twitter`);
+const auth = require("oauth-electron-twitter");
 const config = require("./config");
 
 let mainWindow;
 let oAuthWindow;
-let twitterClient;
+let twitter;
 let db;
 
 function createMainWindow() {
@@ -77,15 +77,14 @@ async function createOAuthWindow() {
   }
 }
 
-// Configure twitter-node-client for selected account.
+// Configure twitter-client for selected account.
 
-const configTwitterClient = (token, secret) => {
-  twitterClient = new Twitter({
-    consumerKey: config.key,
-    consumerSecret: config.secret,
-    accessToken: token,
-    accessTokenSecret: secret,
-    callBackUrl: "http://localhost"
+const configureTwitterClient = (token, secret) => {
+  twitter = new Twit({
+    consumer_key: config.key,
+    consumer_secret: config.secret,
+    access_token: token,
+    access_token_secret: secret
   });
 };
 
@@ -97,39 +96,41 @@ ipcMain.on("twitter-oauth", async event => {
 
   if (response === "closed window") {
     return event.sender.send("twitter-oauth-response", null);
+  } else {
+    const { token, tokenSecret } = response;
+
+    db = new sqlite3.Database("./data/users.db");
+
+    db.run(
+      "INSERT INTO users(uid, token, token_secret) VALUES((?), (?), (?))",
+      [uid, response.token, response.tokenSecret],
+      err => err && console.error(err.message)
+    );
+
+    db.close(err => err && console.error(err.message));
+
+    configureTwitterClient(token, tokenSecret);
+
+    return event.sender.send("twitter-oauth-response", uid);
   }
-
-  db = new sqlite3.Database("./data/users.db");
-
-  db.run(
-    "INSERT INTO users(uid, token, token_secret) VALUES((?), (?), (?))",
-    [uid, response.token, response.tokenSecret],
-    err => err && console.error(err.message)
-  );
-
-  db.close(err => err && console.error(err.message));
-
-  configTwitterClient(response.token, response.tokenSecret);
-
-  return event.sender.send("twitter-oauth-response", uid);
 });
 
 // Initializing selected account
 
-ipcMain.on("select-acct", (event, uid) => {
+ipcMain.on("select-account", (event, uid) => {
   db = new sqlite3.Database("./data/users.db");
 
   db.each(
     "SELECT token, token_secret FROM users WHERE uid = ?",
     [uid],
-    (err, row) => {
+    (err, { token, token_secret }) => {
       if (err) {
-        return console.error(err);
+        return console.error(err.message);
       }
 
-      configTwitterClient(row.token, row.token_secret);
+      configureTwitterClient(token, token_secret);
 
-      event.sender.send("selected-acct");
+      event.sender.send("selected-account");
     }
   );
 
@@ -139,41 +140,59 @@ ipcMain.on("select-acct", (event, uid) => {
 // Fetch user listener.
 
 ipcMain.on("fetch-user", event => {
-  twitterClient.getCustomApiCall(
-    "/account/verify_credentials.json",
-    {},
-    err => console.error(err),
-    res => event.sender.send("fetched-user", res)
+  twitter.get("/account/verify_credentials", (err, user) =>
+    err ? console.error(err) : event.sender.send("fetched-user", user)
   );
 });
 
 // Fetch home timeline listener.
 
 ipcMain.on("fetch-timeline", event => {
-  twitterClient.getHomeTimeline(
+  twitter.get(
+    "/statuses/home_timeline",
     { count: "20", tweet_mode: "extended" },
-    err => console.error(err),
-    res => event.sender.send("fetched-timeline", res)
+    (err, timeline) =>
+      err ? console.error(err) : event.sender.send("fetched-timeline", timeline)
   );
 });
 
 // Fetch tweets listener.
 
 ipcMain.on("fetch-tweets", (event, id) => {
-  twitterClient.getHomeTimeline(
+  twitter.get(
+    "/statuses/home_timeline",
     { since_id: id, tweet_mode: "extended" },
-    err => console.error(err),
-    res => event.sender.send("fetched-tweets", res)
+    (err, timeline) =>
+      err ? console.error(err) : event.sender.send("fetched-tweets", timeline)
   );
 });
 
 // Fetch previous tweets listener.
 
 ipcMain.on("fetch-previous-tweets", (event, id) => {
-  twitterClient.getHomeTimeline(
+  twitter.get(
+    "/statuses/home_timeline",
     { max_id: id, count: "20", tweet_mode: "extended" },
-    err => console.error(err),
-    res => event.sender.send("fetched-previous-tweets", res)
+    (err, tweets) =>
+      err
+        ? console.error(err)
+        : event.sender.send("fetched-previous-tweets", tweets)
+  );
+});
+
+// Like tweet listener
+
+ipcMain.on("like-tweet", (event, id) => {
+  twitter.post("/favorites/create", { id }, (err, { favorited }) =>
+    err ? console.error(err) : event.sender.send("tweet-liked", favorited)
+  );
+});
+
+// Unlike tweet listener
+
+ipcMain.on("unlike-tweet", (event, id) => {
+  twitter.post("/favorites/destroy", { id }, (err, { favorited }) =>
+    err ? console.error(err) : event.sender.send("tweet-unliked", favorited)
   );
 });
 

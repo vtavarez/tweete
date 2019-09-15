@@ -24,6 +24,9 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Tweet = ({
+  id,
+  idStr,
+  liked,
   fullText,
   entities,
   media,
@@ -75,7 +78,7 @@ const Tweet = ({
             quotedReply={quotedReply}
           />
         )}
-        <TweetOptions user={user} />
+        <TweetOptions user={user} tweetId={idStr} liked={liked} />
       </Grid>
     </Grid>
   );

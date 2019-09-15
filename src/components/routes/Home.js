@@ -13,7 +13,8 @@ import Tweet from "../Tweet";
 const useStyles = makeStyles(theme => ({
   container: {
     position: "absolute",
-    width: "100%",
+    left: 0,
+    right: 0,
     height: "calc(100vh - 108px)",
     transform: "translateY(54px)",
     overflowX: "hidden"
@@ -32,7 +33,6 @@ const Home = ({ status, timeline, fetchPreviousTweets }) => {
   });
 
   const [cancelScroll, setCancelScroll] = useState(false);
-
   const resetScroll = () => setTimeout(() => setCancelScroll(false), 2000);
 
   const onScrollHandler = e => {
@@ -59,6 +59,8 @@ const Home = ({ status, timeline, fetchPreviousTweets }) => {
       {transitions.map(({ item: tweet, props, key }) => {
         const {
           id,
+          id_str,
+          favorited,
           full_text,
           entities,
           extended_entities,
@@ -72,6 +74,8 @@ const Home = ({ status, timeline, fetchPreviousTweets }) => {
         if (retweet) {
           const {
             id: retweetId,
+            id_str: retweetIdStr,
+            favorited: retweetLiked,
             full_text: retweetFullText,
             entities: retweetEntities,
             extended_entities: retweetExtendedEntities,
@@ -95,6 +99,8 @@ const Home = ({ status, timeline, fetchPreviousTweets }) => {
               <animated.div key={key} style={props}>
                 <Tweet
                   id={retweetId}
+                  idStr={retweetIdStr}
+                  liked={retweetLiked}
                   fullText={retweetFullText}
                   entities={retweetEntities}
                   media={
@@ -124,6 +130,8 @@ const Home = ({ status, timeline, fetchPreviousTweets }) => {
             <animated.div key={key} style={props}>
               <Tweet
                 id={retweetId}
+                idStr={retweetIdStr}
+                liked={retweetLiked}
                 fullText={retweetFullText}
                 entities={retweetEntities}
                 media={retweetExtendedEntities && retweetExtendedEntities.media}
@@ -153,6 +161,8 @@ const Home = ({ status, timeline, fetchPreviousTweets }) => {
             <animated.div key={key} style={props}>
               <Tweet
                 id={id}
+                idStr={id_str}
+                liked={favorited}
                 fullText={full_text}
                 entities={entities}
                 media={extended_entities && extended_entities.media}
@@ -179,6 +189,8 @@ const Home = ({ status, timeline, fetchPreviousTweets }) => {
           <animated.div key={key} style={props}>
             <Tweet
               id={id}
+              idStr={id_str}
+              liked={favorited}
               fullText={full_text}
               entities={entities}
               media={extended_entities && extended_entities.media}

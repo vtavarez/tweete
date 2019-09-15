@@ -14,7 +14,9 @@ import {
   FETCHED_TIMELINE,
   FETCHED_TWEETS,
   FETCHING_PREVIOUS_TWEETS,
-  FETCHED_PREVIOUS_TWEETS
+  FETCHED_PREVIOUS_TWEETS,
+  TWEET_LIKED,
+  TWEET_UNLIKED
 } from "./types";
 
 const ipcRenderer = require("electron").ipcRenderer;
@@ -63,10 +65,10 @@ export const beginOAuth = () => dispatch => {
   });
 };
 
-export const selectAcct = () => dispatch => {
-  ipcRenderer.send("select-acct", localStorage.getItem("uid"));
+export const selectAccount = () => dispatch => {
+  ipcRenderer.send("select-account", localStorage.getItem("uid"));
 
-  ipcRenderer.once("selected-acct", event => {
+  ipcRenderer.once("selected-account", event => {
     dispatch(fetchUser());
     dispatch(fetchHomeTimeline());
   });
@@ -76,10 +78,9 @@ export const fetchUser = () => dispatch => {
   ipcRenderer.send("fetch-user");
 
   ipcRenderer.once("fetched-user", (event, user) => {
-    console.log(JSON.parse(user));
     dispatch({
       type: FETCHED_USER,
-      payload: JSON.parse(user)
+      payload: user
     });
   });
 };
@@ -91,7 +92,7 @@ export const fetchHomeTimeline = () => dispatch => {
     dispatch(updateTimeline());
     dispatch({
       type: FETCHED_TIMELINE,
-      payload: JSON.parse(timeline)
+      payload: timeline
     });
   });
 };
@@ -108,7 +109,7 @@ export const fetchTweets = () => (dispatch, getState) => {
     dispatch(updateTimeline());
     dispatch({
       type: FETCHED_TWEETS,
-      payload: JSON.parse(tweets)
+      payload: tweets
     });
   });
 };
@@ -125,7 +126,27 @@ export const fetchPreviousTweets = () => (dispatch, getState) => {
   ipcRenderer.once("fetched-previous-tweets", (event, tweets) => {
     dispatch({
       type: FETCHED_PREVIOUS_TWEETS,
-      payload: JSON.parse(tweets).slice(1)
+      payload: tweets.splice(1)
+    });
+  });
+};
+
+export const likeTweet = id => dispatch => {
+  ipcRenderer.send("like-tweet", id);
+
+  ipcRenderer.once("tweet-liked", event => {
+    dispatch({
+      type: TWEET_LIKED
+    });
+  });
+};
+
+export const unLikeTweet = id => dispatch => {
+  ipcRenderer.send("unlike-tweet", id);
+
+  ipcRenderer.once("tweet-unliked", event => {
+    dispatch({
+      type: TWEET_UNLIKED
     });
   });
 };
