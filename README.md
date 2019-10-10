@@ -6,9 +6,9 @@ Twitter application for Linux. Built on Electron and React.
 
 ## Preview
 
-| Login                                | App                                |
-| ------------------------------------ | ---------------------------------- |
-| ![Tweete Login](./login-preview.png) | ![Tweete Login](./app-preview.png) |
+| Login                                        | App                                        |
+| -------------------------------------------- | ------------------------------------------ |
+| ![Tweete Login](./preivew/login-preview.png) | ![Tweete Login](./preview/app-preview.png) |
 
 ## Installation
 
