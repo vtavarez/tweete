@@ -20,21 +20,28 @@ const TweetContainer = withStyles({
   <Grid container className={classes.root} {...other} />
 ));
 
-const QuotedTweet = ({ user, fullText, entities, media, created, reply }) => {
+const QuotedTweet = ({
+  full_text,
+  entities,
+  extended_entities,
+  created_at,
+  user,
+  in_reply_to_status_id
+}) => {
   return (
     <TweetContainer color={"highlight"}>
       <Grid item xs={12}>
         <TweetHeader
           user={user}
-          created={created}
+          created={created_at}
           fontSize={13}
-          reply={reply}
+          reply={in_reply_to_status_id}
           quoted
         />
         <TweetBody
-          fullText={fullText}
+          fullText={full_text}
           entities={entities}
-          media={media}
+          media={extended_entities && extended_entities.media}
           fontSize={12}
           quoted
         />

@@ -24,23 +24,18 @@ const useStyles = makeStyles(theme => ({
 
 const Tweet = ({
   id,
-  idStr,
-  liked,
-  fullText,
+  id_str,
+  favorited,
+  full_text,
   entities,
-  media,
+  extended_entities,
   user,
-  created,
+  created_at,
   quoted,
-  reply,
+  in_reply_to_status_id,
   retweet,
   retweeter,
-  quotedFullText,
-  quotedEntities,
-  quotedMedia,
-  quotedCreated,
-  quotedUser,
-  quotedReply
+  quotedTweet
 }) => {
   const { avatar, details, container } = useStyles();
   const highResAvatar = () => {
@@ -58,19 +53,18 @@ const Tweet = ({
         <Avatar alt="user avatar" src={highResAvatar()} className={avatar} />
       </Grid>
       <Grid className={details} item xs={10}>
-        <TweetHeader user={user} created={created} reply={reply} />
-        <TweetBody fullText={fullText} entities={entities} media={media} />
-        {quoted && (
-          <QuotedTweet
-            fullText={quotedFullText}
-            entities={quotedEntities}
-            media={quotedMedia}
-            created={quotedCreated}
-            user={quotedUser}
-            reply={quotedReply}
-          />
-        )}
-        <TweetOptions user={user} tweetId={idStr} liked={liked} />
+        <TweetHeader
+          user={user}
+          created={created_at}
+          reply={in_reply_to_status_id}
+        />
+        <TweetBody
+          fullText={full_text}
+          entities={entities}
+          media={extended_entities && extended_entities.media}
+        />
+        {quoted && <QuotedTweet {...quotedTweet} />}
+        <TweetOptions user={user} tweetId={id_str} liked={favorited} />
       </Grid>
     </Grid>
   );

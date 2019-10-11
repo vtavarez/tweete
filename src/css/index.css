@@ -27,6 +27,7 @@ img {
 
 #root {
   max-width: 500px;
+  min-height: 100vh;
 }
 
 .video-react-big-play-button-left {
