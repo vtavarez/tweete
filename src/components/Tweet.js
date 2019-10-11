@@ -1,5 +1,4 @@
 import React from "react";
-import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Avatar from "@material-ui/core/Avatar";
@@ -35,8 +34,7 @@ const Tweet = ({
   quoted,
   reply,
   retweet,
-  retweeterAvatar,
-  retweeterHandle,
+  retweeter,
   quotedFullText,
   quotedEntities,
   quotedMedia,
@@ -53,29 +51,23 @@ const Tweet = ({
     <Grid container className={container}>
       {retweet && (
         <Grid item xs={12}>
-          <RetweeterDetails avatar={retweeterAvatar} handle={retweeterHandle} />
+          <RetweeterDetails retweeter={retweeter} />
         </Grid>
       )}
       <Grid item xs={2}>
         <Avatar alt="user avatar" src={highResAvatar()} className={avatar} />
       </Grid>
       <Grid className={details} item xs={10}>
-        <TweetHeader
-          name={user.name}
-          handle={user.screen_name}
-          verified={user.verified}
-          created={created}
-          reply={reply}
-        />
+        <TweetHeader user={user} created={created} reply={reply} />
         <TweetBody fullText={fullText} entities={entities} media={media} />
         {quoted && (
           <QuotedTweet
-            quotedFullText={quotedFullText}
-            quotedEntities={quotedEntities}
-            quotedMedia={quotedMedia}
-            quotedCreated={quotedCreated}
-            quotedUser={quotedUser}
-            quotedReply={quotedReply}
+            fullText={quotedFullText}
+            entities={quotedEntities}
+            media={quotedMedia}
+            created={quotedCreated}
+            user={quotedUser}
+            reply={quotedReply}
           />
         )}
         <TweetOptions user={user} tweetId={idStr} liked={liked} />
@@ -84,4 +76,4 @@ const Tweet = ({
   );
 };
 
-export default connect(null)(Tweet);
+export default Tweet;

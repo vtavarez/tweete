@@ -112,10 +112,9 @@ const Home = ({ status, timeline, fetchPreviousTweets }) => {
                   }
                   created={retweetCreated}
                   user={retweetUser}
-                  retweet={true}
-                  quoted={true}
-                  retweeterAvatar={tweet.user.profile_image_url_https}
-                  retweeterHandle={tweet.user.screen_name}
+                  retweet
+                  quoted
+                  retweeter={user}
                   quotedFullText={retweetQuotedTweetFullText}
                   quotedEntities={retweetQuotedTweetEntities}
                   quotedMedia={
@@ -141,10 +140,8 @@ const Home = ({ status, timeline, fetchPreviousTweets }) => {
                 media={retweetExtendedEntities && retweetExtendedEntities.media}
                 created={retweetCreated}
                 user={retweetUser}
-                retweet={true}
-                quoted={false}
-                retweeterAvatar={user.profile_image_url_https}
-                retweeterHandle={user.screen_name}
+                retweet
+                retweeter={user}
                 reply={retweetReplyStatus}
               />
             </animated.div>
@@ -171,8 +168,7 @@ const Home = ({ status, timeline, fetchPreviousTweets }) => {
                 entities={entities}
                 media={extended_entities && extended_entities.media}
                 user={user}
-                retweet={false}
-                quoted={true}
+                quoted
                 created={created_at}
                 reply={in_reply_to_status_id}
                 quotedFullText={quotedTweetFullText}
@@ -199,8 +195,6 @@ const Home = ({ status, timeline, fetchPreviousTweets }) => {
               entities={entities}
               media={extended_entities && extended_entities.media}
               user={user}
-              retweet={false}
-              quoted={false}
               created={created_at}
               reply={in_reply_to_status_id}
             />

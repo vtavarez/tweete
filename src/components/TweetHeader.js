@@ -13,7 +13,7 @@ const useStyles = makeStyles(theme => ({
     userSelect: "none",
     fontSize: props => props.fontSize || 14
   },
-  handle: {
+  screen_name: {
     marginLeft: 5,
     color: theme.palette.grey[500],
     fontWeight: 300,
@@ -39,14 +39,19 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const TweetHeader = ({ name, handle, reply, verified, created, fontSize }) => {
+const TweetHeader = ({
+  user: { name, screen_name, verified },
+  reply,
+  created,
+  fontSize
+}) => {
   const classes = useStyles({ fontSize });
 
   return (
     <Typography variant="subtitle2" className={classes.name}>
       {name}
       {verified && (
-        <span className={classes.handle}>
+        <span className={classes.screen_name}>
           <Icon
             path={mdiCheckDecagram}
             horizontal
@@ -56,7 +61,7 @@ const TweetHeader = ({ name, handle, reply, verified, created, fontSize }) => {
           />
         </span>
       )}
-      <span className={classes.handle}>{`@${handle}`}</span>
+      <span className={classes.screen_name}>{`@${screen_name}`}</span>
       <TweetCreatedAt created={created} fontSize={fontSize - 2} />
       {reply && <ReplyIcon className={classes.reply} />}
     </Typography>

@@ -6,7 +6,7 @@ import Box from "@material-ui/core/Box";
 import Avatar from "@material-ui/core/Avatar";
 
 const useStyles = makeStyles(theme => ({
-  retweeter_container: {
+  container: {
     transform: "translateX(80px)"
   },
   box: {
@@ -23,7 +23,7 @@ const useStyles = makeStyles(theme => ({
     height: 18,
     marginLeft: 5
   },
-  handle: {
+  screen_name: {
     color: theme.palette.grey[500],
     fontWeight: 300,
     fontSize: 12,
@@ -32,25 +32,31 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const RetweeterDetails = props => {
-  const { retweeter_container, box, icon, avatar, handle } = useStyles();
+const RetweeterDetails = ({
+  retweeter: { profile_image_url_https, screen_name }
+}) => {
+  const classes = useStyles();
 
   return (
-    <Box className={retweeter_container}>
-      <Box className={box}>
+    <Box className={classes.container}>
+      <Box className={classes.box}>
         <Icon
           path={mdiTwitterRetweet}
           horizontal
           vertical
           rotate={180}
-          className={icon}
+          className={classes.icon}
         />
       </Box>
-      <Box className={box}>
-        <Avatar alt="retweet avatar" src={props.avatar} className={avatar} />
+      <Box className={classes.box}>
+        <Avatar
+          alt="retweet avatar"
+          src={profile_image_url_https}
+          className={classes.avatar}
+        />
       </Box>
-      <Box className={box}>
-        <span className={handle}>{`@${props.handle}`}</span>
+      <Box className={classes.box}>
+        <span className={classes.screen_name}>{`@${screen_name}`}</span>
       </Box>
     </Box>
   );
