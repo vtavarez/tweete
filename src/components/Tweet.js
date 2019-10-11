@@ -45,7 +45,7 @@ const Tweet = ({
   quotedReply
 }) => {
   const { avatar, details, container } = useStyles();
-  const higherResAavatar = () => {
+  const highResAvatar = () => {
     return user.profile_image_url_https.replace("_normal", "");
   };
 
@@ -57,7 +57,7 @@ const Tweet = ({
         </Grid>
       )}
       <Grid item xs={2}>
-        <Avatar alt="user avatar" src={higherResAavatar()} className={avatar} />
+        <Avatar alt="user avatar" src={highResAvatar()} className={avatar} />
       </Grid>
       <Grid className={details} item xs={10}>
         <TweetHeader

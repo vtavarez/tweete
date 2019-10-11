@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { fetchPreviousTweets } from "../../actions";
 import { useTransition, animated, config } from "react-spring";
@@ -32,17 +32,21 @@ const Home = ({ status, timeline, fetchPreviousTweets }) => {
     config: config.slow
   });
 
-  const [cancelScroll, setCancelScroll] = useState(false);
-  const resetScroll = () => setTimeout(() => setCancelScroll(false), 2000);
+  const [disabledFetch, disableFetch] = useState(false);
+
+  useEffect(() => {
+    if (status === "fetchedPreviousTweets") {
+      disableFetch(false);
+    }
+  }, [status]);
 
   const onScrollHandler = e => {
     if (
       e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight &&
-      !cancelScroll
+      !disabledFetch
     ) {
       fetchPreviousTweets();
-      setCancelScroll(true);
-      resetScroll();
+      disableFetch(true);
     }
   };
 
