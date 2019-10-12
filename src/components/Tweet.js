@@ -7,7 +7,7 @@ import TweetBody from "./TweetBody";
 import TweetOptions from "./TweetOptions";
 import RetweeterDetails from "./RetweeterDetails";
 import QuotedTweet from "./QuotedTweet";
-import { Context } from "./TweetsContextProvider";
+import { Context } from "./TweetsContext";
 
 const useStyles = makeStyles(theme => ({
   avatar: {

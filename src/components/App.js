@@ -33,6 +33,8 @@ import FooterNavigation from "./FooterNavigation";
 // Login With Twitter
 import LoginWithTwitter from "./LoginWithTwitter";
 
+import { TweetsContextProvider } from "./TweetsContext";
+
 const theme = createMuiTheme({
   overrides: {
     MuiListItem: {
@@ -83,25 +85,27 @@ const App = () => {
   return (
     <React.Fragment>
       <CssBaseline />
-      <ThemeProvider theme={theme}>
-        <LoginWithTwitter />
-        <HeaderNavigation />
-        {transitions.map(({ item, props, key }) => (
-          <animated.div key={key} style={props}>
-            <Switch location={item}>
-              <Route path="/" exact component={Timeline} />
-              <Route path="/Filters" exact component={Filters} />
-              <Route path="/Likes" exact component={Likes} />
-              <Route path="/Lists" exact component={Lists} />
-              <Route path="/Mentions" exact component={Mentions} />
-              <Route path="/Messages" exact component={Messages} />
-              <Route path="/Profile" exact component={Profile} />
-              <Route path="/Search" exact component={Search} />
-            </Switch>
-          </animated.div>
-        ))}
-        <FooterNavigation />
-      </ThemeProvider>
+      <TweetsContextProvider>
+        <ThemeProvider theme={theme}>
+          <LoginWithTwitter />
+          <HeaderNavigation />
+          {transitions.map(({ item, props, key }) => (
+            <animated.div key={key} style={props}>
+              <Switch location={item}>
+                <Route path="/" exact component={Timeline} />
+                <Route path="/Filters" exact component={Filters} />
+                <Route path="/Likes" exact component={Likes} />
+                <Route path="/Lists" exact component={Lists} />
+                <Route path="/Mentions" exact component={Mentions} />
+                <Route path="/Messages" exact component={Messages} />
+                <Route path="/Profile" exact component={Profile} />
+                <Route path="/Search" exact component={Search} />
+              </Switch>
+            </animated.div>
+          ))}
+          <FooterNavigation />
+        </ThemeProvider>
+      </TweetsContextProvider>
     </React.Fragment>
   );
 };

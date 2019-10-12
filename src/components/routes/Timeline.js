@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import { useTransition, animated, config } from "react-spring";
 import { fetchPreviousTweets } from "../../actions";
-import { TweetsContextProvider } from "../TweetsContextProvider";
 import CircularLoader from "../CircularLoader";
 import Tweet from "../Tweet";
 import LinearLoader from "../LinearLoader";
@@ -13,6 +12,8 @@ import LinearLoader from "../LinearLoader";
 const useStyles = makeStyles(theme => ({
   container: {
     position: "absolute",
+    left: 0,
+    right: 0,
     height: "calc(100vh - 108px)",
     transform: "translateY(54px)",
     overflowX: "hidden"
@@ -58,56 +59,54 @@ const Timeline = ({ status, timeline, fetchPreviousTweets }) => {
 
   return (
     <div className={container} onScroll={onScrollHandler}>
-      <TweetsContextProvider>
-        {transitions.map(({ item: tweet, props, key }) => {
-          const {
-            user,
-            retweeted_status: retweet,
-            quoted_status: quotedTweet
-          } = tweet;
+      {transitions.map(({ item: tweet, props, key }) => {
+        const {
+          user,
+          retweeted_status: retweet,
+          quoted_status: quotedTweet
+        } = tweet;
 
-          if (retweet) {
-            const { quoted_status: quotedRetweet } = retweet;
+        if (retweet) {
+          const { quoted_status: quotedRetweet } = retweet;
 
-            if (quotedRetweet) {
-              return (
-                <animated.div key={key} style={props}>
-                  <Tweet
-                    retweet
-                    quoted
-                    retweeter={user}
-                    quotedTweet={{
-                      ...quotedRetweet
-                    }}
-                    {...retweet}
-                  />
-                </animated.div>
-              );
-            }
-
+          if (quotedRetweet) {
             return (
               <animated.div key={key} style={props}>
-                <Tweet retweet retweeter={user} {...retweet} />
-              </animated.div>
-            );
-          }
-
-          if (quotedTweet) {
-            return (
-              <animated.div key={key} style={props}>
-                <Tweet quoted quotedTweet={{ ...quotedTweet }} {...tweet} />
+                <Tweet
+                  retweet
+                  quoted
+                  retweeter={user}
+                  quotedTweet={{
+                    ...quotedRetweet
+                  }}
+                  {...retweet}
+                />
               </animated.div>
             );
           }
 
           return (
             <animated.div key={key} style={props}>
-              <Tweet {...tweet} />
+              <Tweet retweet retweeter={user} {...retweet} />
             </animated.div>
           );
-        })}
-        {status === "fetchingPreviousTweets" && <LinearLoader />}
-      </TweetsContextProvider>
+        }
+
+        if (quotedTweet) {
+          return (
+            <animated.div key={key} style={props}>
+              <Tweet quoted quotedTweet={{ ...quotedTweet }} {...tweet} />
+            </animated.div>
+          );
+        }
+
+        return (
+          <animated.div key={key} style={props}>
+            <Tweet {...tweet} />
+          </animated.div>
+        );
+      })}
+      {status === "fetchingPreviousTweets" && <LinearLoader />}
     </div>
   );
 };

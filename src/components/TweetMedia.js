@@ -15,7 +15,7 @@ import {
 // TODO enlarge clicked media in a new browswer window.
 
 const useStyles = makeStyles(theme => ({
-  media_container: {
+  container: {
     width: "fit-content"
   },
   video: {
@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const TweetMedia = ({ media, quoted }) => {
-  const { media_container, video } = useStyles();
+  const { container, video } = useStyles();
   let control;
 
   const onMouseOutHandler = e => {
@@ -160,7 +160,10 @@ const TweetMedia = ({ media, quoted }) => {
     return <Gallery photos={content} />;
   }
 
-  return <Box className={media_container}>{content}</Box>;
+  return <Box className={container}>{content}</Box>;
 };
 
-export default TweetMedia;
+export default React.memo(TweetMedia, (prevProps, nextProps) => {
+  console.log("Memozied");
+  return true;
+});
