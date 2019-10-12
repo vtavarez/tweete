@@ -1,6 +1,6 @@
 import history from "../history";
 import {
-  ROUTE_HOME,
+  ROUTE_TIMELINE,
   ROUTE_MENTIONS,
   ROUTE_MESSAGES,
   ROUTE_SEARCH,
@@ -26,7 +26,7 @@ export const changeRoute = path => {
   route(path);
   switch (path) {
     case "/":
-      return { type: ROUTE_HOME };
+      return { type: ROUTE_TIMELINE };
     case "/Mentions":
       return { type: ROUTE_MENTIONS };
     case "/Messages":

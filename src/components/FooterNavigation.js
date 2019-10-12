@@ -5,7 +5,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import BottomNavigation from "@material-ui/core/BottomNavigation";
 import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
 import Badge from "@material-ui/core/Badge";
-import HomeIcon from "@material-ui/icons/Home";
+import TimelineIcon from "@material-ui/icons/Forum";
 import MentionsIcon from "@material-ui/icons/AlternateEmail";
 import MessagesIcon from "@material-ui/icons/Mail";
 import SearchIcon from "@material-ui/icons/Search";
@@ -29,14 +29,14 @@ const FooterNavigation = ({ route, timeline, changeRoute }) => {
   const { nav, action } = useStyles();
   const [mentionsBadgeInvisible, setMentionsBadgeInvisible] = useState(false);
   const [messagesBadgeInvisible, setMessagesBadgeInvisible] = useState(false);
-  const [homeBadgeInvisible, setHomeBadgeInvisible] = useState(true);
+  const [timelineBadgeInvisible, setTimelineBadgeInvisible] = useState(true);
   const [mostCurrentTweetsLength, setTweetsLength] = useState(null);
 
   const handleRoute = (event, route) => {
     switch (route) {
-      case "home":
+      case "timeline":
         changeRoute("/");
-        return setHomeBadgeInvisible(true);
+        return setTimelineBadgeInvisible(true);
       case "mentions":
         changeRoute("/Mentions");
         return setMentionsBadgeInvisible(true);
@@ -59,10 +59,10 @@ const FooterNavigation = ({ route, timeline, changeRoute }) => {
   };
 
   useEffect(() => {
-    if (route === "home") {
+    if (route === "timeline") {
       setTweetsLength(timeline.length);
     } else if (timeline.length > mostCurrentTweetsLength) {
-      setHomeBadgeInvisible(false);
+      setTimelineBadgeInvisible(false);
     }
   }, [route, timeline, mostCurrentTweetsLength]);
 
@@ -70,11 +70,15 @@ const FooterNavigation = ({ route, timeline, changeRoute }) => {
     <BottomNavigation className={nav} value={route} onChange={handleRoute}>
       <BottomNavigationAction
         className={action}
-        label="Home"
-        value="home"
+        label="Timeline"
+        value="timeline"
         icon={
-          <Badge color="secondary" variant="dot" invisible={homeBadgeInvisible}>
-            <HomeIcon />
+          <Badge
+            color="secondary"
+            variant="dot"
+            invisible={timelineBadgeInvisible}
+          >
+            <TimelineIcon />
           </Badge>
         }
       />

@@ -1,5 +1,5 @@
 import {
-  ROUTE_HOME,
+  ROUTE_TIMELINE,
   ROUTE_MENTIONS,
   ROUTE_MESSAGES,
   ROUTE_SEARCH,
@@ -9,10 +9,10 @@ import {
   ROUTE_LISTS
 } from "../actions/types";
 
-export default (state = "home", action) => {
+export default (state = "timeline", action) => {
   switch (action.type) {
-    case ROUTE_HOME:
-      return "home";
+    case ROUTE_TIMELINE:
+      return "timeline";
     case ROUTE_MENTIONS:
       return "mentions";
     case ROUTE_MESSAGES:

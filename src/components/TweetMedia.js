@@ -81,9 +81,7 @@ const TweetMedia = ({ media, quoted }) => {
                 ? 390
                 : ratioWidth === 1 || ratioWidth === 3
                 ? 300
-                : ratioWidth === 9
-                ? 200
-                : 390
+                : 200
             }
             muted={true}
             aspectRatio={`${ratioWidth}:${ratioHeight}`}

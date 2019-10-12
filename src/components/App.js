@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import "../css/index.css";
+import "../css/global.css";
 import "typeface-roboto";
 
 // React Router
@@ -17,7 +17,7 @@ import grey from "@material-ui/core/colors/grey";
 import red from "@material-ui/core/colors/red";
 
 // Routes
-import Home from "./routes/Home";
+import Timeline from "./routes/Timeline";
 import Filters from "./routes/Filters";
 import Likes from "./routes/Likes";
 import Lists from "./routes/Lists";
@@ -89,7 +89,7 @@ const App = () => {
         {transitions.map(({ item, props, key }) => (
           <animated.div key={key} style={props}>
             <Switch location={item}>
-              <Route path="/" exact component={Home} />
+              <Route path="/" exact component={Timeline} />
               <Route path="/Filters" exact component={Filters} />
               <Route path="/Likes" exact component={Likes} />
               <Route path="/Lists" exact component={Lists} />
