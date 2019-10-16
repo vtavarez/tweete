@@ -16,7 +16,8 @@ import {
   FETCHING_PREVIOUS_TWEETS,
   FETCHED_PREVIOUS_TWEETS,
   TWEET_LIKED,
-  TWEET_UNLIKED
+  TWEET_UNLIKED,
+  SELECTED_TWEET
 } from "./types";
 
 const ipcRenderer = require("electron").ipcRenderer;
@@ -149,4 +150,11 @@ export const unLikeTweet = id => dispatch => {
       type: TWEET_UNLIKED
     });
   });
+};
+
+export const selectTweet = id => {
+  return {
+    type: SELECTED_TWEET,
+    payload: id
+  };
 };

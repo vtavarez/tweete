@@ -33,8 +33,6 @@ import FooterNavigation from "./FooterNavigation";
 // Login With Twitter
 import LoginWithTwitter from "./LoginWithTwitter";
 
-import { TweetsContextProvider } from "./TweetsContext";
-
 const theme = createMuiTheme({
   overrides: {
     MuiListItem: {
@@ -85,7 +83,6 @@ const App = () => {
   return (
     <React.Fragment>
       <CssBaseline />
-      <TweetsContextProvider>
         <ThemeProvider theme={theme}>
           <LoginWithTwitter />
           <HeaderNavigation />
@@ -105,7 +102,6 @@ const App = () => {
           ))}
           <FooterNavigation />
         </ThemeProvider>
-      </TweetsContextProvider>
     </React.Fragment>
   );
 };

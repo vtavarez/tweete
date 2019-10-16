@@ -1,5 +1,7 @@
-import React, { useContext } from "react";
+import React from "react";
+import { connect } from "react-redux";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
+import { selectTweet } from '../actions';
 import Grid from "@material-ui/core/Grid";
 import Avatar from "@material-ui/core/Avatar";
 import TweetHeader from "./TweetHeader";
@@ -7,7 +9,7 @@ import TweetBody from "./TweetBody";
 import TweetOptions from "./TweetOptions";
 import RetweeterDetails from "./RetweeterDetails";
 import QuotedTweet from "./QuotedTweet";
-import { Context } from "./TweetsContext";
+
 
 const useStyles = makeStyles(theme => ({
   avatar: {
@@ -33,9 +35,10 @@ const Tweet = ({
   in_reply_to_status_id,
   retweet,
   retweeter,
-  quotedTweet
+  quotedTweet,
+  selectTweet,
+  selectedTweet
 }) => {
-  const { selectedTweet, selectTweet } = useContext(Context);
   const { avatar, details } = useStyles();
   const highResAvatar = () => {
     return user.profile_image_url_https.replace("_normal", "");
@@ -48,7 +51,7 @@ const Tweet = ({
       padding: "5px 10px",
       backgroundColor: styledBy("highlight", {
         default: "none",
-        true: "rgba(255, 255, 255, .05)"
+        selected: "rgba(255, 255, 255, .05)"
       })
     }
   })(({ classes, highlight, ...other }) => (
@@ -58,7 +61,7 @@ const Tweet = ({
   return (
     <TweetContainer
       onClick={() => selectTweet(id)}
-      highlight={selectedTweet === id}
+      highlight={selectedTweet === id ? 'selected' : 'default'}
     >
       {retweet && (
         <Grid item xs={12}>
@@ -86,4 +89,8 @@ const Tweet = ({
   );
 };
 
-export default Tweet;
+const mapStateToProps = state => ({
+  selectedTweet: state.selected
+})
+
+export default connect(mapStateToProps,{ selectTweet })(Tweet);

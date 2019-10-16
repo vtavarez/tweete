@@ -1,6 +1,6 @@
 import React from "react";
 import Box from "@material-ui/core/Box";
-import Gallery from "react-photo-gallery";
+// import Gallery from "react-photo-gallery";
 import "video-react/dist/video-react.css";
 import { makeStyles } from "@material-ui/core/styles";
 import {
@@ -40,14 +40,14 @@ const TweetMedia = ({ media, quoted }) => {
   };
 
   const content = media.map(item => {
-    if (item.type === "photo") {
-      return {
-        src: item.media_url_https,
-        width: item.sizes.small.w / 100,
-        height: item.sizes.small.h / 100,
-        alt: "gallery"
-      };
-    }
+    // if (item.type === "photo") {
+    //   return {
+    //     src: item.media_url_https,
+    //     width: item.sizes.small.w / 100,
+    //     height: item.sizes.small.h / 100,
+    //     alt: "gallery"
+    //   };
+    // }
 
     if (item.type === "video") {
       const [ratioWidth, ratioHeight] = item.video_info.aspect_ratio;
@@ -156,14 +156,11 @@ const TweetMedia = ({ media, quoted }) => {
     return <Box key={item.id} />;
   });
 
-  if (content[0].alt === "gallery") {
-    return <Gallery photos={content} />;
-  }
+  // if (content[0].alt === "gallery") {
+  //   return <Gallery photos={content} />;
+  // }
 
   return <Box className={container}>{content}</Box>;
 };
 
-export default React.memo(TweetMedia, (prevProps, nextProps) => {
-  console.log("Memozied");
-  return true;
-});
+export default TweetMedia;

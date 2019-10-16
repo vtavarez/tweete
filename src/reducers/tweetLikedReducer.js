@@ -5,6 +5,7 @@ export default (state = false, action) => {
     case TWEET_LIKED:
       return true;
     case TWEET_UNLIKED:
+      return false;
     default:
       return state;
   }
