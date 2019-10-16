@@ -1,6 +1,6 @@
 import React from "react";
 import Box from "@material-ui/core/Box";
-// import Gallery from "react-photo-gallery";
+import Gallery from "react-photo-gallery";
 import "video-react/dist/video-react.css";
 import { makeStyles } from "@material-ui/core/styles";
 import {
@@ -39,29 +39,29 @@ const TweetMedia = ({ media, quoted }) => {
     control.pause();
   };
 
-  const content = media.map(item => {
-    // if (item.type === "photo") {
-    //   return {
-    //     src: item.media_url_https,
-    //     width: item.sizes.small.w / 100,
-    //     height: item.sizes.small.h / 100,
-    //     alt: "gallery"
-    //   };
-    // }
+  const contents = media.map(content => {
+    if (content.type === "photo") {
+      return {
+        src: content.media_url_https,
+        width: content.sizes.small.w / 100,
+        height: content.sizes.small.h / 100,
+        alt: "gallery"
+      };
+    }
 
-    if (item.type === "video") {
-      const [ratioWidth, ratioHeight] = item.video_info.aspect_ratio;
+    if (content.type === "video") {
+      const [ratioWidth, ratioHeight] = content.video_info.aspect_ratio;
       const [
         videoSourceOne,
         videoSourceTwo,
         videoSourceThree,
         videoSourceFour
-      ] = item.video_info.variants;
+      ] = content.video_info.variants;
       const bitrate = 832000;
 
       return (
         <Box
-          key={item.id}
+          key={content.id}
           onMouseOver={() => control.play()}
           onMouseOut={onMouseOutHandler}
           onDoubleClick={e => {
@@ -121,12 +121,12 @@ const TweetMedia = ({ media, quoted }) => {
       );
     }
 
-    if (item.type === "animated_gif") {
-      const [ratioWidth, ratioHeight] = item.video_info.aspect_ratio;
-      const [gif] = item.video_info.variants;
+    if (content.type === "animated_gif") {
+      const [ratioWidth, ratioHeight] = content.video_info.aspect_ratio;
+      const [gif] = content.video_info.variants;
       return (
         <Box
-          key={item.id}
+          key={content.id}
           onMouseOver={() => control.play()}
           onMouseOut={onMouseOutHandler}
           onDoubleClick={e => {
@@ -153,14 +153,14 @@ const TweetMedia = ({ media, quoted }) => {
       );
     }
 
-    return <Box key={item.id} />;
+    return <Box key={content.id} />;
   });
 
-  // if (content[0].alt === "gallery") {
-  //   return <Gallery photos={content} />;
-  // }
+  if (contents[0].alt === "gallery") {
+    return <Gallery photos={contents} />;
+  }
 
-  return <Box className={container}>{content}</Box>;
+  return <Box className={container}>{contents}</Box>;
 };
 
 export default TweetMedia;

@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
-import { makeStyles, withStyles } from "@material-ui/core/styles";
-import { selectTweet } from '../actions';
+import { makeStyles } from "@material-ui/core/styles";
+import { selectTweet } from "../actions";
 import Grid from "@material-ui/core/Grid";
 import Avatar from "@material-ui/core/Avatar";
 import TweetHeader from "./TweetHeader";
@@ -10,8 +10,13 @@ import TweetOptions from "./TweetOptions";
 import RetweeterDetails from "./RetweeterDetails";
 import QuotedTweet from "./QuotedTweet";
 
-
 const useStyles = makeStyles(theme => ({
+  grid_container: {
+    padding: "5px 10px"
+  },
+  selected: {
+    backgroundColor: "rgba(255, 255, 255, .05)"
+  },
   avatar: {
     margin: "0px 0px 0px 17px",
     width: 45,
@@ -39,29 +44,16 @@ const Tweet = ({
   selectTweet,
   selectedTweet
 }) => {
-  const { avatar, details } = useStyles();
+  const { avatar, details, grid_container, selected } = useStyles();
   const highResAvatar = () => {
     return user.profile_image_url_https.replace("_normal", "");
   };
 
-  const styledBy = (property, mapping) => props => mapping[props[property]];
-
-  const TweetContainer = withStyles({
-    root: {
-      padding: "5px 10px",
-      backgroundColor: styledBy("highlight", {
-        default: "none",
-        selected: "rgba(255, 255, 255, .05)"
-      })
-    }
-  })(({ classes, highlight, ...other }) => (
-    <Grid container className={classes.root} {...other} />
-  ));
-
   return (
-    <TweetContainer
+    <Grid
+      container
+      className={`${grid_container} ${(selectedTweet === id && selected)}`}
       onClick={() => selectTweet(id)}
-      highlight={selectedTweet === id ? 'selected' : 'default'}
     >
       {retweet && (
         <Grid item xs={12}>
@@ -85,12 +77,15 @@ const Tweet = ({
         {quoted && <QuotedTweet {...quotedTweet} />}
         <TweetOptions user={user} tweetId={id_str} liked={favorited} />
       </Grid>
-    </TweetContainer>
+    </Grid>
   );
 };
 
 const mapStateToProps = state => ({
   selectedTweet: state.selected
-})
+});
 
-export default connect(mapStateToProps,{ selectTweet })(Tweet);
+export default connect(
+  mapStateToProps,
+  { selectTweet }
+)(Tweet);
