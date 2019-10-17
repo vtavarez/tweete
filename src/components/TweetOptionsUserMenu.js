@@ -24,11 +24,16 @@ const useStyles = makeStyles(theme => ({
         fill: theme.palette.primary.main
       }
     }
+  },
+  selected_tweet: {
+    "& svg": {
+      fill: theme.palette.primary.main
+    }
   }
 }));
 
-const TweetOptionsUserMenu = ({ user }) => {
-  const { root, enabled } = useStyles();
+const TweetOptionsUserMenu = ({ user, selected }) => {
+  const { root, enabled, selected_tweet } = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const [notifications, setNotifications] = useState(user.notifications);
   const [isFollowing, setIsFollowing] = useState(user.following);
@@ -47,7 +52,7 @@ const TweetOptionsUserMenu = ({ user }) => {
   return (
     <React.Fragment>
       <IconButton
-        className={enabled}
+        className={`${enabled} ${selected && selected_tweet}`}
         aria-label="User Options"
         aria-controls="user-options"
         aria-haspopup="true"

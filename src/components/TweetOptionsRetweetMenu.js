@@ -25,11 +25,16 @@ const useStyles = makeStyles(theme => ({
         fill: theme.palette.primary.main
       }
     }
+  },
+  selected_tweet: {
+    "& svg": {
+      fill: theme.palette.primary.main
+    }
   }
 }));
 
-const TweetOptionsRetweetMenu = props => {
-  const { root, icon_button } = useStyles();
+const TweetOptionsRetweetMenu = ({ selected }) => {
+  const { root, icon_button, selected_tweet } = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
@@ -41,7 +46,7 @@ const TweetOptionsRetweetMenu = props => {
         aria-haspopup="true"
         size="small"
         onClick={e => setAnchorEl(e.currentTarget)}
-        className={icon_button}
+        className={`${icon_button} ${selected && selected_tweet}`}
       >
         <Icon
           path={mdiTwitterRetweet}

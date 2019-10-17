@@ -134,22 +134,10 @@ export const fetchPreviousTweets = () => (dispatch, getState) => {
 
 export const likeTweet = id => dispatch => {
   ipcRenderer.send("like-tweet", id);
-
-  ipcRenderer.once("tweet-liked", event => {
-    dispatch({
-      type: TWEET_LIKED
-    });
-  });
 };
 
 export const unLikeTweet = id => dispatch => {
   ipcRenderer.send("unlike-tweet", id);
-
-  ipcRenderer.once("tweet-unliked", event => {
-    dispatch({
-      type: TWEET_UNLIKED
-    });
-  });
 };
 
 export const selectTweet = id => {

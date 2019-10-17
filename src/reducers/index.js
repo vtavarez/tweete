@@ -3,7 +3,6 @@ import oauthReducer from "./oauthReducer";
 import routesReducer from "./routesReducer";
 import tweetsReducer from "./tweetsReducer";
 import userReducer from "./userReducer";
-import tweetLikedReducer from "./tweetLikedReducer";
 import selectedTweetReducer from "./selectedTweetReducer";
 
 export default combineReducers({
@@ -11,6 +10,5 @@ export default combineReducers({
   route: routesReducer,
   tweets: tweetsReducer,
   user: userReducer,
-  liked: tweetLikedReducer,
   selected: selectedTweetReducer
 });

@@ -10,8 +10,6 @@ import TweetOptionsUserMenu from "./TweetOptionsUserMenu";
 import TweetOptionsRetweetMenu from "./TweetOptionsRetweetMenu";
 import { likeTweet, unLikeTweet } from "../actions";
 
-// TODO connect tweet options with actions
-
 const useStyles = makeStyles(theme => ({
   grid_container: {
     transform: "translateX(-10px)",
@@ -34,7 +32,12 @@ const useStyles = makeStyles(theme => ({
       }
     }
   },
-  selected_icon: {
+  selected_tweet: {
+    "& svg": {
+      fill: theme.palette.primary.main
+    }
+  },
+  liked_icon_button: {
     cursor: "default",
     "& svg": {
       fill: theme.palette.secondary.main,
@@ -47,45 +50,70 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const TweetOptions = ({ tweetId, user, liked, likeTweet, unLikeTweet }) => {
+const TweetOptions = ({
+  tweetId,
+  user,
+  liked,
+  likeTweet,
+  unLikeTweet,
+  selected
+}) => {
   const {
     grid_item,
     grid_container,
-    selected_icon,
+    selected_tweet,
+    liked_icon_button,
     reply_icon,
     icon_button
   } = useStyles();
-  const [tweetLiked, setTweetLiked] = useState(false);
-  const tweetWasLiked = sessionStorage.getItem(tweetId);
 
-  const onLikeTweet = e => {
-    sessionStorage.setItem(tweetId, JSON.stringify(!tweetLiked));
-    !liked && !tweetWasLiked ? likeTweet(tweetId) : unLikeTweet(tweetId);
-    setTweetLiked(!tweetLiked);
+  const tweetWasLiked = JSON.parse(sessionStorage.getItem(tweetId)) || null;
+
+  const [currentLikeState, setCurrentLikeState] = useState(liked);
+
+  const toggleLikeTweet = e => {
+    currentLikeState || tweetWasLiked
+      ? unLikeTweet(tweetId)
+      : likeTweet(tweetId);
+    sessionStorage.setItem(tweetId, !currentLikeState.toString());
+    setCurrentLikeState(!currentLikeState);
   };
 
   return (
-    <Grid className={grid_container} container alignItems="center">
+    <Grid container className={grid_container} alignItems="center">
       <Grid item xs={2} className={grid_item}>
         <IconButton
-          className={tweetWasLiked || liked ? selected_icon : icon_button}
+          className={`${
+            currentLikeState || tweetWasLiked ? liked_icon_button : icon_button
+          } ${!currentLikeState &&
+            !tweetWasLiked &&
+            selected &&
+            selected_tweet}`}
           aria-label="Like"
-          onClick={onLikeTweet}
+          onClick={toggleLikeTweet}
           size="small"
         >
-          {tweetWasLiked || liked ? <LikeIconFilled /> : <LikeIconOutline />}
+          {currentLikeState || tweetWasLiked ? (
+            <LikeIconFilled />
+          ) : (
+            <LikeIconOutline />
+          )}
         </IconButton>
       </Grid>
       <Grid item xs={2} className={grid_item}>
-        <IconButton className={icon_button} aria-label="Reply" size="small">
+        <IconButton
+          className={`${icon_button} ${selected && selected_tweet}`}
+          aria-label="Reply"
+          size="small"
+        >
           <ReplyIcon className={reply_icon} />
         </IconButton>
       </Grid>
       <Grid item xs={2} className={grid_item}>
-        <TweetOptionsRetweetMenu />
+        <TweetOptionsRetweetMenu selected={selected} />
       </Grid>
       <Grid item xs={2} className={grid_item}>
-        <TweetOptionsUserMenu user={user} />
+        <TweetOptionsUserMenu user={user} selected={selected} />
       </Grid>
     </Grid>
   );

@@ -184,7 +184,7 @@ ipcMain.on("fetch-previous-tweets", (event, id) => {
 
 ipcMain.on("like-tweet", (event, id) => {
   twitter.post("/favorites/create", { id }, (err, { favorited }) =>
-    err ? console.error(err) : event.sender.send("tweet-liked", favorited)
+    err && console.error(err)
   );
 });
 
@@ -192,7 +192,7 @@ ipcMain.on("like-tweet", (event, id) => {
 
 ipcMain.on("unlike-tweet", (event, id) => {
   twitter.post("/favorites/destroy", { id }, (err, { favorited }) =>
-    err ? console.error(err) : event.sender.send("tweet-unliked", favorited)
+    err && console.error(err)
   );
 });
 

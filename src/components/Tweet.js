@@ -52,7 +52,7 @@ const Tweet = ({
   return (
     <Grid
       container
-      className={`${grid_container} ${(selectedTweet === id && selected)}`}
+      className={`${grid_container} ${selectedTweet === id && selected}`}
       onClick={() => selectTweet(id)}
     >
       {retweet && (
@@ -75,7 +75,12 @@ const Tweet = ({
           media={extended_entities && extended_entities.media}
         />
         {quoted && <QuotedTweet {...quotedTweet} />}
-        <TweetOptions user={user} tweetId={id_str} liked={favorited} />
+        <TweetOptions
+          user={user}
+          tweetId={id_str}
+          liked={favorited}
+          selected={selectedTweet === id}
+        />
       </Grid>
     </Grid>
   );

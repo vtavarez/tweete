@@ -8,7 +8,8 @@ const useStyles = makeStyles(theme => ({
   grid_container: {
     padding: "10px",
     borderRadius: 5,
-    margin: "5px 0"
+    margin: "5px 0",
+    backgroundColor: "rgba(255, 255, 255, .05)"
   },
   selected: {
     backgroundColor: "rgba(255, 255, 255, .05)"
