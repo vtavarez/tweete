@@ -1,6 +1,6 @@
 ![GitHub package.json version](https://img.shields.io/github/package-json/v/vtavarez/Tweete?color=28a745)
 
-## Tweete
+# Tweete
 
 Twitter application for Linux. Built on Electron and React.
 
@@ -20,15 +20,14 @@ yarn install
 ## Setup
 
 1. Head to [developer.twitter.com](https://developer.twitter.com/en/apply-for-access) and apply for twitter api access.
-2. Generate a config.json file in the app public directory with your twitter api key and secret.
+2. Generate a `.env` file in the app root directory with your twitter api key and secret.
 
 ```
-./public/config.json
+.env
 
-{
-"key": KEY,
-"secret": SECRET
-}
+KEY=KEY
+SECRET=SECRET
+
 ```
 
 ## Run

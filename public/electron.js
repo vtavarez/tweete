@@ -6,7 +6,7 @@ const sqlite3 = require("sqlite3").verbose();
 const uuidv1 = require("uuid/v1");
 const isDev = require("electron-is-dev");
 const auth = require("oauth-electron-twitter");
-const config = require("./config");
+require('dotenv').config();
 
 let mainWindow;
 let oAuthWindow;
@@ -69,7 +69,7 @@ async function createOAuthWindow() {
   oAuthWindow.setMenuBarVisibility(false);
 
   try {
-    const response = await auth.login(config, oAuthWindow);
+    const response = await auth.login({ key: process.env.KEY, secret: process.env.SECRET }, oAuthWindow);
     oAuthWindow.close();
     return response;
   } catch (error) {
@@ -81,8 +81,8 @@ async function createOAuthWindow() {
 
 const configureTwitterClient = (token, secret) => {
   twitter = new Twit({
-    consumer_key: config.key,
-    consumer_secret: config.secret,
+    consumer_key: process.env.KEY,
+    consumer_secret: process.env.SECRET,
     access_token: token,
     access_token_secret: secret
   });
