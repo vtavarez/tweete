@@ -16,7 +16,13 @@ const useStyles = makeStyles(theme => ({
     right: 0,
     height: "calc(100vh - 108px)",
     transform: "translateY(54px)",
-    overflowX: "hidden"
+    overflowX: "hidden",
+    '&::-webkit-scrollbar': {
+      display: 'none'
+    },
+    '&::-webkit-scrollbar-track': {
+      display: 'none'
+    }
   }
 }));
 

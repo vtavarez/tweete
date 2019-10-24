@@ -45,7 +45,7 @@ function createMainWindow() {
     }
   });
 
-  mainWindow.setMenuBarVisibility(false);
+  mainWindow.setMenuBarVisibility(true);
 
   mainWindow.loadURL(url);
 

@@ -1,15 +1,3 @@
-body {
-  background-color: #212121 !important;
-}
-
-body::-webkit-scrollbar {
-  display: none;
-}
-
-body::-webkit-scrollbar-track {
-  display: none;
-}
-
 a {
   color: #03a9f4;
   text-decoration: none;

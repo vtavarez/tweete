@@ -66,6 +66,9 @@ const theme = createMuiTheme({
       primary: lightBlue[500],
       secondary: grey[200],
       disabled: grey[200]
+    },
+    background: {
+      default: "#212121"
     }
   }
 });
@@ -82,26 +85,26 @@ const App = () => {
 
   return (
     <React.Fragment>
-      <CssBaseline />
-        <ThemeProvider theme={theme}>
-          <LoginWithTwitter />
-          <HeaderNavigation />
-          {transitions.map(({ item, props, key }) => (
-            <animated.div key={key} style={props}>
-              <Switch location={item}>
-                <Route path="/" exact component={Timeline} />
-                <Route path="/Filters" exact component={Filters} />
-                <Route path="/Likes" exact component={Likes} />
-                <Route path="/Lists" exact component={Lists} />
-                <Route path="/Mentions" exact component={Mentions} />
-                <Route path="/Messages" exact component={Messages} />
-                <Route path="/Profile" exact component={Profile} />
-                <Route path="/Search" exact component={Search} />
-              </Switch>
-            </animated.div>
-          ))}
-          <FooterNavigation />
-        </ThemeProvider>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <LoginWithTwitter />
+        <HeaderNavigation />
+        {transitions.map(({ item, props, key }) => (
+          <animated.div key={key} style={props}>
+            <Switch location={item}>
+              <Route path="/" exact component={Timeline} />
+              <Route path="/Filters" exact component={Filters} />
+              <Route path="/Likes" exact component={Likes} />
+              <Route path="/Lists" exact component={Lists} />
+              <Route path="/Mentions" exact component={Mentions} />
+              <Route path="/Messages" exact component={Messages} />
+              <Route path="/Profile" exact component={Profile} />
+              <Route path="/Search" exact component={Search} />
+            </Switch>
+          </animated.div>
+        ))}
+        <FooterNavigation />
+      </ThemeProvider>
     </React.Fragment>
   );
 };
