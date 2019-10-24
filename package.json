@@ -13,7 +13,8 @@
     "copyright": "Copyright © 2019 ${author}",
     "files": [
       "build/**/*",
-      "node_modules/**/*"
+      "node_modules/**/*",
+      "data/**/*"
     ],
     "directories": {
       "buildResources": "assets"

@@ -20,7 +20,7 @@ yarn install
 ## Setup
 
 1. Head to [developer.twitter.com](https://developer.twitter.com/en/apply-for-access) and apply for twitter api access.
-2. Generate a `.env` file in the app root directory with your twitter api key and secret.
+2. Create a `.env` file in the app root directory with your twitter api key and secret.
 
 ```
 .env
@@ -29,6 +29,9 @@ KEY=KEY
 SECRET=SECRET
 
 ```
+
+3. Create a folder named `data` in the app root directory.
+4. In `data` create a file named `users.db`.
 
 ## Run
 
@@ -43,9 +46,9 @@ yarn pre-electron-pack
 yarn electron-pack
 ```
 
-`pre-electron-pack` will run the CRA build process.
+`pre-electron-pack` will run the CRA (Create React App) build process.
 
-`electron-pack` will package the CRA build files, any assets in assets folder, and app dependencies for distribution via Snapcraft.
+`electron-pack` will package the CRA build files, the assets and data folders, and app dependencies for distribution via Snapcraft.
 
 ## Inspiration & Thanks
 
