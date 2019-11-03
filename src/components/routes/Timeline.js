@@ -27,7 +27,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Timeline = ({ status, timeline, fetchPreviousTweets }) => {
-  console.log(timeline);
   const { container } = useStyles();
   const transitions = useTransition(timeline, timeline => timeline.id, {
     initial: { opacity: 1, transform: "translate3d(0%,0,0)" },
