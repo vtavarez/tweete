@@ -29,7 +29,7 @@
     "@mdi/react": "^1.2.1",
     "dotenv": "^8.2.0",
     "electron-is-dev": "^1.1.0",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.21",
     "moment": "^2.24.0",
     "oauth-electron-twitter": "^1.0.44",
     "react": "^16.8.6",
